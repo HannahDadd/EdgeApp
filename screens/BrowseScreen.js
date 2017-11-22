@@ -1,14 +1,15 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-export default class SearchScreen extends React.Component {
+export default class BrowseScreen extends React.Component {
     static navigationOptions = {
       title: 'Browse',
     };
-    
-    state = {
-        text: "", 
-    }
+
+    constructor(props) {
+        super(props);
+        this.state = {text: this.props.name};
+      }
 
     // Find the data from the RSS Feed
     componentDidMount() {
@@ -22,7 +23,7 @@ export default class SearchScreen extends React.Component {
     render() {
       const { navigate } = this.props.navigation;
       return (
-        <Text>this.state.text</Text>
+        <Text>{this.props.navigation.state.params.name}</Text>
       );
     }
   }

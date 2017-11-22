@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 
 export default class SectionListItem extends React.PureComponent {
     constructor(props) {
@@ -9,12 +9,12 @@ export default class SectionListItem extends React.PureComponent {
     
     _onPress = () => {
         this.props.onPressItem(this.props.id);
-        this.setState({text: 'Hello'})
+        this.props.navigate(this.state.text);
     };
 
     render() {
         return (
-            <Text 
+            <Text style={styles.item}
                 {...this.props}
                 onPress={this._onPress}>
                 {this.state.text}
@@ -22,3 +22,11 @@ export default class SectionListItem extends React.PureComponent {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    item: {
+      padding: 10,
+      fontSize: 18,
+      height: 44,
+    },
+  })

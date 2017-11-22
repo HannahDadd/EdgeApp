@@ -15,21 +15,22 @@ export default class SearchScreen extends React.Component {
     render() {
       const { navigate } = this.props.navigation;
       return (
-    <View style={{flex: 1, flexDirection: 'column'}}>
-        <View style={{padding: 10}}>
-        <TextInput
-            style={{height: 40}}
-            placeholder="Type here to search!"
-            onChangeText={(text) => this.setState({text})}
-        />
-        <Text style={{padding: 10, fontSize: 42}}>
-            {this.state.text}
-        </Text>
+        <View style={{flex: 1, flexDirection: 'column'}}>
+            <View style={{padding: 10}}>
+            <TextInput
+                style={{height: 40}}
+                placeholder="Type here to search!"
+                onChangeText={(text) => this.setState({text})}
+            />
+            <Text style={{padding: 10, fontSize: 42}}>
+                {this.state.text}
+            </Text>
+            </View>
+            <View style={styles.container}>
+                <SectionList
+                navigate={(screen) => navigate('Browse', {name: screen}) }/>
+            </View>
         </View>
-        <View style={styles.container}>
-            <SectionList/>
-        </View>
-    </View>
       );
     }
   }

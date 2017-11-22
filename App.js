@@ -10,5 +10,9 @@ const App = StackNavigator({
   Search: {screen: SearchScreen},
   Browse: {screen: BrowseScreen}
 });
+// {
+//     initialRouteName: 'Home',
+//     headerMode: 'none'
+// });
 
 export default App;

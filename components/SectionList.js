@@ -23,6 +23,7 @@ export default class SectionList extends React.PureComponent {
         onPressItem={this._onPressItem}
         selected={!!this.state.selected.get(item.id)}
         name={item.key}
+        navigate={this.props.navigate}
         />
     );
 
@@ -30,14 +31,30 @@ export default class SectionList extends React.PureComponent {
         return (
         <FlatList
             data={[
-            {key: 'Devin'},
-            {key: 'Jackson'},
-            {key: 'James'},
-            {key: 'Joel'},
-            {key: 'John'},
-            {key: 'Jillian'},
-            {key: 'Jimmy'},
-            {key: 'Julie'},
+            {key: 'Features'},
+            {key: 'Interviews'},
+            {key: 'Introducing'},
+            {key: 'News'},
+            {key: 'Notes on News'},
+            {key: 'Culture'},
+            {key: 'Theatre'},
+            {key: 'Television'},
+            {key: 'Video Games'},
+            {key: 'Literature'},
+            {key: 'Records'},
+            {key: 'Singles'},
+            {key: 'Albums'},
+            {key: 'Rewind'},
+            {key: 'Film'},
+            {key: 'Cinema'},
+            {key: 'Archive & Comment'},
+            {key: 'DVD & Blu-ray'},
+            {key: 'Live'},
+            {key: 'Festivals'},
+            {key: 'Comedy'},
+            {key: 'Local Music'},
+            {key: 'Reviews'},
+            {key: 'Previews'}
             ]}
             renderItem={this._renderItem}
             />
