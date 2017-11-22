@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Button } from 'react-native';
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -8,7 +8,8 @@ export default class HomeScreen extends React.Component {
     render() {
       const { navigate } = this.props.navigation;
       return (
-        <Text>Hello world!</Text>
+        <Button title="Search" onPress={() => navigate('Search') } />,
+        <Button title="Browse" onPress={() => navigate('Browse') } />
       );
     }
   }
