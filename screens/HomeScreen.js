@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'react-native';
+import { View } from 'react-native';
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -8,8 +9,14 @@ export default class HomeScreen extends React.Component {
     render() {
       const { navigate } = this.props.navigation;
       return (
-        <Button title="Search" onPress={() => navigate('Search') } />,
-        <Button title="Browse" onPress={() => navigate('Browse') } />
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <View>
+            <Button title="Search" onPress={() => navigate('Search') } />
+          </View>
+          <View>
+          <Button title="Browse" onPress={() => navigate('Browse') } />
+          </View>
+        </View>
       );
     }
   }
