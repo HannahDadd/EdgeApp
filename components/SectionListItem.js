@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 export default class SectionListItem extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.state = {text: 'Hi'};
+        this.state = {text: this.props.name};
       }
     
     _onPress = () => {
