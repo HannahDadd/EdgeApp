@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, FlatList } from 'react-native';
 import SectionListItem from './SectionListItem';
   
-export default class SectionList extends React.PureComponent {
+export default class ClickableList extends React.PureComponent {
     state = {selected: (new Map())};
 
     _keyExtractor = (item, index) => item.id;
@@ -19,11 +19,11 @@ export default class SectionList extends React.PureComponent {
 
     _renderItem = ({item}) => (
         <SectionListItem
-        id={item.id}
-        onPressItem={this._onPressItem}
-        selected={!!this.state.selected.get(item.id)}
-        name={item.key}
-        navigate={this.props.navigate}
+            id={item.id}
+            onPressItem={this._onPressItem}
+            selected={!!this.state.selected.get(item.id)}
+            name={item.key}
+            navigate={this.props.navigate}
         />
     );
 
