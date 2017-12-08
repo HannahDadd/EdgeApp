@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TextInput, View, StyleSheet, Button, Picker } from 'react-native';
+import { Text, TextInput, View, StyleSheet, Button, Picker, ScrollView } from 'react-native';
 import CheckBox from 'react-native-checkbox';
 import ArticleDisplay from '../components/ArticleDisplay';
 
@@ -33,14 +33,18 @@ export default class SearchScreen extends React.Component {
     }
 
     render() {
-      const { navigate } = this.props.navigation;
+      const {navigate} = this.props.navigation;
       let results;
 
       // The view where the articles are displayed
       if(this.state.searchIn === 'posts'){
         results = this.state.articles.map((article) => {
           return <View key={article.id} style={styles.item}>
-                  <ArticleDisplay title={article.title.rendered}></ArticleDisplay>
+                  <ArticleDisplay 
+                    onPressItem={() => navigate('Browse', {name: article.title.rendered})}
+                    title={article.title.rendered}
+                  >
+                  </ArticleDisplay>
                 </View>
         })
       } else if(this.state.searchIn === 'users'){
@@ -67,7 +71,9 @@ export default class SearchScreen extends React.Component {
               <Button
                   onPress={this.getJSONData.bind(this)}
                   title="Search"/>
-              {results}
+              <ScrollView>
+                {results}
+              </ScrollView>
             </View>
         </View>
       );

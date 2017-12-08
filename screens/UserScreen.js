@@ -2,11 +2,10 @@ import React from 'react';
 import { Button } from 'react-native';
 import { View } from 'react-native';
 
-export default class HomeScreen extends React.Component {
+export default class UserScreen extends React.Component {
     static navigationOptions = {
-      tabBarLabel: 'Home',
+      tabBarLabel: 'User',
     };
-
     render() {
       //const { navigate } = this.props.navigation;
       return (
