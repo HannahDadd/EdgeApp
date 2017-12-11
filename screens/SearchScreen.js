@@ -1,18 +1,21 @@
 import React from 'react';
 import { Text, TextInput, View, StyleSheet, Button, Picker, ScrollView } from 'react-native';
-import CheckBox from 'react-native-checkbox';
 import ArticleDisplay from '../components/ArticleDisplay';
+import AuthorDisplay from '../components/AuthorDisplay';
+import Styles from '../Styles';
 
 export default class SearchScreen extends React.Component {
-    static navigationOptions = {
-      title: 'Search',
-    };
+    // static navigationOptions = {
+    //   title: 'Search',
+    // };
 
     constructor(props) {
       super(props);
-      this.state = {searchFor: '',
-                    articles: [],
-                    searchIn: 'posts'};
+      this.state = {
+        searchFor: '',
+        articles: [],
+        searchIn: 'posts'
+      };
     }
 
     // Query rest api for data- use fetch api
@@ -34,59 +37,55 @@ export default class SearchScreen extends React.Component {
 
     render() {
       const {navigate} = this.props.navigation;
-      let results;
 
-      // The view where the articles are displayed
-      if(this.state.searchIn === 'posts'){
+      // If no search results are returned
+      let results;
+      if(this.state.articles.length < 1){
+        results = 
+          <Text>No Results for your search</Text>
+      }
+      // Display article names and images
+      else if(this.state.searchIn === 'posts'){
         results = this.state.articles.map((article) => {
-          return <View key={article.id} style={styles.item}>
+          return <View key={article.id}>
                   <ArticleDisplay 
                     onPressItem={() => navigate('Browse', {name: article.title.rendered})}
                     title={article.title.rendered}
-                  >
-                  </ArticleDisplay>
+                  />
                 </View>
         })
+      // If search results are users display users with picture, name and bio
       } else if(this.state.searchIn === 'users'){
         results = this.state.articles.map((article) => {
-          return <View key={article.id} style={styles.item}>
-                  <ArticleDisplay title={article.name}></ArticleDisplay>
+          return <View key={article.id}>
+                  <AuthorDisplay 
+                    name={article.name}
+                    bio={article.description}
+                    profilePic={article.avatar_urls['24']}/>
                 </View>
         })
       }
       return (
-        <View style={{flex: 1, flexDirection: 'column'}}>
-            <View style={{padding: 10}}>
-              <TextInput
-                  style={{height: 40}}
-                  placeholder="Type here to search!"
-                  onChangeText={(text) => this.setState({searchFor:text})}
-              />
-              <Picker
-                selectedValue={this.state.searchIn}
-                onValueChange={(itemValue) => this.setState({searchIn: itemValue})}>
-                <Picker.Item label="Post" value="posts" />
-                <Picker.Item label="Author" value="users" />
-              </Picker>
-              <Button
-                  onPress={this.getJSONData.bind(this)}
-                  title="Search"/>
-              <ScrollView>
-                {results}
-              </ScrollView>
-            </View>
+        <View style={Styles.sheet.viewStyle}>
+            <TextInput
+                style={{height: 40}}
+                placeholder="Type here to search!"
+                onChangeText={(text) => this.setState({searchFor:text})}
+            />
+            <Picker
+              selectedValue={this.state.searchIn}
+              onValueChange={(itemValue) => this.setState({searchIn: itemValue})}>
+              <Picker.Item label="Post" value="posts" />
+              <Picker.Item label="Author" value="users" />
+            </Picker>
+            <Button
+                onPress={this.getJSONData.bind(this)}
+                title="Search"
+                color={Styles.buttonColour}/>
+            <ScrollView style={{flex: 1, flexDirection: 'column', padding: 10}}>
+              {results}
+            </ScrollView>
         </View>
       );
     }
   }
-
-  const styles = StyleSheet.create({
-    container: {
-     flex: 1,
-     paddingTop: 22
-    },
-    item: {
-      padding: 10,
-      height: 44,
-    },
-  })

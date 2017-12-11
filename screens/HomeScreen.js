@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button } from 'react-native';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -8,9 +7,9 @@ export default class HomeScreen extends React.Component {
     };
 
     render() {
-      //const { navigate } = this.props.navigation;
       return (
-        <View style={{flex: 1, flexDirection: 'column'}}>
+        <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+          <Text>Content coming soon :P</Text>
         </View>
       );
     }
