@@ -21,8 +21,8 @@ export default class ArticleDisplay extends React.PureComponent {
         }
         return (
             <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                <Image source={icon} style={{width: 300, height: 200}}/>
-                <Text>{this.state.title}</Text>
+                <Image onPress={this.props.onPressItem} source={icon} style={{width: 300, height: 200}}/>
+                <Text style={{fontSize: 20}} onPress={this.props.onPressItem}>{this.state.title}</Text>
             </View>
         )
     }

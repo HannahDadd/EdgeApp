@@ -58,10 +58,10 @@ export default class SearchScreen extends React.Component {
           console.log(pic);
           return <View key={article.id}
                     style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                  <ArticleDisplay 
-                    onPressItem={() => navigate('Browse', {article: article, image: pic})}
+                  <ArticleDisplay
                     title={article.title.rendered}
                     image={pic}
+                    onPressItem={() => navigate('Browse', {article: article, image: pic})}
                   />
                 </View>
         })

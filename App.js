@@ -8,8 +8,7 @@ import UserScreen from './screens/UserScreen';
 import ContentScreen from './screens/ContentScreen';
 
 const TabNav = TabNavigator({
-  Home: { screen: HomeScreen
-        },
+  Home: { screen: HomeScreen },
   Search: {screen: SearchScreen},
   User: {screen: UserScreen}
 },{
@@ -29,12 +28,16 @@ const App = StackNavigator({
       title: 'The Edge App',
     },
   },
+  Browse: {screen: BrowseScreen}
+});
+
+/**
+ * 
   Dash: { screen: drawerNav,
           navigationOptions: {
             title: 'The Edge App',
           },
         },
-  Browse: {screen: BrowseScreen}
-});
+ */
 
 export default App;
