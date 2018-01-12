@@ -14,10 +14,6 @@ export default class ContentScreen extends React.Component {
         articles: []
       };
     }
-
-    // TODO use RSS feed to get all the articles in the section
-    getArticles(){
-    }
   
     render() {
       results = this.state.articles.map((article) => {

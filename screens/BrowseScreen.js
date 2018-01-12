@@ -68,10 +68,10 @@ export default class BrowseScreen extends React.Component {
         return <Picker.Item label={tag} value={tag} key={i}/>
       })
       return (
-        <ScrollView style={{flex: 1, flexDirection: 'column'}}>
-          <Image source={icon} style={{width: 300, height: 200}}/>
+        <ScrollView style={{flex: 1, flexDirection: 'column', padding: 10}}>
+          <Image source={icon} style={{width: 350, height: 200}}/>
           <Text>{this.state.title}</Text>
-          <WebView source={{html: this.state.content}}/>
+          <Text>{this.state.content}</Text>
           {facebookLikeShare}
           <Text>{this.state.section}</Text>
           <AuthorDisplay

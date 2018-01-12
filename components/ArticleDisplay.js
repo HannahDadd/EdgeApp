@@ -22,7 +22,7 @@ export default class ArticleDisplay extends React.PureComponent {
         return (
             <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
                 <Image onPress={this.props.onPressItem} source={icon} style={{width: 300, height: 200}}/>
-                <Text style={{fontSize: 20}} onPress={this.props.onPressItem}>{this.state.title}</Text>
+                <Text style={{fontSize: 16}} onPress={this.props.onPressItem}>{this.state.title}</Text>
             </View>
         )
     }
