@@ -20,7 +20,7 @@ export default class SearchScreen extends React.Component {
 
     // Query rest api for data- use fetch api
     getJSONData() {
-      fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/' + this.state.searchIn + '?search=' + this.state.searchFor, {
+      fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/' + this.state.searchIn + '?search=' + this.state.searchFor + '&_embed', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -47,22 +47,34 @@ export default class SearchScreen extends React.Component {
       // Display article names and images
       else if(this.state.searchIn === 'posts'){
         results = this.state.articles.map((article) => {
-          return <View key={article.id}>
+          // Check if there is a featured image to display
+          let pic = article._embedded['wp:featuredmedia'];
+          // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
+          if(typeof pic[0].media_details.sizes.medium.source_url === undefined){
+            pic = '';
+          } else {
+            pic = pic[0].media_details.sizes.medium.source_url;
+          }
+          console.log(pic);
+          return <View key={article.id}
+                    style={{flex: 1, flexDirection: 'column', padding: 10}}>
                   <ArticleDisplay 
-                    onPressItem={() => navigate('Browse', {name: article.title.rendered})}
+                    onPressItem={() => navigate('Browse', {article: article, image: pic})}
                     title={article.title.rendered}
+                    image={pic}
                   />
                 </View>
         })
       // If search results are users display users with picture, name and bio
       } else if(this.state.searchIn === 'users'){
         results = this.state.articles.map((article) => {
-          return <View key={article.id}>
-                  <AuthorDisplay 
-                    name={article.name}
-                    bio={article.description}
-                    profilePic={article.avatar_urls['24']}/>
-                </View>
+          return 
+            <View key={article.id}>
+              <AuthorDisplay 
+                name={article.name}
+                bio={article.description}
+                profilePic=''/>
+            </View>
         })
       }
       return (
@@ -82,7 +94,7 @@ export default class SearchScreen extends React.Component {
                 onPress={this.getJSONData.bind(this)}
                 title="Search"
                 color={Styles.buttonColour}/>
-            <ScrollView style={{flex: 1, flexDirection: 'column', padding: 10}}>
+            <ScrollView>
               {results}
             </ScrollView>
         </View>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Picker, Image, Button } from 'react-native';
+import { Text, View, Picker, Image, Button, ScrollView, WebView } from 'react-native';
 import AuthorDisplay from '../components/AuthorDisplay';
 import EdgeSocialLinks from '../components/EdgeSocialLinks';
 
@@ -11,12 +11,13 @@ export default class BrowseScreen extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        title: this.props.name,
-        image: '',
-        content: 'The content of the article',
+        id: this.props.navigation.state.params.id,
+        title: this.props.navigation.state.params.article.title.rendered,
+        image: this.props.navigation.state.params.image,
+        content: this.props.navigation.state.params.article.content.rendered,
         author: {
-          name: '',
-          bio: '',
+          name: this.props.navigation.state.params.article._embedded.author.name,
+          bio: this.props.navigation.state.params.article._embedded.author.description,
           profilePic: ''
         },
         section: '',
@@ -25,9 +26,27 @@ export default class BrowseScreen extends React.Component {
       };
     }
 
-    // Fetch the articles content from the RSS feed
-    fetchContent(){
-      // TODO Fetch content from RSS feed
+    // Fetch the content of the article
+    fetchArticleText(){
+      console.log(this.props.navigation.state.params.article);
+      this.setState({
+        title: this.props.navigation.state.params.article.title.rendered,
+        //image: this.props.navigation.state.params.article._embedded['wp:featuredmedia'].media_details.sizes.medium.source_url,
+        content: this.props.navigation.state.params.article.content.rendered,
+        author: {
+          name: this.props.navigation.state.params.article._embedded.author.name,
+          bio: this.props.navigation.state.params.article._embedded.author.description,
+          profilePic: ''
+        }
+      });
+
+      // Tags will be sent as an id so collect the tags names from the id
+      // let tagsArray = this.props.navigation.state.param.article.tags;
+      // let tags = []
+      // for (var i = 0; i < tagsArray.length; i++) {
+      //   tags.push(this.fetchContent('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags?include=' + tagsArray[i]).name);        
+      // }
+      // this.setState({tags: tags})
     }
 
     // todo next sprint Follow a tag
@@ -35,29 +54,24 @@ export default class BrowseScreen extends React.Component {
 
     render() {
       const { navigate } = this.props.navigation;
-      let image;
       // Check if there is a featured image to display
+      var icon;
       if(this.state.image === ''){
-        image = <Text>No Featured Image</Text>
+          icon = require('../pictures/noimage.jpg');
       } else {
-        image =  
-          <Image
-              source={this.state.image}
-          />
+          icon = {uri: this.state.image};
       }
-
       // TODO Facebook like and share
       let facebookLikeShare = <Text>Facebook like and share</Text>
-
       // Add tags to the picker
       let tags = this.state.tags.map((tag, i) => {
         return <Picker.Item label={tag} value={tag} key={i}/>
       })
       return (
-        <View style={{flex: 1, flexDirection: 'column'}}>
-          {image}
+        <ScrollView style={{flex: 1, flexDirection: 'column'}}>
+          <Image source={icon} style={{width: 300, height: 200}}/>
           <Text>{this.state.title}</Text>
-          <Text>{this.state.content}</Text>
+          <WebView source={{html: this.state.content}}/>
           {facebookLikeShare}
           <Text>{this.state.section}</Text>
           <AuthorDisplay
@@ -78,7 +92,7 @@ export default class BrowseScreen extends React.Component {
             />
           </View>
           <EdgeSocialLinks/>
-        </View>
+        </ScrollView>
       );
     }
   }

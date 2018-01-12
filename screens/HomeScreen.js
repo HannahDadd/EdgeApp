@@ -1,9 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
-      tabBarLabel: 'Home',
+      tabBarIcon: <Image
+          source={{uri: 'https://www.theedgesusu.co.uk/wp-content/uploads/2017/01/The-Edge-Logo-Transparent.png'}}
+          style={{width: 50, height:50}}
+        />
     };
 
     render() {

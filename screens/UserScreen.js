@@ -3,6 +3,11 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import FacebookUser from '../components/FacebookUser';
 import styles from '../App';
 
+// const FBSDK = require('react-native-fbsdk');
+// const {
+//   LoginButton,
+// } = FBSDK;
+
 export default class UserScreen extends React.Component {
     static navigationOptions = {
       tabBarLabel: 'User',
@@ -48,6 +53,20 @@ export default class UserScreen extends React.Component {
           <Button
             onPress={this.attemptLogin.bind(this)}
             title="Login"/>
+          {/* <LoginButton
+            publishPermissions={["publish_actions"]}
+            onLoginFinished={
+              (error, result) => {
+                if (error) {
+                  alert("Login failed with error: " + result.error);
+                } else if (result.isCancelled) {
+                  alert("Login was cancelled");
+                } else {
+                  alert("Login was successful with permissions: " + result.grantedPermissions)
+                }
+              }
+            }
+            onLogoutFinished={() => alert("User logged out")}/> */}
         </View>
       }
       return (

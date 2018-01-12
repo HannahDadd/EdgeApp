@@ -22,9 +22,7 @@ export default class AuthorDisplay extends React.PureComponent {
     render() {
         // Check if there is a profile image to display
         let image;
-        if(this.state.profilePic === ''){
-            image = <Text>No Profile Image</Text>
-        } else {
+        if(this.state.profilePic !== ''){
             image =  
             <Image
                 source={this.state.profilePic}
