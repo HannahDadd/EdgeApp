@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, Picker, Image, Button, ScrollView, WebView } from 'react-native';
 import AuthorDisplay from '../components/AuthorDisplay';
+import ArticleText from '../components/ArticleText';
 import EdgeSocialLinks from '../components/EdgeSocialLinks';
 
 export default class BrowseScreen extends React.Component {
@@ -71,6 +72,7 @@ export default class BrowseScreen extends React.Component {
         <ScrollView style={{flex: 1, flexDirection: 'column', padding: 10}}>
           <Image source={icon} style={{width: 350, height: 200}}/>
           <Text>{this.state.title}</Text>
+          <ArticleText/>
           <Text>{this.state.content}</Text>
           {facebookLikeShare}
           <Text>{this.state.section}</Text>

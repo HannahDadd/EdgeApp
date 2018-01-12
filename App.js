@@ -17,18 +17,18 @@ const TabNav = TabNavigator({
   }
 });
 
-const drawerNav = DrawerNavigator({
-  Culture: {screen: ContentScreen },
-  Features: {screen: ContentScreen}
-});
-
-const App = StackNavigator({
+const StackNav = StackNavigator({
   Home: {screen: TabNav,
     navigationOptions: {
       title: 'The Edge App',
     },
   },
   Browse: {screen: BrowseScreen}
+});
+
+const App = DrawerNavigator({
+  Home: {screen: StackNav },
+  Features: {screen: ContentScreen}
 });
 
 /**
