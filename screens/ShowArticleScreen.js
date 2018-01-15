@@ -3,6 +3,7 @@ import { Text, View, Picker, Image, Button, ScrollView, WebView } from 'react-na
 import AuthorDisplay from '../components/AuthorDisplay';
 import ArticleText from '../components/ArticleText';
 import EdgeSocialLinks from '../components/EdgeSocialLinks';
+import Styles from '../Styles';
 
 export default class BrowseScreen extends React.Component {
     static navigationOptions = {
@@ -62,6 +63,8 @@ export default class BrowseScreen extends React.Component {
       } else {
           icon = {uri: this.state.image};
       }
+      // Remove html tags from content
+      var content = this.state.content.replace(/<(?:.|\n)*?>/gm, '');
       // TODO Facebook like and share
       let facebookLikeShare = <Text>Facebook like and share</Text>
       // Add tags to the picker
@@ -71,10 +74,10 @@ export default class BrowseScreen extends React.Component {
       return (
         <ScrollView style={{flex: 1, flexDirection: 'column', padding: 10}}>
           <Image source={icon} style={{width: 350, height: 200}}/>
-          <Text>{this.state.title}</Text>
+          <Text style={Styles.sheet.titleText}>{this.state.title}</Text>
           <ArticleText/>
-          <Text>{this.state.content}</Text>
-          {facebookLikeShare}
+          <Text>{content}</Text>
+          <Text>Facebook like and share</Text>
           <Text>{this.state.section}</Text>
           <AuthorDisplay
             name={this.state.name}

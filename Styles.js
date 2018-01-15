@@ -12,8 +12,8 @@ export default Styles =
       padding: 10,
       height: 44,
     },
-    edgeText: {
-      
+    titleText: {
+      fontSize: 16
     },
     viewStyle: {flex: 1, flexDirection: 'column', padding: 10}
   }),

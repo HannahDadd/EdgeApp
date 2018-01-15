@@ -5,10 +5,6 @@ import AuthorDisplay from '../components/AuthorDisplay';
 import Styles from '../Styles';
 
 export default class SearchScreen extends React.Component {
-    // static navigationOptions = {
-    //   title: 'Search',
-    // };
-
     constructor(props) {
       super(props);
       this.state = {
@@ -48,20 +44,20 @@ export default class SearchScreen extends React.Component {
       else if(this.state.searchIn === 'posts'){
         results = this.state.articles.map((article) => {
           // Check if there is a featured image to display
-          let pic = article._embedded['wp:featuredmedia'];
+          let pic = '';
           // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
-          if(typeof pic[0].media_details.sizes.medium.source_url === undefined){
-            pic = '';
-          } else {
-            pic = pic[0].media_details.sizes.medium.source_url;
+          if(typeof article._embedded['wp:featuredmedia'] !== undefined){
+            pic = article._embedded['wp:featuredmedia'];
+            if(typeof pic[0].media_details.sizes.medium.source_url !== undefined){
+              pic = pic[0].media_details.sizes.medium.source_url;
+            }
           }
-          console.log(pic);
           return <View key={article.id}
                     style={{flex: 1, flexDirection: 'column', padding: 10}}>
                   <ArticleDisplay
                     title={article.title.rendered}
                     image={pic}
-                    onPressItem={() => navigate('Browse', {article: article, image: pic})}
+                    onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
                   />
                 </View>
         })
@@ -77,6 +73,15 @@ export default class SearchScreen extends React.Component {
             </View>
         })
       }
+      // Display any potential tags
+      else if(this.state.searchIn === 'tags'){
+        results = this.state.articles.map((article) => {
+          return <Text key={article.id}
+                    onPress={() => navigate('ShowTagContent', 
+                      {name: article.name, postsURL: article["_links"]["wp:post_type"][0].href})}
+                    style={Styles.sheet.titleText}>{article.name}</Text>
+        })
+      }
       return (
         <View style={Styles.sheet.viewStyle}>
             <TextInput
@@ -89,6 +94,7 @@ export default class SearchScreen extends React.Component {
               onValueChange={(itemValue) => this.setState({searchIn: itemValue})}>
               <Picker.Item label="Post" value="posts" />
               <Picker.Item label="Author" value="users" />
+              <Picker.Item label="Tag" value="tags" />
             </Picker>
             <Button
                 onPress={this.getJSONData.bind(this)}

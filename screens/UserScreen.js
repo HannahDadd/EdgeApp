@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import FacebookUser from '../components/FacebookUser';
+import FacebookLogin from '../components/FacebookLogin';
 import styles from '../App';
 
 // const FBSDK = require('react-native-fbsdk');
@@ -30,14 +31,7 @@ export default class UserScreen extends React.Component {
     }
 
     render() {
-      let facebookLogin;
-      if(this.state.userLoggedIn){
-        <FacebookUser
-          name={this.state.name}
-          profilePic={this.state.profilePic}
-        />
-      } else {
-        facebookLogin = 
+      let facebookLogin = 
         <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
           <Text>Login with Facebook:</Text>
           <TextInput
@@ -53,22 +47,7 @@ export default class UserScreen extends React.Component {
           <Button
             onPress={this.attemptLogin.bind(this)}
             title="Login"/>
-          {/* <LoginButton
-            publishPermissions={["publish_actions"]}
-            onLoginFinished={
-              (error, result) => {
-                if (error) {
-                  alert("Login failed with error: " + result.error);
-                } else if (result.isCancelled) {
-                  alert("Login was cancelled");
-                } else {
-                  alert("Login was successful with permissions: " + result.grantedPermissions)
-                }
-              }
-            }
-            onLogoutFinished={() => alert("User logged out")}/> */}
-        </View>
-      }
+        </View>;
       return (
         <View style={{flex: 1, flexDirection: 'column'}}>
           {facebookLogin}

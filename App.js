@@ -3,7 +3,8 @@ import { Text, Image } from 'react-native';
 import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
-import BrowseScreen from './screens/BrowseScreen';
+import ShowArticleScreen from './screens/ShowArticleScreen';
+import ShowTagContentScreen from './screens/ShowTagContentScreen';
 import UserScreen from './screens/UserScreen';
 import ContentScreen from './screens/ContentScreen';
 
@@ -23,21 +24,17 @@ const StackNav = StackNavigator({
       title: 'The Edge App',
     },
   },
-  Browse: {screen: BrowseScreen}
+  ShowArticle: {screen: ShowArticleScreen},
+  ShowTagContent: {screen: ShowTagContentScreen}
 });
 
 const App = DrawerNavigator({
   Home: {screen: StackNav },
-  Features: {screen: ContentScreen}
+  Features: {screen: ContentScreen,
+    navigationOptions: {
+      title: 'Features'
+    }
+  }
 });
-
-/**
- * 
-  Dash: { screen: drawerNav,
-          navigationOptions: {
-            title: 'The Edge App',
-          },
-        },
- */
 
 export default App;
