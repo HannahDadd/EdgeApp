@@ -1,37 +1,32 @@
-// import React from 'react';
-// import FBSDK, { LoginManager } from 'react-native-fbsdk';
-      
-// export default class FacebookLogin extends React.PureComponent {
+import React from 'react';
+import { View, Text, Button } from 'react-native';
 
-//   facebookAuth(){
-//     LoginManager.logInWithReadPermissions(['public_profile']).then(function(result){
-//       if(result.isCancelled){
-//         console.log("Login was cancelled")
-//       } else {
-//         console.log("Login was a success" + result.grantedPermissions.toString());
-//       }
-//     }, function(error){
-//       console.log("error" + error);
-//     })
-//   }
-//   render() {
-//     return (
-//       <View>
-//         <LoginButton
-//           publishPermissions={["publish_actions"]}
-//           onLoginFinished={
-//             (error, result) => {
-//               if (error) {
-//                 alert("Login failed with error: " + result.error);
-//               } else if (result.isCancelled) {
-//                 alert("Login was cancelled");
-//               } else {
-//                 alert("Login was successful with permissions: " + result.grantedPermissions)
-//               }
-//             }
-//           }
-//           onLogoutFinished={() => alert("User logged out")}/>
-//       </View>
-//     );
-//   }
-// });
+export default class FacebookLogin extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = { 
+        username: "Login to see your name here"
+    };
+  }
+
+  async logIn() {
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('1895594347437838', {
+        permissions: ['public_profile'],
+      });
+    if (type === 'success') {
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(
+        `https://graph.facebook.com/me?access_token=${token}`);
+      this.setState({username: `Hi ${(await response.json()).name}!`});
+    }
+  }
+
+  render() {
+    return (
+      <View>
+        <Text>{this.state.username}</Text>
+        <Button title="Login with Facebook" onPress={this.logIn.bind(this)}/>
+      </View>
+    );
+  }
+}

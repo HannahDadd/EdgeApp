@@ -4,11 +4,6 @@ import FacebookUser from '../components/FacebookUser';
 import FacebookLogin from '../components/FacebookLogin';
 import styles from '../App';
 
-// const FBSDK = require('react-native-fbsdk');
-// const {
-//   LoginButton,
-// } = FBSDK;
-
 export default class UserScreen extends React.Component {
     static navigationOptions = {
       tabBarLabel: 'User',
@@ -25,11 +20,6 @@ export default class UserScreen extends React.Component {
       };
     }
 
-    // Search facebook API and return user if looged in
-    attemptLogin(){
-      // TODO add facebook login
-    }
-
     render() {
       let facebookLogin = 
         <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
@@ -44,9 +34,7 @@ export default class UserScreen extends React.Component {
             placeholder="Password"
             onChangeText={(text) => this.setState({password:text})}
           />
-          <Button
-            onPress={this.attemptLogin.bind(this)}
-            title="Login"/>
+          <FacebookLogin/>
         </View>;
       return (
         <View style={{flex: 1, flexDirection: 'column'}}>
