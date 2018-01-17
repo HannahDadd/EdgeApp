@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, Button, Text, AsyncStorage } from 'react-native';
 import Styles from '../Styles';
 
 export default class FollowButton extends React.PureComponent {
@@ -34,6 +34,7 @@ export default class FollowButton extends React.PureComponent {
           }
         } catch (error) {
           // Error retrieving data
+          console.log(error)
         }
     }
 
