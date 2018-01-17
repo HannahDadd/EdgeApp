@@ -18,7 +18,8 @@ export default class FollowButton extends React.PureComponent {
         // Check if they are already following this tag, author or section
         try {
            const value = await AsyncStorage.getItem(this.state.category);
-           if (value != null){ 
+           console.log(value);
+           if (value !== null){ 
               // Add new tag author or section to db
               AsyncStorage.mergeItem(this.state.category, JSON.stringify(this.state.item), () => {
                   // The item should now be added to the db
@@ -27,7 +28,7 @@ export default class FollowButton extends React.PureComponent {
            }
            else {
               // Update what they are following
-              AsyncStorage.setItem(this.state.category, JSON.stringify(this.state.item), () => {
+              AsyncStorage.setItem(this.state.category, this.state.item, () => {
                   // The item should now be added to the db
                   this.setState({followingItem: true});
               });

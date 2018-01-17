@@ -71,7 +71,7 @@ export default class BrowseScreen extends React.Component {
       return (
         <ScrollView style={{flex: 1, flexDirection: 'column', padding: 10}}>
           <FollowButton
-            item={this.state.name}
+            itemToFollow={this.state.name}
             category="tag"
             buttonTitle={"Follow " + this.state.name}/>
           {results}
