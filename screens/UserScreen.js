@@ -21,24 +21,9 @@ export default class UserScreen extends React.Component {
     }
 
     render() {
-      let facebookLogin = 
-        <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-          <Text>Login with Facebook:</Text>
-          <TextInput
-            style={{height: 40}}
-            placeholder="Username"
-            onChangeText={(text) => this.setState({username:text})}
-          />
-          <TextInput
-            style={{height: 40}}
-            placeholder="Password"
-            onChangeText={(text) => this.setState({password:text})}
-          />
-          <FacebookLogin/>
-        </View>;
       return (
         <View style={{flex: 1, flexDirection: 'column'}}>
-          {facebookLogin}
+          <FacebookLogin/>
         </View>
       );
     }

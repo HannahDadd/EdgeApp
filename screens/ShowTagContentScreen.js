@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, ScrollView, View } from 'react-native';
-import FollowTagButton from '../components/FollowTagButton';
+import FollowButton from '../components/FollowButton';
 import ArticleDisplay from '../components/ArticleDisplay';
 import Styles from '../Styles';
 
@@ -70,7 +70,10 @@ export default class BrowseScreen extends React.Component {
       }
       return (
         <ScrollView style={{flex: 1, flexDirection: 'column', padding: 10}}>
-          <FollowTagButton name={this.state.name}/>
+          <FollowButton
+            item={this.state.name}
+            category="tag"
+            buttonTitle={"Follow " + this.state.name}/>
           {results}
         </ScrollView>
       );
