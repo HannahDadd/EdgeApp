@@ -69,6 +69,8 @@ export default class SearchScreen extends React.Component {
                       name={article.name}
                       bio={article.description}
                       pic={article['avatar_urls'][96]}
+                      onPressItem={() => navigate('BrowseArticles', {name: article.name, 
+                        postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + article.id + '&_embed'})}
                     />
                   </View>
         })
