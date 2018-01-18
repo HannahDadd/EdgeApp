@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import FollowButton from './FollowButton';
 
 export default class AuthorDisplay extends React.PureComponent {
@@ -8,7 +8,7 @@ export default class AuthorDisplay extends React.PureComponent {
         this.state = {
             name: this.props.name,
             bio: this.props.bio,
-            profilePic: this.props.pic
+            image: this.props.pic
         };
     }
     
@@ -17,12 +17,19 @@ export default class AuthorDisplay extends React.PureComponent {
     // Article box is the articles title and featured image
     // Todo send something useful to db for following
     render() {
+        var icon;
+        if(this.state.image === ''){
+            icon = require('../pictures/noimage.jpg');
+        } else {
+            icon = {uri: this.state.image};
+        }
         return (
-            <View style={{flex: 1, flexDirection: 'column'}}>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-                <View style={{flex: 1, flexDirection: 'column'}}>
-                    <Text>{this.state.name}</Text>
-                    <Text>{this.state.bio}</Text>
+            <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+            <View style={{flex: 1, flexDirection: 'row', padding: 10, justifyContent: 'center'}}>
+            <Image onPress={this.props.onPressItem} source={icon} style={{width: 100, height: 150}}/>
+                <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+                    <Text onPress={this.props.onPressItem}>{this.state.name}</Text>
+                    <Text onPress={this.props.onPressItem}>{this.state.bio}</Text>
                 </View>
             </View>
             <FollowButton

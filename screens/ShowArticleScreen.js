@@ -5,7 +5,7 @@ import ArticleText from '../components/ArticleText';
 import EdgeSocialLinks from '../components/EdgeSocialLinks';
 import Styles from '../Styles';
 
-export default class BrowseScreen extends React.Component {
+export default class ShowArticleScreen extends React.Component {
     static navigationOptions = {
       title: "Read Article",
     };

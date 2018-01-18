@@ -4,7 +4,7 @@ import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import ShowArticleScreen from './screens/ShowArticleScreen';
-import ShowTagContentScreen from './screens/ShowTagContentScreen';
+import BrowseArticlesScreen from './screens/BrowseArticlesScreen';
 import UserScreen from './screens/UserScreen';
 import ContentScreen from './screens/ContentScreen';
 
@@ -25,7 +25,7 @@ const StackNav = StackNavigator({
     },
   },
   ShowArticle: {screen: ShowArticleScreen},
-  ShowTagContent: {screen: ShowTagContentScreen}
+  BrowseArticles: {screen: BrowseArticlesScreen}
 });
 
 const App = DrawerNavigator({

@@ -64,11 +64,11 @@ export default class SearchScreen extends React.Component {
       // If search results are users display users with picture, name and bio
       } else if(this.state.searchIn === 'users'){
         results = this.state.articles.map((article) => {
-          return <View key={article.id}>
+          return <View key={article.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
                     <AuthorDisplay
                       name={article.name}
                       bio={article.description}
-                      pic=''
+                      pic={article['avatar_urls'][96]}
                     />
                   </View>
         })
@@ -76,7 +76,7 @@ export default class SearchScreen extends React.Component {
       } else if(this.state.searchIn === 'tags'){
         results = this.state.articles.map((article) => {
           return <Text key={article.id}
-                    onPress={() => navigate('ShowTagContent', 
+                    onPress={() => navigate('BrowseArticles', 
                       {name: article.name, postsURL: article["_links"]["wp:post_type"][0].href})}
                     style={Styles.sheet.titleText}>{article.name}</Text>
         })

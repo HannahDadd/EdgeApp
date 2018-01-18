@@ -4,9 +4,9 @@ import FollowButton from '../components/FollowButton';
 import ArticleDisplay from '../components/ArticleDisplay';
 import Styles from '../Styles';
 
-export default class BrowseScreen extends React.Component {
+export default class BrowseArticlesScreen extends React.Component {
     static navigationOptions = {
-      title: "Articles with this Tag",
+      title: "Articles",
     };
 
     constructor(props) {
