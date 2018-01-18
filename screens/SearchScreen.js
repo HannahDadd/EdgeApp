@@ -9,7 +9,7 @@ export default class SearchScreen extends React.Component {
       super(props);
       this.state = {
         searchFor: '',
-        articles: [],
+        results: [],
         searchIn: 'posts'
       };
     }
@@ -24,7 +24,7 @@ export default class SearchScreen extends React.Component {
         },
       }).then(response => response.json())
       .then(responseJson => {
-        this.setState({articles: responseJson});
+        this.setState({results: responseJson});
       })
       .catch(error => {
         console.error(error);
@@ -36,13 +36,13 @@ export default class SearchScreen extends React.Component {
 
       // If no search results are returned
       let results;
-      if(this.state.articles.length < 1){
+      if(this.state.results.length < 1){
         results = 
           <Text>No Results for your search</Text>
       }
       // Display article names and images
       else if(this.state.searchIn === 'posts'){
-        results = this.state.articles.map((article) => {
+        results = this.state.results.map((article) => {
           // Check if there is a featured image to display
           let pic = '';
           // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
@@ -63,24 +63,24 @@ export default class SearchScreen extends React.Component {
         })
       // If search results are users display users with picture, name and bio
       } else if(this.state.searchIn === 'users'){
-        results = this.state.articles.map((article) => {
-          return <View key={article.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
+        results = this.state.results.map((author) => {
+          return <View key={author.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
                     <AuthorDisplay
-                      name={article.name}
-                      bio={article.description}
-                      pic={article['avatar_urls'][96]}
-                      onPressItem={() => navigate('BrowseArticles', {name: article.name, 
-                        postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + article.id + '&_embed'})}
+                      name={author.name}
+                      bio={author.description}
+                      pic={author['avatar_urls'][96]}
+                      onPressItem={() => navigate('BrowseArticles', {name: author.name, 
+                        postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed'})}
                     />
                   </View>
         })
       // Display any potential tags
       } else if(this.state.searchIn === 'tags'){
-        results = this.state.articles.map((article) => {
-          return <Text key={article.id}
+        results = this.state.results.map((tag) => {
+          return <Text key={tag.id}
                     onPress={() => navigate('BrowseArticles', 
-                      {name: article.name, postsURL: article["_links"]["wp:post_type"][0].href})}
-                    style={Styles.sheet.titleText}>{article.name}</Text>
+                      {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
+                    style={Styles.sheet.titleText}>{tag.name}</Text>
         })
       }
       return (
