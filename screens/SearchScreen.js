@@ -64,17 +64,16 @@ export default class SearchScreen extends React.Component {
       // If search results are users display users with picture, name and bio
       } else if(this.state.searchIn === 'users'){
         results = this.state.articles.map((article) => {
-          return 
-            <View key={article.id}>
-              <AuthorDisplay 
-                name={article.name}
-                bio={article.description}
-                profilePic=''/>
-            </View>
+          return <View key={article.id}>
+                    <AuthorDisplay
+                      name={article.name}
+                      bio={article.description}
+                      pic=''
+                    />
+                  </View>
         })
-      }
       // Display any potential tags
-      else if(this.state.searchIn === 'tags'){
+      } else if(this.state.searchIn === 'tags'){
         results = this.state.articles.map((article) => {
           return <Text key={article.id}
                     onPress={() => navigate('ShowTagContent', 
