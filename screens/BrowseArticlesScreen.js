@@ -69,13 +69,15 @@ export default class BrowseArticlesScreen extends React.Component {
         })
       }
       return (
-        <ScrollView style={{flex: 1, flexDirection: 'column', padding: 10}}>
+        <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
           <FollowButton
             itemToFollow={this.state.name}
             category="tag"
             buttonTitle={"Follow " + this.state.name}/>
-          {results}
-        </ScrollView>
+          <ScrollView>
+            {results}
+          </ScrollView>
+        </View>
       );
     }
   }

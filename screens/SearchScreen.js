@@ -77,10 +77,12 @@ export default class SearchScreen extends React.Component {
       // Display any potential tags
       } else if(this.state.searchIn === 'tags'){
         results = this.state.results.map((tag) => {
-          return <Text key={tag.id}
-                    onPress={() => navigate('BrowseArticles', 
+          return <View key={tag.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
+                    <Text onPress={() => navigate('BrowseArticles', 
                       {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
-                    style={Styles.sheet.titleText}>{tag.name}</Text>
+                      style={Styles.sheet.titleText}>{tag.name}
+                    </Text>
+                   </View>
         })
       }
       return (
