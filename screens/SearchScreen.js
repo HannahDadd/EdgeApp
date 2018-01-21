@@ -67,6 +67,7 @@ export default class SearchScreen extends React.Component {
           return <View key={author.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
                     <AuthorDisplay
                       name={author.name}
+                      id={author.id}
                       bio={author.description}
                       pic={author['avatar_urls'][96]}
                       onPressItem={() => navigate('BrowseArticles', {name: author.name, 

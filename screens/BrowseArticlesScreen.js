@@ -18,7 +18,7 @@ export default class BrowseArticlesScreen extends React.Component {
       };
     }
 
-    // Get articles from tag on load
+    // Get articles from url on load
     componentDidMount(){
       if(this.state.postsURL !== undefined){
         fetch(this.state.postsURL + '&_embed', {
@@ -58,12 +58,13 @@ export default class BrowseArticlesScreen extends React.Component {
               pic = pic[0].media_details.sizes.medium.source_url;
             }
           }
+          // TODO Find what author is on api and use it to be displayed on the bottom of article display
           return <View key={article.id}
                     style={{flex: 1, flexDirection: 'column', padding: 10}}>
                   <ArticleDisplay
                     title={article.title.rendered}
                     image={pic}
-                    onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
+                    onPressItem={() => navigate('ShowArticle', {article: article, image: pic, author: artilce.author})}
                   />
                 </View>
         })

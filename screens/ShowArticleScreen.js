@@ -17,11 +17,7 @@ export default class ShowArticleScreen extends React.Component {
         title: this.props.navigation.state.params.article.title.rendered,
         image: this.props.navigation.state.params.image,
         content: this.props.navigation.state.params.article.content.rendered,
-        author: {
-          name: this.props.navigation.state.params.article._embedded.author.name,
-          bio: this.props.navigation.state.params.article._embedded.author.description,
-          profilePic: ''
-        },
+        author: this.props.navigation.state.params.article._embedded.author.author,
         section: '',
         tags: ['tag1', 'tag2'],
         selectedTag: 'tags'
@@ -80,7 +76,8 @@ export default class ShowArticleScreen extends React.Component {
           <Text>Facebook like and share</Text>
           <Text>{this.state.section}</Text>
           <AuthorDisplay
-            name={this.state.name}
+            name={this.state.author.name}
+            id={this.state.author.id}
             bio={this.state.author.bio}
             profilePic={this.state.author.profilePic}
           />

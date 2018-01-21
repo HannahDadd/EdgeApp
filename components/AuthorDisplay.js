@@ -7,15 +7,13 @@ export default class AuthorDisplay extends React.PureComponent {
         super(props);
         this.state = {
             name: this.props.name,
+            id: this.props.id,
             bio: this.props.bio,
             image: this.props.pic
         };
     }
-    
-    // TODO should there be a way to show what author has written
 
     // Article box is the articles title and featured image
-    // Todo send something useful to db for following
     render() {
         var icon;
         if(this.state.image === ''){
@@ -33,7 +31,7 @@ export default class AuthorDisplay extends React.PureComponent {
                 </View>
             </View>
             <FollowButton
-                itemToFollow={this.state.name}
+                itemToFollow={this.state.id}
                 category="author"
                 buttonTitle={"Follow " + this.state.name}
             />
