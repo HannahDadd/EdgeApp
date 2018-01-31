@@ -17,26 +17,15 @@ export default class ShowArticleScreen extends React.Component {
         title: this.props.navigation.state.params.article.title.rendered,
         image: this.props.navigation.state.params.image,
         content: this.props.navigation.state.params.article.content.rendered,
-        author: this.props.navigation.state.params.article._embedded.author.author,
+        author: this.props.navigation.state.params.article.author,
+        authorName: '',
+        authorBio: '',
+        authorPic: '',
         section: '',
         tags: ['tag1', 'tag2'],
         selectedTag: 'tags'
       };
     }
-
-    // Fetch the content of the article
-    fetchArticleText(){
-      console.log(this.props.navigation.state.params.article);
-      this.setState({
-        title: this.props.navigation.state.params.article.title.rendered,
-        //image: this.props.navigation.state.params.article._embedded['wp:featuredmedia'].media_details.sizes.medium.source_url,
-        content: this.props.navigation.state.params.article.content.rendered,
-        author: {
-          name: this.props.navigation.state.params.article._embedded.author.name,
-          bio: this.props.navigation.state.params.article._embedded.author.description,
-          profilePic: ''
-        }
-      });
 
       // Tags will be sent as an id so collect the tags names from the id
       // let tagsArray = this.props.navigation.state.param.article.tags;
@@ -45,6 +34,38 @@ export default class ShowArticleScreen extends React.Component {
       //   tags.push(this.fetchContent('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags?include=' + tagsArray[i]).name);        
       // }
       // this.setState({tags: tags})
+
+    // Fetch data from the api
+    getJSONData(searchIn, searchFor, callBack) {
+      fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/' + searchIn + '?search=' + searchFor + '&_embed', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then(response => response.json())
+      .then(responseJson => {
+        callBack(responseJson)
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
+
+    // Query rest api for data- use fetch api
+    componentDidMount() {
+      // Get author
+      this.getJSONData('users', this.state.author, 
+        function(responseJson) {
+          if(responseJson && responseJson[0] !== undefined){
+            this.setState(
+              {authorName: responseJson[0].name,
+              authorBio: responseJson[0].description,
+              authorPic: responseJson[0]['avatar_urls'][96]
+            });
+          }
+        }.bind(this)
+      );
     }
 
     // todo next sprint Follow a tag
@@ -54,10 +75,10 @@ export default class ShowArticleScreen extends React.Component {
       const { navigate } = this.props.navigation;
       // Check if there is a featured image to display
       var icon;
-      if(this.state.image === ''){
-          icon = require('../pictures/noimage.jpg');
+      if(String(this.state.image) && this.state.image.includes('http')){
+        icon = {uri: this.state.image};
       } else {
-          icon = {uri: this.state.image};
+          icon = require('../pictures/noimage.jpg');
       }
       // Remove html tags from content
       var content = this.state.content.replace(/<(?:.|\n)*?>/gm, '');
@@ -76,10 +97,10 @@ export default class ShowArticleScreen extends React.Component {
           <Text>Facebook like and share</Text>
           <Text>{this.state.section}</Text>
           <AuthorDisplay
-            name={this.state.author.name}
-            id={this.state.author.id}
-            bio={this.state.author.bio}
-            profilePic={this.state.author.profilePic}
+            name={this.state.authorName}
+            id={this.state.author}
+            bio={this.state.authorBio}
+            profilePic={this.state.authorPic}
           />
           <Text>Article Tags:</Text>
           <View style={{flex: 1, flexDirection: 'row'}}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, AsyncStorage } from 'react-native';
 import FacebookLogin from '../components/FacebookLogin';
 import ArticleDisplay from '../components/ArticleDisplay';
 import AuthorDisplay from '../components/AuthorDisplay';
@@ -59,42 +59,54 @@ export default class UserScreen extends React.Component {
       // Get Authors from the database and load them for display
       let authors;
       AsyncStorage.getItem('author', (err, result) => {
-        authors = result.map((authorID) => {
-          author = this.getAuthorFromID(authorID);
-          return <View key={author.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                    <AuthorDisplay
-                      name={author.name}
-                      id={author.id}
-                      bio={author.description}
-                      pic={author['avatar_urls'][96]}
-                      onPressItem={() => navigate('BrowseArticles', {name: author.name, 
-                        postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed'})}
-                    />
-                  </View>
-        })
+        if(result !== null){
+          authors = JSON.parse(result).map((authorID) => {
+            author = this.getAuthorFromID(authorID);
+            return <View key={author.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
+                      <AuthorDisplay
+                        name={author.name}
+                        id={author.id}
+                        bio={author.description}
+                        pic={author['avatar_urls'][96]}
+                        onPressItem={() => navigate('BrowseArticles', {name: author.name, 
+                          postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed'})}
+                      />
+                    </View>
+          })
+        } else {
+          authors = <Text>You're not following any authors :(</Text>
+        }
       });
       // Get tags from the database and load them for display
       let tags;
       AsyncStorage.getItem('tag', (err, result) => {
-        tag = result.map((tagID) => {
-          tag = this.getTagFromID(tagID);
-          return <View key={tag.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                    <Text onPress={() => navigate('BrowseArticles', 
-                      {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
-                      style={Styles.sheet.titleText}>{tag.name}
-                    </Text>
-                   </View>
-        })
+        if(result !== null){
+          tag = result.map((tagID) => {
+            tag = this.getTagFromID(tagID);
+            return <View key={tag.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
+                      <Text onPress={() => navigate('BrowseArticles', 
+                        {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
+                        style={Styles.sheet.titleText}>{tag.name}
+                      </Text>
+                    </View>
+          })
+        } else {
+          tags = <Text>You're not following any tags :(</Text>
+        }
       });
       // Get sections from the database and load them for display
       let sections;
       AsyncStorage.getItem('section', (err, result) => {
-        sections = result.map((section) => {
-          return <Text>{section}</Text>
-        })
+        if(result !== null){
+          sections = result.map((section) => {
+            return <Text>{section}</Text>
+          })
+        } else {
+          sections = <Text>You're not following any sections :(</Text>
+        }
       });
       return (
-        <View style={{flex: 1, flexDirection: 'column'}}>
+        <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
           <FacebookLogin/>
           <Text>Sections you're following:</Text>
           {sections}

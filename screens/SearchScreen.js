@@ -46,9 +46,10 @@ export default class SearchScreen extends React.Component {
           // Check if there is a featured image to display
           let pic = '';
           // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
-          if(typeof article._embedded['wp:featuredmedia'] !== undefined){
+          if(article && article._embedded && article._embedded['wp:featuredmedia'] !== undefined){
             pic = article._embedded['wp:featuredmedia'];
-            if(typeof pic[0].media_details.sizes.medium.source_url !== undefined){
+            if (pic[0].media_details && pic[0].media_details.sizes && pic[0].media_details.sizes.medium
+              && pic[0].media_details.sizes.medium.source_url !== undefined){
               pic = pic[0].media_details.sizes.medium.source_url;
             }
           }

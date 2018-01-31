@@ -12,8 +12,7 @@ import NotificationsScreen from './screens/NotificationsScreen';
 const TabNav = TabNavigator({
   Home: { screen: HomeScreen },
   Search: {screen: SearchScreen},
-  User: {screen: UserScreen},
-  Notifications: {screen: NotificationsScreen}
+  User: {screen: UserScreen}
 }, {
   tabBarOptions : {
     style: {
@@ -23,6 +22,26 @@ const TabNav = TabNavigator({
 
 const DrawerNav = DrawerNavigator({
   Home: {screen: TabNav },
+  News: {screen: ContentScreen,
+    navigationOptions: {
+      title: 'News'
+    }
+  },
+  Live: {screen: ContentScreen,
+    navigationOptions: {
+      title: 'Live'
+    }
+  },
+  Culture: {screen: ContentScreen,
+    navigationOptions: {
+      title: 'Culture'
+    }
+  },
+  Records: {screen: ContentScreen,
+    navigationOptions: {
+      title: 'Records'
+    }
+  },
   Features: {screen: ContentScreen,
     navigationOptions: {
       title: 'Features'
