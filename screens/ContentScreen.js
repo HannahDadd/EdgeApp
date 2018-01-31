@@ -6,7 +6,7 @@ export default class ContentScreen extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        //section: this.props.navigation.state.navigationOptions.title,
+        section: this.props.navigation.state.params.title,
         articles: []
       };
     }
@@ -14,7 +14,7 @@ export default class ContentScreen extends React.Component {
     render() {
       return (
         <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-          <Text>Content coming soon!</Text>
+          <Text>{this.state.section}</Text>
         </View>
       );
     }

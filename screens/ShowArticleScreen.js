@@ -78,7 +78,7 @@ export default class ShowArticleScreen extends React.Component {
       if(String(this.state.image) && this.state.image.includes('http')){
         icon = {uri: this.state.image};
       } else {
-          icon = require('../pictures/noimage.jpg');
+        icon = require('../pictures/noimage.jpg');
       }
       // Remove html tags from content
       var content = this.state.content.replace(/<(?:.|\n)*?>/gm, '');
