@@ -22,8 +22,10 @@ export default class ArticleDisplay extends React.PureComponent {
         }
         return (
             <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                <Image onPress={this.props.onPressItem} source={icon} style={{width: 300, height: 200}}/>
-                <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{this.state.title}</Text>
+                <TouchableHighlight onPress={this.props.onPressItem}>
+                    <Image onPress={this.props.onPressItem} source={icon} style={{width: 300, height: 200}}/>
+                    <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{this.state.title}</Text>
+                </TouchableHighlight>
             </View>
         )
     }

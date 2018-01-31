@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableHighlight } from 'react-native';
 import FollowButton from './FollowButton';
 
 export default class AuthorDisplay extends React.PureComponent {
@@ -32,18 +32,20 @@ export default class AuthorDisplay extends React.PureComponent {
         console.log("hi")
         return (
             <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-            <View style={{flex: 1, flexDirection: 'row', padding: 10, justifyContent: 'center'}}>
-            <Image onPress={this.props.onPressItem} source={icon} style={{width: 100, height: 150}}/>
-                <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                    <Text onPress={this.props.onPressItem}>{this.state.name}</Text>
-                    <Text onPress={this.props.onPressItem}>{this.state.bio}</Text>
+            <TouchableHighlight onPress={this.props.onPressItem}>
+                <View style={{flex: 1, flexDirection: 'row', padding: 10, justifyContent: 'center'}}>
+                <Image source={icon} style={{width: 100, height: 150}}/>
+                    <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+                        <Text onPress={this.props.onPressItem}>{this.state.name}</Text>
+                        <Text onPress={this.props.onPressItem}>{this.state.bio}</Text>
+                    </View>
                 </View>
-            </View>
-            <FollowButton
-                itemToFollow={this.state.id}
-                category="author"
-                buttonTitle={"Follow " + this.state.name}
-            />
+                <FollowButton
+                    itemToFollow={this.state.id}
+                    category="author"
+                    buttonTitle={"Follow " + this.state.name}
+                />
+            </TouchableHighlight>
         </View>
         )
     }
