@@ -22,8 +22,7 @@ export default class ShowArticleScreen extends React.Component {
         authorBio: '',
         authorPic: '',
         section: '',
-        tags: this.props.navigation.state.params.article.tags,
-        selectedTag: 'tags'
+        tags: this.props.navigation.state.params.article.tags
       };
     }
 
@@ -64,7 +63,7 @@ export default class ShowArticleScreen extends React.Component {
         this.getJSONData('tags', this.state.tags[i], 
           function(responseJson) {
             if(responseJson && responseJson[0] !== undefined){
-              tags.push(responseJson[0].name);
+              tags.push({id: this.state.tags[i], name: responseJson[0].name});
             }
           }.bind(this)
         );
@@ -86,8 +85,13 @@ export default class ShowArticleScreen extends React.Component {
       // TODO Facebook like and share
       let facebookLikeShare = <Text>Facebook like and share</Text>
       // Add tags to the picker
-      let tags = this.state.tags.map((tag, i) => {
-        return <Picker.Item label={tag} value={tag} key={i}/>
+      let tags = this.state.tags.map((tag) => {
+        return <View key={tag.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
+                <Text onPress={() => navigate('BrowseArticles', 
+                  {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
+                  style={Styles.sheet.titleText}>{tag.name}
+                </Text>
+              </View>
       })
       return (
         <ScrollView style={{flex: 1, flexDirection: 'column', padding: 10}}>
