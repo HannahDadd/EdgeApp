@@ -22,18 +22,10 @@ export default class ShowArticleScreen extends React.Component {
         authorBio: '',
         authorPic: '',
         section: '',
-        tags: ['tag1', 'tag2'],
+        tags: this.props.navigation.state.params.article.tags,
         selectedTag: 'tags'
       };
     }
-
-      // Tags will be sent as an id so collect the tags names from the id
-      // let tagsArray = this.props.navigation.state.param.article.tags;
-      // let tags = []
-      // for (var i = 0; i < tagsArray.length; i++) {
-      //   tags.push(this.fetchContent('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags?include=' + tagsArray[i]).name);        
-      // }
-      // this.setState({tags: tags})
 
     // Fetch data from the api
     getJSONData(searchIn, searchFor, callBack) {
@@ -66,10 +58,19 @@ export default class ShowArticleScreen extends React.Component {
           }
         }.bind(this)
       );
+      // Get tags from id
+      let tags = []
+      for (var i = 0; i <  this.state.tags.length; i++) {
+        this.getJSONData('tags', this.state.tags[i], 
+          function(responseJson) {
+            if(responseJson && responseJson[0] !== undefined){
+              tags.push(responseJson[0].name);
+            }
+          }.bind(this)
+        );
+      }
+      this.setState({tags: tags})
     }
-
-    // todo next sprint Follow a tag
-    followTag(){}
 
     render() {
       const { navigate } = this.props.navigation;
