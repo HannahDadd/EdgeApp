@@ -15,10 +15,10 @@ export default class ArticleDisplay extends React.PureComponent {
     // Article box is the articles title and featured image
     render() {
         var icon;
-        if(this.state.image === ''){
-            icon = require('../pictures/noimage.jpg');
-        } else {
+        if(String(this.state.image) && this.state.image.includes('http')){
             icon = {uri: this.state.image};
+        } else {
+            icon = require('../pictures/noimage.jpg');
         }
         return (
             <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
