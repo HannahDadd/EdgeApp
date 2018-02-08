@@ -16,16 +16,16 @@ export default class EdgeSocialLinks extends React.PureComponent {
         return (
             <View style={{flex: 1, flexDirection: 'row', padding: 10}}>
                 <TouchableHighlight onPress={this.openEdgeLink("").bind(this)}>
-                    <Image source={require('../pictures/facebook.jpg')} style={{width: 50, height: 50}}/>
+                    <Image source={require('../pictures/fb.jpg')} style={{width: 50, height: 50}}/>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={this.openEdgeLink("").bind(this)}>
                     <Image source={require('../pictures/twitter.jpg')} style={{width: 50, height: 50}}/>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={this.openEdgeLink("").bind(this)}>
-                    <Image source={require('../pictures/instagram.jpg')} style={{width: 50, height: 50}}/>
+                    <Image source={require('../pictures/instagram.png')} style={{width: 50, height: 50}}/>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={this.openEdgeLink("").bind(this)}>
-                    <Image source={require('../pictures/website.jpg')} style={{width: 50, height: 50}}/>
+                    <Image source={require('../pictures/edge.png')} style={{width: 50, height: 50}}/>
                 </TouchableHighlight>
             </View>
         )
