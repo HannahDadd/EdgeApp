@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableHighlight } from 'react-native';
 import Styles from '../Styles';
 
 export default class ArticleDisplay extends React.PureComponent {
@@ -24,8 +24,8 @@ export default class ArticleDisplay extends React.PureComponent {
             <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
                 <TouchableHighlight onPress={this.props.onPressItem}>
                     <Image onPress={this.props.onPressItem} source={icon} style={{width: 300, height: 200}}/>
-                    <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{this.state.title}</Text>
                 </TouchableHighlight>
+                <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{this.state.title}</Text>
             </View>
         )
     }

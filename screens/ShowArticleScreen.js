@@ -59,11 +59,14 @@ export default class ShowArticleScreen extends React.Component {
       );
       // Get tags from id
       let tags = []
+      console.log("length ", this.state.tags.length);
       for (var i = 0; i <  this.state.tags.length; i++) {
+        console.log(this.state.tags[i]);
+        let key = this.state.tags[i];
         this.getJSONData('tags', this.state.tags[i], 
           function(responseJson) {
             if(responseJson && responseJson[0] !== undefined){
-              tags.push({id: this.state.tags[i], name: responseJson[0].name});
+              tags.push({key: key, name: responseJson[0].name});
             }
           }.bind(this)
         );
@@ -82,11 +85,9 @@ export default class ShowArticleScreen extends React.Component {
       }
       // Remove html tags from content
       var content = this.state.content.replace(/<(?:.|\n)*?>/gm, '');
-      // TODO Facebook like and share
-      let facebookLikeShare = <Text>Facebook like and share</Text>
       // Add tags to the picker
       let tags = this.state.tags.map((tag) => {
-        return <View key={tag.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
+        return <View key={tag.key} style={{flex: 1, flexDirection: 'column', padding: 10}}>
                 <Text onPress={() => navigate('BrowseArticles', 
                   {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
                   style={Styles.sheet.titleText}>{tag.name}
@@ -99,7 +100,6 @@ export default class ShowArticleScreen extends React.Component {
           <Text style={Styles.sheet.titleText}>{this.state.title}</Text>
           <ArticleText/>
           <Text>{content}</Text>
-          <Text>Facebook like and share</Text>
           <Text>{this.state.section}</Text>
           <AuthorDisplay
             name={this.state.authorName}
@@ -108,18 +108,7 @@ export default class ShowArticleScreen extends React.Component {
             profilePic={this.state.authorPic}
           />
           <Text>Article Tags:</Text>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Picker
-              selectedValue={this.state.selectedTag}
-              onValueChange={(itemValue) => this.setState({selectedTag: itemValue})}>
-              {tags}
-            </Picker>
-            <Button
-              onPress={this.followTag.bind(this)}
-              title='Follow Tag'
-            />
-          </View>
-          <EdgeSocialLinks/>
+          {tags}
         </ScrollView>
       );
     }
