@@ -61,6 +61,6 @@ const App = StackNavigator({
   },
   ShowArticle: {screen: ShowArticleScreen},
   BrowseArticles: {screen: BrowseArticlesScreen}
-}); 
+});
 
 export default App;

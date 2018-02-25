@@ -1,1 +1,31 @@
 node_modules
+android/.gradle
+android/.idea
+android/build
+android/app/build
+
+#built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# Local configuration file (sdk path, etc)
+android/local.properties
+
+# Android Studio
+*.iml
+.idea
+
+# Xcode
+ios/.DS_Store
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcworkspace
+*.moved-aside
