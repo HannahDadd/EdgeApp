@@ -71,6 +71,7 @@ export default class ShowArticleScreen extends React.Component {
           }.bind(this)
         );
       }
+      console.log(tags);
       this.setState({tags: tags})
     }
 
@@ -87,6 +88,7 @@ export default class ShowArticleScreen extends React.Component {
       var content = this.state.content.replace(/<(?:.|\n)*?>/gm, '');
       // Add tags to the picker
       let tags = this.state.tags.map((tag) => {
+        console.log("hello ", tag.key);
         return <View key={tag.key} style={{flex: 1, flexDirection: 'column', padding: 10}}>
                 <Text onPress={() => navigate('BrowseArticles', 
                   {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
@@ -95,20 +97,22 @@ export default class ShowArticleScreen extends React.Component {
               </View>
       })
       return (
-        <ScrollView style={{flex: 1, flexDirection: 'column', padding: 10}}>
-          <Image source={icon} style={{width: 350, height: 200}}/>
-          <Text style={Styles.sheet.titleText}>{this.state.title}</Text>
-          <ArticleText/>
-          <Text>{content}</Text>
-          <Text>{this.state.section}</Text>
-          <AuthorDisplay
-            name={this.state.authorName}
-            id={this.state.author}
-            bio={this.state.authorBio}
-            profilePic={this.state.authorPic}
-          />
-          <Text>Article Tags:</Text>
-          {tags}
+        <ScrollView style={{flexDirection: 'column', padding: 10}}>
+          <View>
+            <Image source={icon} style={{width: 350, height: 200}}/>
+            <Text style={Styles.sheet.titleText}>{this.state.title}</Text>
+            <ArticleText/>
+            <Text>{content}</Text>
+            <Text>{this.state.section}</Text>
+            <AuthorDisplay
+              name={this.state.authorName}
+              id={this.state.author}
+              bio={this.state.authorBio}
+              profilePic={this.state.authorPic}
+            />
+            <Text>Article Tags:</Text>
+            {tags}
+          </View>
         </ScrollView>
       );
     }

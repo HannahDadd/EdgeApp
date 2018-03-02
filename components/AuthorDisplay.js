@@ -29,7 +29,6 @@ export default class AuthorDisplay extends React.PureComponent {
         } else {
             icon = {uri: this.state.image};
         }
-        console.log("hi")
         return (
             <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
                 <View style={{flex: 1, flexDirection: 'row', padding: 10, justifyContent: 'center'}}>
