@@ -8,7 +8,7 @@ export default class SectionDisplay extends React.Component {
       super(props);
       this.state = {
         section: this.props.section,
-        articles: [],
+        results: [],
         categoryID: ''
       };
     }
@@ -31,8 +31,11 @@ export default class SectionDisplay extends React.Component {
         },
       }).then(response => response.json())
       .then(responseJson => {
-        this.setState({categoryID: responseJson[0].id});
-        this.getArticlesFromID(this.state.sectionID);
+        console.log(responseJson);
+        if(responseJson[0] !== undefined){
+          this.setState({categoryID: responseJson[0].id});
+          this.getArticlesFromID(this.state.categoryID);
+        }
       })
       .catch(error => {
         console.error(error);
@@ -41,6 +44,7 @@ export default class SectionDisplay extends React.Component {
 
     // Get the article data for the category
     getArticlesFromID(sectionID){
+      console.log("Sections id ", sectionID);
       fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?categories=' + sectionID + '&_embed', {
         method: 'GET',
         headers: {
@@ -49,7 +53,7 @@ export default class SectionDisplay extends React.Component {
         },
       }).then(response => response.json())
       .then(responseJson => {
-        this.setState({articles: responseJson});
+        this.setState({results: responseJson});
       })
       .catch(error => {
         console.error(error);
@@ -59,30 +63,28 @@ export default class SectionDisplay extends React.Component {
     render() {
       // If no search results are returned
       let results;
-      if(this.state.articles.length < 1){
+      if(this.state.results.length < 1){
         results = 
           <Text>Loading Content...</Text>
       } else {
-        // Loop through posts with that tag
-        results = this.state.articles.map((article) => {
+        console.log(this.state.results);
+        results = this.state.results.map((article) => {
           // Check if there is a featured image to display
           let pic = '';
           // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
-          if(typeof article._embedded['wp:featuredmedia'] !== undefined){
+          if(article && article._embedded && article._embedded['wp:featuredmedia'] !== undefined){
             pic = article._embedded['wp:featuredmedia'];
-            if(typeof pic[0] !== undefined && typeof pic[0].media_details !== undefined 
-              && typeof pic[0].media_details.sizes !== undefined 
-              && typeof pic[0].media_details.sizes.medium.source_url !== undefined) {
+            if (pic[0].media_details && pic[0].media_details.sizes && pic[0].media_details.sizes.medium
+              && pic[0].media_details.sizes.medium.source_url !== undefined){
               pic = pic[0].media_details.sizes.medium.source_url;
             }
           }
-          // Find what author is on api and use it to be displayed on the bottom of article display
           return <View key={article.id}
                     style={{flex: 1, flexDirection: 'column', padding: 10}}>
                   <ArticleDisplay
                     title={article.title.rendered}
                     image={pic}
-                    onPressItem={() => navigate('ShowArticle', {article: article, image: pic, author: article.author})}
+                    onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
                   />
                 </View>
         })

@@ -6,7 +6,6 @@ import SearchScreen from './screens/SearchScreen';
 import ShowArticleScreen from './screens/ShowArticleScreen';
 import BrowseArticlesScreen from './screens/BrowseArticlesScreen';
 import UserScreen from './screens/UserScreen';
-import ContentScreen from './screens/ContentScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
 
 // Section Screens

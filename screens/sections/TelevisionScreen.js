@@ -1,5 +1,5 @@
 import React from 'react';
-import SectionDisplay from '.../components/SectionDisplay';
+import SectionDisplay from '../../components/SectionDisplay';
 
 export default class TelevisionScreen extends React.Component {
   static navigationOptions = {
