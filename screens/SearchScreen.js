@@ -37,8 +37,12 @@ export default class SearchScreen extends React.Component {
       // If no search results are returned
       let results;
       if(this.state.results.length < 1){
-        results = 
-          <Text>No Results for your search</Text>
+        // If it is currently searching API say "searching"
+        if(this.state.searchFor !== ''){
+         results = <Text>Searching...</Text> 
+        } else {
+          results = <Text>No Results for your search</Text>
+        }
       }
       // Display article names and images
       else if(this.state.searchIn === 'posts'){
