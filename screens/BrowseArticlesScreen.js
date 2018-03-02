@@ -64,7 +64,7 @@ export default class BrowseArticlesScreen extends React.Component {
                   <ArticleDisplay
                     title={article.title.rendered}
                     image={pic}
-                    onPressItem={() => navigate('ShowArticle', {article: article, image: pic, author: artilce.author})}
+                    onPressItem={() => navigate('ShowArticle', {article: article, image: pic, author: article.author})}
                   />
                 </View>
         })
