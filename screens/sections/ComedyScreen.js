@@ -8,7 +8,7 @@ export default class ComedyScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"comedy"}/>
+      <SectionDisplay section={"comedy"} navigate={this.props.navigation}/>
     );
   }
 }

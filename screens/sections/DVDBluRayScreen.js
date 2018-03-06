@@ -8,7 +8,7 @@ export default class DVDBluRayScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"dvd-bluray"}/>
+      <SectionDisplay section={"dvd-bluray"} navigate={this.props.navigation}/>
     );
   }
 }

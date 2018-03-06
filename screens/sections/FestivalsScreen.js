@@ -8,7 +8,7 @@ export default class FestivalsScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"festivals"}/>
+      <SectionDisplay section={"festivals"} navigate={this.props.navigation}/>
     );
   }
 }

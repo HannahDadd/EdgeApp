@@ -8,7 +8,7 @@ export default class ReviewsScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"reviews"}/>
+      <SectionDisplay section={"reviews"} navigate={this.props.navigation}/>
     );
   }
 }

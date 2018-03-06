@@ -8,7 +8,7 @@ export default class LiteratureScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"literature"}/>
+      <SectionDisplay section={"literature"} navigate={this.props.navigation}/>
     );
   }
 }

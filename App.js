@@ -124,7 +124,8 @@ const DrawerNav = DrawerNavigator({
 });
 
 const App = StackNavigator({
-  Home: {screen: DrawerNav,
+  Home: {
+    screen: DrawerNav,
     navigationOptions: ({navigation}) => ({
       title: 'The Edge App',
       headerLeft: <Text onPress={() => 

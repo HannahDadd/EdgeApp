@@ -8,7 +8,7 @@ export default class RewindScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"rewind"}/>
+      <SectionDisplay section={"rewind"} navigate={this.props.navigation}/>
     );
   }
 }

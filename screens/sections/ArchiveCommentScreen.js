@@ -8,7 +8,7 @@ export default class ArchiveCommentScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"archive-comment"}/>
+      <SectionDisplay section={"archive-comment"} navigate={this.props.navigation}/>
     );
   }
 }

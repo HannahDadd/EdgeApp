@@ -8,7 +8,7 @@ export default class SinglesScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"singles"}/>
+      <SectionDisplay section={"singles"} navigate={this.props.navigation}/>
     );
   }
 }

@@ -8,7 +8,7 @@ export default class InterviewScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"interviews"}/>
+      <SectionDisplay section={"interviews"} navigate={this.props.navigation}/>
     );
   }
 }

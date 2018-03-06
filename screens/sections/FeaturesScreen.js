@@ -8,7 +8,7 @@ export default class FeaturesScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"features"}/>
+      <SectionDisplay section={"features"} navigate={this.props.navigation}/>
     );
   }
 }

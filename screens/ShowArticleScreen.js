@@ -66,6 +66,7 @@ export default class ShowArticleScreen extends React.Component {
         this.getJSONData('tags', this.state.tags[i], 
           function(responseJson) {
             if(responseJson && responseJson[0] !== undefined){
+              console.log("tag!", responseJson[0]);
               tags.push({key: key, name: responseJson[0].name});
             }
           }.bind(this)
@@ -97,23 +98,23 @@ export default class ShowArticleScreen extends React.Component {
               </View>
       })
       return (
-        <ScrollView style={{flexDirection: 'column', padding: 10}}>
-          <View>
-            <Image source={icon} style={{width: 350, height: 200}}/>
-            <Text style={Styles.sheet.titleText}>{this.state.title}</Text>
-            <ArticleText/>
-            <Text>{content}</Text>
-            <Text>{this.state.section}</Text>
-            <AuthorDisplay
-              name={this.state.authorName}
-              id={this.state.author}
-              bio={this.state.authorBio}
-              profilePic={this.state.authorPic}
-            />
-            <Text>Article Tags:</Text>
-            {tags}
+        <View style={{flex: 1}}>
+          <ScrollView style={{flexDirection: 'column', padding: 10}}>
+              <Image source={icon} style={{width: 350, height: 200}}/>
+              <Text style={Styles.sheet.titleText}>{this.state.title}</Text>
+              <ArticleText/>
+              <Text>{content}</Text>
+              <Text>{this.state.section}</Text>
+              <AuthorDisplay
+                name={this.state.authorName}
+                id={this.state.author}
+                bio={this.state.authorBio}
+                profilePic={this.state.authorPic}
+              />
+              <Text>Article Tags:</Text>
+              {tags}
+          </ScrollView>
           </View>
-        </ScrollView>
       );
     }
   }

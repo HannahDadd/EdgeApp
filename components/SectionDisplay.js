@@ -6,10 +6,12 @@ import Styles from '../Styles';
 export default class SectionDisplay extends React.Component {
     constructor(props) {
       super(props);
+      console.log(props);
       this.state = {
         section: this.props.section,
         results: [],
-        categoryID: ''
+        categoryID: '',
+        navigate: this.props.navigate
       };
     }
 
@@ -84,7 +86,7 @@ export default class SectionDisplay extends React.Component {
                   <ArticleDisplay
                     title={article.title.rendered}
                     image={pic}
-                    onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
+                    onPressItem={() => this.state.navigate.navigate('ShowArticle', {article: article, image: pic})}
                   />
                 </View>
         })

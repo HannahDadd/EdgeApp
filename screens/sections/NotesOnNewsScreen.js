@@ -8,7 +8,7 @@ export default class NotesOnNewsScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"notes-on-news/"}/>
+      <SectionDisplay section={"notes-on-news/"} navigate={this.props.navigation}/>
     );
   }
 }

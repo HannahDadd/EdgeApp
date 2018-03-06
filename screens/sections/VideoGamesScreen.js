@@ -8,7 +8,7 @@ export default class VideoGamesScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"video-games"}/>
+      <SectionDisplay section={"video-games"} navigate={this.props.navigation}/>
     );
   }
 }

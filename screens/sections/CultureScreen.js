@@ -8,7 +8,7 @@ export default class CultureScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"culture"}/>
+      <SectionDisplay section={"culture"} navigate={this.props.navigation}/>
     );
   }
 }

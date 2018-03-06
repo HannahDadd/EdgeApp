@@ -8,7 +8,7 @@ export default class TelevisionScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"television"}/>
+      <SectionDisplay section={"television"} navigate={this.props.navigation}/>
     );
   }
 }

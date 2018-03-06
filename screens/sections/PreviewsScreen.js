@@ -8,7 +8,7 @@ export default class PreviewsScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"previews"}/>
+      <SectionDisplay section={"previews"} navigate={this.props.navigation}/>
     );
   }
 }

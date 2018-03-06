@@ -8,7 +8,7 @@ export default class TheatreScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"theatre"}/>
+      <SectionDisplay section={"theatre"} navigate={this.props.navigation}/>
     );
   }
 }

@@ -8,7 +8,7 @@ export default class LocalMusicScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"local-music"}/>
+      <SectionDisplay section={"local-music"} navigate={this.props.navigation}/>
     );
   }
 }

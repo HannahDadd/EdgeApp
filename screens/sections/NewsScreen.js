@@ -8,7 +8,7 @@ export default class NewsScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"news"}/>
+      <SectionDisplay section={"news"} navigate={this.props.navigation}/>
     );
   }
 }

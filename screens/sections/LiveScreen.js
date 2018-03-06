@@ -8,7 +8,7 @@ export default class LiveScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"live"}/>
+      <SectionDisplay section={"live"} navigate={this.props.navigation}/>
     );
   }
 }

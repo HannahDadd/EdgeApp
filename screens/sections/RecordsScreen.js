@@ -8,7 +8,7 @@ export default class RecordsScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"records"}/>
+      <SectionDisplay section={"records"} navigate={this.props.navigation}/>
     );
   }
 }

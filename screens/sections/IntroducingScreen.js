@@ -8,7 +8,7 @@ export default class IntroducingScreen extends React.Component {
   
   render() {
     return (
-      <SectionDisplay section={"introducing"}/>
+      <SectionDisplay section={"introducing"} navigate={this.props.navigation}/>
     );
   }
 }
