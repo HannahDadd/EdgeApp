@@ -7,6 +7,7 @@ import ShowArticleScreen from './screens/ShowArticleScreen';
 import BrowseArticlesScreen from './screens/BrowseArticlesScreen';
 import UserScreen from './screens/UserScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
+import SectionScreen from './screens/SectionScreen';
 
 // Section Screens
 import FeaturesScreen from './screens/sections/FeaturesScreen';
@@ -24,7 +25,6 @@ import LiteratureScreen from './screens/sections/LiteratureScreen';
 
 import RecordsScreen from './screens/sections/RecordsScreen';
 import SinglesScreen from './screens/sections/SinglesScreen';
-import AlbumsScreen from './screens/sections/AlbumsScreen';
 import RewindScreen from './screens/sections/RewindScreen';
 
 import FilmScreen from './screens/sections/FilmScreen';
@@ -73,7 +73,6 @@ const FilmTabNav = TabNavigator({
 const RecordsTabNav = TabNavigator({
   All: { screen: RecordsScreen },
   Singles: {screen: SinglesScreen},
-  Albums: {screen: AlbumsScreen},
   Rewind: {screen: RewindScreen}
 });
 const CultureTabNav = TabNavigator({
@@ -101,11 +100,7 @@ const DrawerNav = DrawerNavigator({
       title: 'Live'
     }
   },
-  Culture: {screen: CultureTabNav,
-    navigationOptions: {
-      title: 'Culture'
-    }
-  },
+  Culture: {screen: CultureScreen},
   Records: {screen: RecordsTabNav,
     navigationOptions: {
       title: 'Records'
@@ -135,7 +130,13 @@ const App = StackNavigator({
     })
   },
   ShowArticle: {screen: ShowArticleScreen},
-  BrowseArticles: {screen: BrowseArticlesScreen}
+  BrowseArticles: {screen: BrowseArticlesScreen},
+  Section: {
+    screen: SectionScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.sectionTitle}`,
+    }),
+  }
 });
 
 export default App;

@@ -22,7 +22,8 @@ export default class ShowArticleScreen extends React.Component {
         authorBio: '',
         authorPic: '',
         section: '',
-        tags: this.props.navigation.state.params.article.tags
+        tagIDs: this.props.navigation.state.params.article.tags,
+        tags: []
       };
     }
 
@@ -59,20 +60,16 @@ export default class ShowArticleScreen extends React.Component {
       );
       // Get tags from id
       let tags = []
-      console.log("length ", this.state.tags.length);
-      for (var i = 0; i <  this.state.tags.length; i++) {
-        console.log(this.state.tags[i]);
-        let key = this.state.tags[i];
-        this.getJSONData('tags', this.state.tags[i], 
+      for (var i = 0; i <  this.state.tagIDs.length; i++) {
+        let key = this.state.tagIDs[i];
+        this.getJSONData('tags', this.state.tagIDs[i], 
           function(responseJson) {
             if(responseJson && responseJson[0] !== undefined){
-              console.log("tag!", responseJson[0]);
               tags.push({key: key, name: responseJson[0].name});
             }
           }.bind(this)
         );
       }
-      console.log(tags);
       this.setState({tags: tags})
     }
 
@@ -113,6 +110,7 @@ export default class ShowArticleScreen extends React.Component {
               />
               <Text>Article Tags:</Text>
               {tags}
+              <EdgeSocialLinks/>
           </ScrollView>
           </View>
       );

@@ -6,7 +6,6 @@ import Styles from '../Styles';
 export default class SectionDisplay extends React.Component {
     constructor(props) {
       super(props);
-      console.log(props);
       this.state = {
         section: this.props.section,
         results: [],
@@ -33,7 +32,6 @@ export default class SectionDisplay extends React.Component {
         },
       }).then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson);
         if(responseJson[0] !== undefined){
           this.setState({categoryID: responseJson[0].id});
           this.getArticlesFromID(this.state.categoryID);
@@ -46,7 +44,6 @@ export default class SectionDisplay extends React.Component {
 
     // Get the article data for the category
     getArticlesFromID(sectionID){
-      console.log("Sections id ", sectionID);
       fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?categories=' + sectionID + '&_embed', {
         method: 'GET',
         headers: {
@@ -69,7 +66,6 @@ export default class SectionDisplay extends React.Component {
         results = 
           <Text>Loading Content...</Text>
       } else {
-        console.log(this.state.results);
         results = this.state.results.map((article) => {
           // Check if there is a featured image to display
           let pic = '';
