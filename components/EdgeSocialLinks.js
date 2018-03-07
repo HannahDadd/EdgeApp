@@ -14,24 +14,24 @@ export default class EdgeSocialLinks extends React.PureComponent {
     // Article box is the articles title and featured image
     render() {
         return (
-            <View style={{flex: 1, flexDirection: 'row', padding: 10}}>
+            <View style={{flex: 1, justifyContent:'space-between', flexDirection: 'row', padding: 10}}>
                 <View>
-                    <TouchableHighlight onPress={this._openEdgeLink("https://www.facebook.com/theedgesusu/")}>
+                    <TouchableHighlight onPress={() => this._openEdgeLink("https://www.facebook.com/theedgesusu/")}>
                         <Image source={require('../pictures/fb.jpg')} style={{width: 50, height: 50}}/>
                     </TouchableHighlight>
                 </View>
                 <View>
-                    <TouchableHighlight onPress={this._openEdgeLink("https://twitter.com/theedgesusu/")}>
+                    <TouchableHighlight onPress={() => this._openEdgeLink("https://twitter.com/theedgesusu/")}>
                         <Image source={require('../pictures/twitter.jpg')} style={{width: 50, height: 50}}/>
                     </TouchableHighlight>
                 </View>
                 <View>
-                    <TouchableHighlight onPress={this._openEdgeLink("https://www.instagram.com/theedgesusu/")}>
+                    <TouchableHighlight onPress={() => this._openEdgeLink("https://www.instagram.com/theedgesusu/")}>
                         <Image source={require('../pictures/instagram.png')} style={{width: 50, height: 50}}/>
                     </TouchableHighlight>
                 </View>
                 <View>
-                    <TouchableHighlight onPress={this._openEdgeLink("https://www.theedgesusu.co.uk/")}>
+                    <TouchableHighlight onPress={() => this._openEdgeLink("https://www.theedgesusu.co.uk/")}>
                         <Image source={require('../pictures/edge.png')} style={{width: 50, height: 50}}/>
                     </TouchableHighlight>
                 </View>
