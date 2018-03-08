@@ -11,7 +11,10 @@ export default class BrowseArticlesScreen extends React.Component {
           name: this.props.navigation.state.params.name,
           postsURL: this.props.navigation.state.params.postsURL,
           isSection: this.props.navigation.state.params.isSection,
-          articles: []
+          articles: [],
+          offset: 0,
+          moreArticlesToLoad: true,
+          currentlySearching: true
       };
     }
 
@@ -29,7 +32,9 @@ export default class BrowseArticlesScreen extends React.Component {
 
     // Set the articles based on the postURL
     getArticlesFromURL(){
-      fetch(this.state.postsURL + '&_embed', {
+      // Don't allow users to load more while loading content to avoid errors
+      this.setState({currentlySearching: true});
+      fetch(this.state.postsURL + '&offset=' + this.state.offset + '&_embed', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -37,7 +42,12 @@ export default class BrowseArticlesScreen extends React.Component {
         },
       }).then(response => response.json())
       .then(responseJson => {
-          this.setState({articles: responseJson});
+        this.setState({articles: this.state.articles.concat(responseJson)});
+        this.setState({offset: this.state.offset + responseJson.length});
+        this.setState({currentlySearching: false});
+        if(responseJson.length === 0){
+          this.setState({moreArticlesToLoad: false});
+        }
       })
       .catch(error => {
           console.error(error);
@@ -67,6 +77,20 @@ export default class BrowseArticlesScreen extends React.Component {
 
     render() {
       const {navigate} = this.props.navigation;
+
+      // If there are more articles to load display the load more button
+      let loadMore = <Text>Searching</Text>;
+      if(!this.state.currentlySearching){
+        if(this.state.moreArticlesToLoad){
+          loadMore = <Button
+                        onPress={this.getJSONData.bind(this)}
+                        title="Load More"
+                        color={Styles.buttonColour}/>
+        } else {
+          loadMore = <Text>All Search Results Shown</Text>
+        }
+      }
+
       // If no search results are returned
       let results;
       if(this.state.articles.length < 1){
@@ -105,6 +129,7 @@ export default class BrowseArticlesScreen extends React.Component {
             buttonTitle={"Follow " + this.state.name}/>
           <ScrollView>
             {results}
+            {loadMore}
           </ScrollView>
         </View>
       );

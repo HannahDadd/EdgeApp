@@ -10,13 +10,18 @@ export default class SearchScreen extends React.Component {
       this.state = {
         searchFor: '',
         results: [],
-        searchIn: 'posts'
+        searchIn: 'posts',
+        offset: 0,
+        moreArticlesToLoad: true,
+        currentlySearching: true
       };
     }
 
     // Query rest api for data- use fetch api
     getJSONData() {
-      fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/' + this.state.searchIn + '?search=' + this.state.searchFor + '&_embed', {
+      // Don't allow users to load more while loading content to avoid errors
+      this.setState({currentlySearching: true});
+      fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/' + this.state.searchIn + '?offset=' + this.state.offset + '&search=' + this.state.searchFor + '&_embed', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -24,15 +29,39 @@ export default class SearchScreen extends React.Component {
         },
       }).then(response => response.json())
       .then(responseJson => {
-        this.setState({results: responseJson});
+        this.setState({results: this.state.results.concat(responseJson)});
+        this.setState({offset: this.state.offset + responseJson.length});
+        this.setState({currentlySearching: false});
+        if(responseJson.length === 0){
+          this.setState({moreArticlesToLoad: false});
+        }
       })
       .catch(error => {
         console.error(error);
       });
     }
 
+    // When search button is pressed, remove offset and set the boolean for more articles to load
+    searchButtonPressed(){
+      this.setState({offset: 0, results: []});
+      this.getJSONData();
+    }
+
     render() {
       const {navigate} = this.props.navigation;
+
+      // If there are more articles to load display the load more button
+      let loadMore = <Text>Searching</Text>;
+      if(!this.state.currentlySearching){
+        if(this.state.moreArticlesToLoad){
+          loadMore = <Button
+                        onPress={this.getJSONData.bind(this)}
+                        title="Load More"
+                        color={Styles.buttonColour}/>
+        } else {
+          loadMore = <Text>All Search Results Shown</Text>
+        }
+      }
 
       // If no search results are returned
       let results;
@@ -106,11 +135,12 @@ export default class SearchScreen extends React.Component {
               <Picker.Item label="Tag" value="tags" />
             </Picker>
             <Button
-                onPress={this.getJSONData.bind(this)}
+                onPress={this.searchButtonPressed.bind(this)}
                 title="Search"
                 color={Styles.buttonColour}/>
             <ScrollView>
               {results}
+              {loadMore}
             </ScrollView>
         </View>
       );

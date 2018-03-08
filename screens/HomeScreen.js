@@ -19,6 +19,9 @@ export default class HomeScreen extends React.Component {
     // });
   }
 
+  // Onload add recomendation articles to feed
+  
+
   static navigationOptions = {
     tabBarIcon: <Image
         source={{uri: 'https://www.theedgesusu.co.uk/wp-content/uploads/2017/01/The-Edge-Logo-Transparent.png'}}
