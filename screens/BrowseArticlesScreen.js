@@ -71,7 +71,7 @@ export default class BrowseArticlesScreen extends React.Component {
       let results;
       if(this.state.articles.length < 1){
         results = 
-          <Text>No Results for your search</Text>
+          <Text>Loading Articles</Text>
       } else {
         // Loop through posts with that tag
         results = this.state.articles.map((article) => {

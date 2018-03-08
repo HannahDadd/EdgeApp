@@ -13,11 +13,14 @@ export default class FeaturesScreen extends React.Component {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
         <Button title="All Features Articles" 
-          onPress={() => this.state.navigate('Section', {sectionTitle: "All Features Articles", section: "features", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "All Features Articles", postsURL: "features", isSection: true})}/>
         <Button title="Interviews"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Interviews Articles", section: "interviews", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "Interviews Articles", postsURL: "interviews", isSection: true})}/>
         <Button title="Introducing"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Introducing Articles", section: "introducing", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "Introducing Articles", postsURL: "introducing", isSection: true})}/>
       </View>
     );
   }

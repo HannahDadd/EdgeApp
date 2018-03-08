@@ -13,13 +13,17 @@ export default class FilmScreen extends React.Component {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
         <Button title="All Film Articles" 
-          onPress={() => this.state.navigate('Section', {sectionTitle: "All Film Articles", section: "film", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "All Film Articles", postsURL: "film", isSection: true})}/>
         <Button title="Cinema"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Cinema Articles", section: "cinema", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "Cinema Articles", postsURL: "cinema", isSection: true})}/>
         <Button title="Advice & Comment"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Advice & Comment Articles", section: "advice-comment", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "Advice & Comment Articles", postsURL: "advice-comment", isSection: true})}/>
         <Button title="Blu-Ray & DVD"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Blu-Ray & DVD Articles", section: "dvd-bluray", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "Blu-Ray & DVD Articles", postsURL: "dvd-bluray", isSection: true})}/>
      </View>
     );
   }

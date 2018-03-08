@@ -13,9 +13,11 @@ export default class NewsScreen extends React.Component {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
         <Button title="All News Articles" 
-          onPress={() => this.state.navigate('Section', {sectionTitle: "All Live Articles", section: "live", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {sectionTitle: "All Live Articles", postsURL: "live", isSection: true})}/>
         <Button title="Notes on News"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Notes On News Articles", section: "notes-on-news", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {sectionTitle: "Notes On News Articles", postsURL: "notes-on-news", isSection: true})}/>
       </View>
     );
   }

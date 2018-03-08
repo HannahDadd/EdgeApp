@@ -13,13 +13,17 @@ export default class RecordsScreen extends React.Component {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
         <Button title="All Records Articles" 
-          onPress={() => this.state.navigate('Section', {sectionTitle: "All Records Articles", section: "records", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "All Records Articles", postsURL: "records", isSection: true})}/>
         <Button title="Singles"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Singles Articles", section: "singles", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "Singles Articles", postsURL: "singles", isSection: true})}/>
         <Button title="Albums"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Albums Articles", section: "albums", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "Albums Articles", postsURL: "albums", isSection: true})}/>
         <Button title="Rewind"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Rewind Articles", section: "rewind", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+            {name: "Rewind Articles", postsURL: "rewind", isSection: true})}/>
       </View>
     );
   }
