@@ -8,22 +8,31 @@ export default class LiveScreen extends React.Component {
         navigate: this.props.navigation.navigate
     };
   }
+
+  // Get articles from url on load
+  componentDidMount(){
+    if(this.state.section !== undefined){
+      // Get the section ID and from this get the articles
+      this.getIDForSection();
+    }
+  }
   
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
         <Button title="All Live Articles" 
-          onPress={() => this.state.navigate('Section', {sectionTitle: "All Live Articles", section: "live", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('BrowseArticles', 
+                      {name: "Live", postsURL: "live", isSection: true})}/>
         <Button title="Festivals"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Festival Articles", section: "festival", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('Section', {name: "Festival", postsURL: "festival", isSection: true})}/>
         <Button title="Comedy"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Comedy Articles", section: "comedy", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('Section', {name: "Comedy", section: "comedy", isSection: true})}/>
         <Button title="Local Music"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Local Music Articles", section: "local-music", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('Section', {name: "Local-Music", postsURL: "local-music", isSection: true})}/>
         <Button title="Reviews"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Reviews Articles", section: "reviews", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('Section', {name: "Reviews", postsURL: "reviews", isSection: true})}/>
         <Button title="Previews"
-          onPress={() => this.state.navigate('Section', {sectionTitle: "Previews Articles", section: "previews", navigate: this.state.navigate})}/>
+          onPress={() => this.state.navigate('Section', {name: "Previews", postsURL: "previews", isSection: true})}/>
       </View>
     );
   }

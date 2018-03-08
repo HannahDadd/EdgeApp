@@ -5,15 +5,12 @@ import ArticleDisplay from '../components/ArticleDisplay';
 import Styles from '../Styles';
 
 export default class BrowseArticlesScreen extends React.Component {
-    static navigationOptions = {
-      title: "Articles",
-    };
-
     constructor(props) {
       super(props);
       this.state = {
           name: this.props.navigation.state.params.name,
           postsURL: this.props.navigation.state.params.postsURL,
+          isSection: this.props.navigation.state.params.isSection,
           articles: []
       };
     }
@@ -21,20 +18,51 @@ export default class BrowseArticlesScreen extends React.Component {
     // Get articles from url on load
     componentDidMount(){
       if(this.state.postsURL !== undefined){
-        fetch(this.state.postsURL + '&_embed', {
-            method: 'GET',
-            headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            },
-        }).then(response => response.json())
-        .then(responseJson => {
-            this.setState({articles: responseJson});
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        // If it's a section get the ID first and then set it to the post URL
+        if(this.state.isSection){
+          this.getIDForSection();
+        } else {
+          this.getArticlesFromURL();
+        }
       }
+    }
+
+    // Set the articles based on the postURL
+    getArticlesFromURL(){
+      fetch(this.state.postsURL + '&_embed', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then(response => response.json())
+      .then(responseJson => {
+          this.setState({articles: responseJson});
+      })
+      .catch(error => {
+          console.error(error);
+      });
+    }
+
+    // Get the cateogory id from the name for sections
+    getIDForSection(){
+      fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/categories?slug=' + this.state.postsURL, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then(response => response.json())
+      .then(responseJson => {
+        if(responseJson[0] !== undefined){
+          this.setState({postsURL: 
+            "https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?categories=" + responseJson[0].id});
+          this.getArticlesFromURL();
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
     }
 
     render() {
@@ -64,7 +92,7 @@ export default class BrowseArticlesScreen extends React.Component {
                   <ArticleDisplay
                     title={article.title.rendered}
                     image={pic}
-                    onPressItem={() => navigate('ShowArticle', {article: article, image: pic, author: article.author})}
+                    onPressItem={() => navigate('ShowArticle', {articleTitle: article.title.rendered, article: article, image: pic, author: article.author})}
                   />
                 </View>
         })

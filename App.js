@@ -50,8 +50,16 @@ const App = StackNavigator({
       headerTintColor: 'white'
     })
   },
-  ShowArticle: {screen: ShowArticleScreen},
-  BrowseArticles: {screen: BrowseArticlesScreen},
+  ShowArticle: {screen: ShowArticleScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.articleTitle}`,
+    }),
+  },
+  BrowseArticles: {screen: BrowseArticlesScreen, 
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.name}`,
+    }),
+  },
   Section: {
     screen: SectionScreen,
     navigationOptions: ({ navigation }) => ({
