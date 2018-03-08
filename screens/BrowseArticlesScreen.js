@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, ScrollView, View } from 'react-native';
+import { Text, ScrollView, View, Button } from 'react-native';
 import FollowButton from '../components/FollowButton';
 import ArticleDisplay from '../components/ArticleDisplay';
 import Styles from '../Styles';
@@ -79,15 +79,15 @@ export default class BrowseArticlesScreen extends React.Component {
       const {navigate} = this.props.navigation;
 
       // If there are more articles to load display the load more button
-      let loadMore = <Text>Searching</Text>;
+      let loadMore = <Text>Loading</Text>;
       if(!this.state.currentlySearching){
         if(this.state.moreArticlesToLoad){
           loadMore = <Button
-                        onPress={this.getJSONData.bind(this)}
+                        onPress={this.getArticlesFromURL.bind(this)}
                         title="Load More"
                         color={Styles.buttonColour}/>
         } else {
-          loadMore = <Text>All Search Results Shown</Text>
+          loadMore = <Text>All Results Shown</Text>
         }
       }
 
