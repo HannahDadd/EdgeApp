@@ -6,9 +6,6 @@ import EdgeSocialLinks from '../components/EdgeSocialLinks';
 import Styles from '../Styles';
 
 export default class ShowArticleScreen extends React.Component {
-  static navigationOptions = {
-    title: "Read Article",
-  };
 
   constructor(props) {
     super(props);
@@ -23,9 +20,34 @@ export default class ShowArticleScreen extends React.Component {
       authorPic: '',
       section: '',
       tagIDs: this.props.navigation.state.params.article.tags,
-      tags: []
+      tags: [],
+      link: this.props.navigation.state.params.guid.rendered
     };
   }
+
+  // Share this article to FB
+  // shareToFacebook(){
+  //   const shareLinkContent = {
+  //     contentType: 'link',
+  //     contentUrl: this.state.link,
+  //     contentDescription: '',
+  //   };
+  //   ShareApi.canShare(this.state.shareLinkContent).then(
+  //     tmp = this;
+  //     function(canShare) {
+  //       if (canShare) {
+  //         return ShareApi.share(tmp.state.shareLinkContent, '/me', 'Some message.');
+  //       }
+  //     }
+  //   ).then(
+  //     function(result) {
+  //       alert('Share operation with ShareApi was successful');
+  //     },
+  //     function(error) {
+  //       alert('Share with ShareApi failed with error: ' + error);
+  //     }
+  //   );
+  // }
 
   // Fetch data from the api
   getJSONData(searchIn, searchFor, callBack) {
@@ -47,6 +69,8 @@ export default class ShowArticleScreen extends React.Component {
 
   // Query rest api for data- use fetch api
   componentDidMount() {
+    // Set article as read
+    this.addArticleIDtoReadArticles(this.state.id);
     // Get author
     this.getJSONData('users', this.state.author, 
       function(responseJson) {
@@ -82,14 +106,14 @@ export default class ShowArticleScreen extends React.Component {
     try {
       const value = await AsyncStorage.getItem("viewedArticles");
       if (value !== null){ 
-          // Add new tag author or section to db
+        // Add new tag author or section to db
         AsyncStorage.mergeItem("viewedArticles", JSON.stringify(articleID), () => {
-            // Item is added to datastore
+        // Item is added to datastore
         });
       } else {
-          // Update what they are following
+        // Update what they are following
         AsyncStorage.setItem("viewedArticles", articleID, () => {
-              // The item should now be added to the db
+        // The item should now be added to the db
         });
       }
     } catch (error) {
