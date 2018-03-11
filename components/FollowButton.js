@@ -6,8 +6,7 @@ export default class FollowButton extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            item: this.props.itemToFollow,
-            category: this.props.category,
+            id: this.props.id,
             buttonTitle: this.props.buttonTitle,
             followingItem: false
         };
@@ -15,19 +14,19 @@ export default class FollowButton extends React.PureComponent {
 
     // Add the item to the database
     async follow(){
-        // Check if they are already following this tag, author or section
+        // Check if they are already following anything
         try {
-           const value = await AsyncStorage.getItem(this.state.category);
+           const value = await AsyncStorage.getItem("following");
            if (value !== null){ 
               // Add new tag author or section to db
-              AsyncStorage.mergeItem(this.state.category, JSON.stringify(this.state.item), () => {
+              AsyncStorage.mergeItem("following", JSON.stringify(this.state.id), () => {
                   // The item should now be added to the db
                   this.setState({followingItem: true});
             });
            }
            else {
               // Update what they are following
-              AsyncStorage.setItem(this.state.category, this.state.item, () => {
+              AsyncStorage.setItem("following", this.state.id, () => {
                   // The item should now be added to the db
                   this.setState({followingItem: true});
               });

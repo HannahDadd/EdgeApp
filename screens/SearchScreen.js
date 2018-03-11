@@ -104,7 +104,7 @@ export default class SearchScreen extends React.Component {
                       id={author.id}
                       bio={author.description}
                       pic={author['avatar_urls'][96]}
-                      onPressItem={() => navigate('BrowseArticles', {name: author.name, 
+                      onPressItem={() => navigate('BrowseArticles', {name: author.name, id: author.id,
                         postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed'})}
                     />
                   </View>
@@ -114,7 +114,7 @@ export default class SearchScreen extends React.Component {
         results = this.state.results.map((tag) => {
           return <View key={tag.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
                     <Text onPress={() => navigate('BrowseArticles', 
-                      {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
+                      {name: tag.name, id: tag.id, postsURL: tag["_links"]["wp:post_type"][0].href})}
                       style={Styles.sheet.titleText}>{tag.name}
                     </Text>
                    </View>

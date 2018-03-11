@@ -11,6 +11,7 @@ export default class BrowseArticlesScreen extends React.Component {
           name: this.props.navigation.state.params.name,
           postsURL: this.props.navigation.state.params.postsURL,
           isSection: this.props.navigation.state.params.isSection,
+          id: '',
           articles: [],
           offset: 0,
           moreArticlesToLoad: true,
@@ -25,6 +26,7 @@ export default class BrowseArticlesScreen extends React.Component {
         if(this.state.isSection){
           this.getIDForSection();
         } else {
+          this.setState({id: this.props.navigation.state.params.id});
           this.getArticlesFromURL();
         }
       }
@@ -66,7 +68,8 @@ export default class BrowseArticlesScreen extends React.Component {
       .then(responseJson => {
         if(responseJson[0] !== undefined){
           this.setState({postsURL: 
-            "https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?categories=" + responseJson[0].id});
+            "https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?categories=" + responseJson[0].id, 
+            id: responseJson[0].id});
           this.getArticlesFromURL();
         }
       })
@@ -110,7 +113,7 @@ export default class BrowseArticlesScreen extends React.Component {
               pic = pic[0].media_details.sizes.medium.source_url;
             }
           }
-          // TODO Find what author is on api and use it to be displayed on the bottom of article display
+          // Find what author is on api and use it to be displayed on the bottom of article display
           return <View key={article.id}
                     style={{flex: 1, flexDirection: 'column', padding: 10}}>
                   <ArticleDisplay
@@ -124,8 +127,7 @@ export default class BrowseArticlesScreen extends React.Component {
       return (
         <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
           <FollowButton
-            itemToFollow={this.state.name}
-            category="tag"
+            itemToFollow={this.state.id}
             buttonTitle={"Follow " + this.state.name}/>
           <ScrollView>
             {results}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Switch } from 'react-native';
+import {FCMToken} from '../App.js';
 //import FCM from "react-native-fcm";
 
 export default class HomeScreen extends React.Component {
@@ -7,7 +8,8 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fcm_token: ""
+      fcm_token: FCMToken,
+      pushNotification: false
     };
   }
 
@@ -107,21 +109,31 @@ export default class HomeScreen extends React.Component {
     //   this.setState({fcm_token:token});
     //   //update your fcm token on server.
     // });
+    registerForNotifications();
   }
 
-  // Onload add recomendation articles to feed
-  
-
-  static navigationOptions = {
-    tabBarIcon: <Image
-        source={{uri: 'https://www.theedgesusu.co.uk/wp-content/uploads/2017/01/The-Edge-Logo-Transparent.png'}}
-        style={{width: 50, height:50}}
-      />
-  };
+  // Turn Push notifications on and send post to register device
+  registerForNotifications(){
+    fetch('http://theedgesusu.co.uk/pnfw/register/', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: this.state.fcm_token,
+        os: 'Android',
+      }),
+    });
+  }
 
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+        <View style={{flex: 1, flexDirection: 'row', padding: 10}}>
+          <Text>Notifications are </Text>
+          <Switch onValueChange={(value) => this.setState({pushNotification: value})}/>
+        </View>
         {this.getRecommendedArticle.bind(this)}
       </View>
     );

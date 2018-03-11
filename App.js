@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Image } from 'react-native';
+import { Text, Image, AppRegistry } from 'react-native';
 import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
@@ -15,6 +15,10 @@ import CultureScreen from './screens/sections/CultureScreen';
 import RecordsScreen from './screens/sections/RecordsScreen';
 import FilmScreen from './screens/sections/FilmScreen';
 import LiveScreen from './screens/sections/LiveScreen';
+
+// Export cloud messaging token received when loaded
+const FCMToken = this.props.token;
+export {FCMToken};
 
 const TabNav = TabNavigator({
   Home: { screen: HomeScreen },
@@ -62,3 +66,4 @@ const App = StackNavigator({
 });
 
 export default App;
+AppRegistry.registerComponent('EdgeApp', () => App);
