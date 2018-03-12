@@ -10,7 +10,9 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       fcm_token: FCMToken,
-      pushNotification: false
+      pushNotification: false,
+      articlesToDisplay: '',
+      offset: 0
     };
   }
 
@@ -70,7 +72,7 @@ export default class HomeScreen extends React.Component {
 
   // Get last article published
   getLastArticlePublished() {
-    fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?per_page=1&_embed', {
+    fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?per_page=1?offset=' + this.state.offset + '&_embed', {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -78,6 +80,8 @@ export default class HomeScreen extends React.Component {
       },
     }).then(response => response.json())
     .then(responseJson => {
+      // Set offset
+      this.setState({offset: this.state.offset++});
       // Check if there is a featured image to display
       article = responseJson[0];
       let pic = '';
@@ -128,6 +132,15 @@ export default class HomeScreen extends React.Component {
     });
   }
 
+  // Get articles to recommend
+  getArticles(){
+    newArticles = '';
+    for(i=0; i<10; i++){
+      newArticles = newArticles + this.getRecommendedArticle();
+    }
+    this.setState({articlesToDisplay: this.state.articlesToDisplay + newArticles});
+  }
+
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
@@ -135,7 +148,7 @@ export default class HomeScreen extends React.Component {
           <Text style={Styles.sheet.titleText}>Notifications are </Text>
           <Switch onValueChange={(value) => this.setState({pushNotification: value})}/>
         </View>
-        {this.getRecommendedArticle.bind(this)}
+        {this.state.articlesToDisplay}
       </View>
     );
   }
