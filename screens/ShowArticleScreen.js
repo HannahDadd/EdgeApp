@@ -118,7 +118,7 @@ export default class ShowArticleScreen extends React.Component {
       }
     } catch (error) {
       // Error retrieving data
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -142,7 +142,7 @@ export default class ShowArticleScreen extends React.Component {
       }
     } catch (error) {
       // Error retrieving data
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -159,11 +159,10 @@ export default class ShowArticleScreen extends React.Component {
     var content = this.state.content.replace(/<(?:.|\n)*?>/gm, '');
     // Add tags to the picker
     let tags = this.state.tags.map((tag) => {
-      console.log("hello ", tag.key);
       return <View key={tag.key} style={{flex: 1, flexDirection: 'column', padding: 10}}>
               <Text onPress={() => navigate('BrowseArticles', 
                 {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
-                style={Styles.sheet.titleText}>{tag.name}
+                style={Styles.sheet.tagNavText}>{tag.name}
               </Text>
             </View>
     })
@@ -173,15 +172,15 @@ export default class ShowArticleScreen extends React.Component {
             <Image source={icon} style={{width: 350, height: 200}}/>
             <Text style={Styles.sheet.titleText}>{this.state.title}</Text>
             <ArticleText/>
-            <Text>{content}</Text>
-            <Text>{this.state.section}</Text>
+            <Text style={Styles.sheet.paragraphText}>{content}</Text>
+            <Text style={Styles.sheet.subtitleText}>{this.state.section}</Text>
             <AuthorDisplay
               name={this.state.authorName}
               id={this.state.author}
               bio={this.state.authorBio}
               profilePic={this.state.authorPic}
             />
-            <Text>Article Tags:</Text>
+            <Text style={Styles.sheet.subtitleText}>Article Tags:</Text>
             {tags}
             <EdgeSocialLinks/>
         </ScrollView>

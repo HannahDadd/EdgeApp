@@ -51,15 +51,14 @@ export default class SearchScreen extends React.Component {
       const {navigate} = this.props.navigation;
 
       // If there are more articles to load display the load more button
-      let loadMore = <Text>Searching</Text>;
+      let loadMore = <Text style={Styles.sheet.subtitleText}>Searching</Text>;
       if(!this.state.currentlySearching){
         if(this.state.moreArticlesToLoad){
-          loadMore = <Button
+          loadMore = <Button style={Styles.sheet.buttonStyle}
                         onPress={this.getJSONData.bind(this)}
-                        title="Load More"
-                        color={Styles.buttonColour}/>
+                        title="Load More"/>
         } else {
-          loadMore = <Text>All Search Results Shown</Text>
+          loadMore = <Text style={Styles.sheet.subtitleText}>All Search Results Shown</Text>
         }
       }
 
@@ -68,9 +67,9 @@ export default class SearchScreen extends React.Component {
       if(this.state.results.length < 1){
         // If it is currently searching API say "searching"
         if(this.state.searchFor !== ''){
-         results = <Text>Searching...</Text> 
+         results = <Text style={Styles.sheet.subtitleText}>Searching...</Text> 
         } else {
-          results = <Text>No Results for your search</Text>
+          results = <Text style={Styles.sheet.subtitleText}>No Results for your search</Text>
         }
       }
       // Display article names and images
@@ -113,9 +112,8 @@ export default class SearchScreen extends React.Component {
       } else if(this.state.searchIn === 'tags'){
         results = this.state.results.map((tag) => {
           return <View key={tag.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                    <Text onPress={() => navigate('BrowseArticles', 
-                      {name: tag.name, id: tag.id, postsURL: tag["_links"]["wp:post_type"][0].href})}
-                      style={Styles.sheet.titleText}>{tag.name}
+                    <Text style={Styles.sheet.tagNavText} onPress={() => navigate('BrowseArticles', 
+                      {name: tag.name, id: tag.id, postsURL: tag["_links"]["wp:post_type"][0].href})}>{tag.name}
                     </Text>
                    </View>
         })
@@ -134,10 +132,9 @@ export default class SearchScreen extends React.Component {
               <Picker.Item label="Author" value="users" />
               <Picker.Item label="Tag" value="tags" />
             </Picker>
-            <Button
+            <Button style={Styles.sheet.buttonStyle}
                 onPress={this.searchButtonPressed.bind(this)}
-                title="Search"
-                color={Styles.buttonColour}/>
+                title="Search"/>
             <ScrollView>
               {results}
               {loadMore}

@@ -62,9 +62,10 @@ export default class FollowButton extends React.PureComponent {
     render() {
         let followInfo;
         if(this.state.followingItem){
-            followInfo = <Text>Following!</Text>
+            followInfo = <Text style={Styles.sheet.titleText}>Following!</Text>
         } else {
-            followInfo = <Button title={this.state.buttonTitle} onPress={this.follow.bind(this)}/>
+            followInfo = <Button style={Styles.sheet.buttonStyle} title={this.state.buttonTitle} 
+            onPress={this.follow.bind(this)}/>
         }
         return (
             <View>

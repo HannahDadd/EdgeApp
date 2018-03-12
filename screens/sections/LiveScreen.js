@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, View } from 'react-native';
+import Styles from '../../Styles';
 
 export default class LiveScreen extends React.Component {
   constructor(props) {
@@ -12,22 +13,22 @@ export default class LiveScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-        <Button title="All Live Articles" 
+        <Button style={Styles.sheet.stackNavButton} title="All Live Articles" 
           onPress={() => this.state.navigate('BrowseArticles', 
             {name: "Live", postsURL: "live", isSection: true})}/>
-        <Button title="Festivals"
+        <Button style={Styles.sheet.stackNavButton} title="Festivals"
           onPress={() => this.state.navigate('BrowseArticles', 
             {name: "Festival", postsURL: "festival", isSection: true})}/>
-        <Button title="Comedy"
+        <Button style={Styles.sheet.stackNavButton} title="Comedy"
           onPress={() => this.state.navigate('BrowseArticles', 
             {name: "Comedy", section: "comedy", isSection: true})}/>
-        <Button title="Local Music"
+        <Button style={Styles.sheet.stackNavButton} title="Local Music"
           onPress={() => this.state.navigate('BrowseArticles', 
             {name: "Local-Music", postsURL: "local-music", isSection: true})}/>
-        <Button title="Reviews"
+        <Button style={Styles.sheet.stackNavButton} title="Reviews"
           onPress={() => this.state.navigate('BrowseArticles', 
             {name: "Reviews", postsURL: "reviews", isSection: true})}/>
-        <Button title="Previews"
+        <Button style={Styles.sheet.stackNavButton} title="Previews"
           onPress={() => this.state.navigate('BrowseArticles', 
             {name: "Previews", postsURL: "previews", isSection: true})}/>
       </View>

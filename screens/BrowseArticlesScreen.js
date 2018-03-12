@@ -85,12 +85,12 @@ export default class BrowseArticlesScreen extends React.Component {
       let loadMore = <Text>Loading</Text>;
       if(!this.state.currentlySearching){
         if(this.state.moreArticlesToLoad){
-          loadMore = <Button
+          loadMore = <Button style={Styles.sheet.buttonStyle}
                         onPress={this.getArticlesFromURL.bind(this)}
                         title="Load More"
                         color={Styles.buttonColour}/>
         } else {
-          loadMore = <Text>All Results Shown</Text>
+          loadMore = <Text style={Styles.sheet.subtitleText}>All Results Shown</Text>
         }
       }
 
@@ -98,7 +98,7 @@ export default class BrowseArticlesScreen extends React.Component {
       let results;
       if(this.state.articles.length < 1){
         results = 
-          <Text>Loading Articles</Text>
+          <Text style={Styles.sheet.subtitleText}>Loading Articles</Text>
       } else {
         // Loop through posts with that tag
         results = this.state.articles.map((article) => {

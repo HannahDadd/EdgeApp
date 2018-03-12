@@ -23,7 +23,7 @@ export default class RecommendedArticle extends React.PureComponent {
         }
         return (
             <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                <Text>Reccomended for you</Text>
+                <Text style={Styles.sheet.titsubtitleTextleText}>Reccomended for you</Text>
                 <ArticleDisplay title={this.state.title} image={this.state.image}/>
             </View>
         )

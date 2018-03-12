@@ -74,7 +74,7 @@ export default class UserScreen extends React.Component {
                     </View>
           })
         } else {
-          authors = <Text>You're not following any authors :(</Text>
+          authors = <Text style={Styles.sheet.subtitleText}>You're not following any authors :(</Text>
         }
       });
       // Get tags from the database and load them for display
@@ -86,12 +86,12 @@ export default class UserScreen extends React.Component {
             return <View key={tag.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
                       <Text onPress={() => navigate('BrowseArticles', 
                         {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
-                        style={Styles.sheet.titleText}>{tag.name}
+                        style={Styles.sheet.tagNavText}>{tag.name}
                       </Text>
                     </View>
           })
         } else {
-          tags = <Text>You're not following any tags :(</Text>
+          tags = <Text style={Styles.sheet.subtitleText}>You're not following any tags :(</Text>
         }
       });
       // Get sections from the database and load them for display
@@ -99,20 +99,20 @@ export default class UserScreen extends React.Component {
       AsyncStorage.getItem('section', (err, result) => {
         if(result !== null){
           sections = result.map((section) => {
-            return <Text>{section}</Text>
+            return <Text style={Styles.sheet.subtitleText}>{section}</Text>
           })
         } else {
-          sections = <Text>You're not following any sections :(</Text>
+          sections = <Text style={Styles.sheet.subtitleText}>You're not following any sections :(</Text>
         }
       });
       return (
         <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
           <FacebookLogin/>
-          <Text>Sections you're following:</Text>
+          <Text style={Styles.sheet.titleText}>Sections you're following:</Text>
           {sections}
-          <Text>Tags you're following:</Text>
+          <Text style={Styles.sheet.titleText}>Tags you're following:</Text>
           {tags}
-          <Text>Authors you're following:</Text>
+          <Text style={Styles.sheet.titleText}>Authors you're following:</Text>
           {authors}
         </View>
       );

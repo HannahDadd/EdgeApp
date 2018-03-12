@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, Switch } from 'react-native';
 import {FCMToken} from '../App.js';
+import Styles from '../Styles';
 //import FCM from "react-native-fcm";
 
 export default class HomeScreen extends React.Component {
@@ -28,7 +29,7 @@ export default class HomeScreen extends React.Component {
             foundArticle = true;
             return <View key={article.id}
                       style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                    <Text>Content recently Published</Text>
+                    <Text style={Styles.sheet.subtitleText}>Recommended for you</Text>
                     <ArticleDisplay
                       title={article.title.rendered}
                       image={pic}
@@ -90,7 +91,7 @@ export default class HomeScreen extends React.Component {
       }
       return <View key={article.id}
                 style={{flex: 1, flexDirection: 'column', padding: 10}}>
-              <Text>Content recently Published</Text>
+              <Text style={Styles.sheet.subtitleText}>Content recently Published</Text>
               <ArticleDisplay
                 title={article.title.rendered}
                 image={pic}
@@ -131,7 +132,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
         <View style={{flex: 1, flexDirection: 'row', padding: 10}}>
-          <Text>Notifications are </Text>
+          <Text style={Styles.sheet.titleText}>Notifications are </Text>
           <Switch onValueChange={(value) => this.setState({pushNotification: value})}/>
         </View>
         {this.getRecommendedArticle.bind(this)}

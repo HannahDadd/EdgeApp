@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
+import Styles from '../Styles';
 
 export default class FacebookLogin extends React.PureComponent {
   constructor(props) {
@@ -24,8 +25,8 @@ export default class FacebookLogin extends React.PureComponent {
   render() {
     return (
       <View>
-        <Text>{this.state.username}</Text>
-        <Button title="Login with Facebook" onPress={this.logIn.bind(this)}/>
+        <Text style={Styles.sheet.titleText}>{this.state.username}</Text>
+        <Button style={Styles.sheet.buttonStyle} title="Login with Facebook" onPress={this.logIn.bind(this)}/>
       </View>
     );
   }

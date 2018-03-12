@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, View } from 'react-native';
+import Styles from '../../Styles';
 
 export default class FilmScreen extends React.Component {
   constructor(props) {

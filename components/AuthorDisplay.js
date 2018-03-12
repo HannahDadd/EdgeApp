@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableHighlight } from 'react-native';
 import FollowButton from './FollowButton';
+import Styles from '../Styles';
 
 export default class AuthorDisplay extends React.PureComponent {
     constructor(props) {
@@ -36,8 +37,8 @@ export default class AuthorDisplay extends React.PureComponent {
                         <Image source={icon} style={{width: 100, height: 150}}/>
                     </TouchableHighlight>
                 <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                    <Text onPress={this.props.onPressItem}>{this.state.name}</Text>
-                    <Text onPress={this.props.onPressItem}>{this.state.bio}</Text>
+                    <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{this.state.name}</Text>
+                    <Text style={Styles.sheet.paragraphText} onPress={this.props.onPressItem}>{this.state.bio}</Text>
                 </View>
                 </View>
                 <FollowButton

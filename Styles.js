@@ -15,6 +15,13 @@ export default Styles =
     titleText: {
       fontSize: 16
     },
+    buttonStyle: {},
+    paragraphText: {
+
+    },
+    subtitleText: {},
+    stackNavButton: {},
+    tagNavText: {},
     viewStyle: {flex: 1, flexDirection: 'column', padding: 10}
   }),
   buttonColour: 'darkgray'
