@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, Switch } from 'react-native';
+import { View, Text, Image, Switch, AsyncStorage, ScrollView } from 'react-native';
 import {FCMToken} from '../App.js';
 import Styles from '../Styles';
 //import FCM from "react-native-fcm";
@@ -17,39 +17,43 @@ export default class HomeScreen extends React.Component {
   }
 
   // Get reccomeneded article for user
-  getRecommendedArticle(){
+  async getRecommendedArticle(){
     foundArticle = false;
-    const tags = await AsyncStorage.getItem("viewedTags");
-    const articlesRead = await AsyncStorage.getItem("viewedArticles"); 
-    while(!foundArticle){
-      // If they have not read any articles i.e. have no tags, suggest last article published      
-      if (tags !== null && tags.length !== 0){
-        // Go through all articles with first tag in list to find one to recommend
-        getTaggedArticles(tags[0]).map((article) => {
-          // If they've already read the article, don't recommend it
-          if(articlesRead.indexOf(article.id) > -1){
-            foundArticle = true;
-            return <View key={article.id}
-                      style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                    <Text style={Styles.sheet.subtitleText}>Recommended for you</Text>
-                    <ArticleDisplay
-                      title={article.title.rendered}
-                      image={pic}
-                      onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
-                    />
-                  </View> 
+    try {
+      const tags = await AsyncStorage.getItem("viewedTags");
+      const articlesRead = await AsyncStorage.getItem("viewedArticles"); 
+      while(!foundArticle){
+        // If they have not read any articles i.e. have no tags, suggest last article published      
+        if (tags !== null && tags.length !== 0){
+          // Go through all articles with first tag in list to find one to recommend
+          getTaggedArticles(tags[0]).map((article) => {
+            // If they've already read the article, don't recommend it
+            if(articlesRead.indexOf(article.id) > -1){
+              foundArticle = true;
+              return <View key={article.id}
+                        style={{flex: 1, flexDirection: 'column', padding: 10}}>
+                        <Text style={Styles.sheet.subtitleText}>Recommended for you</Text>
+                        <ArticleDisplay
+                          title={article.title.rendered}
+                          image={pic}
+                          onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
+                        />
+                    </View> 
+            }
+          });
+          // If article to recommend not found remove tag from list and try next tag in loop again
+          var index = tags.indexOf(tag[0]);
+          if (index > -1) {
+            tags.splice(index, 1);
           }
-        });
-        // If article to recommend not found remove tag from list and try next tag in loop again
-        var index = tags.indexOf(tag[0]);
-        if (index > -1) {
-          tags.splice(index, 1);
+        } else {
+          // Return last article published
+          foundArticle = true;
+          return this.getLastArticlePublished();
         }
-      } else {
-        // Return last article published
-        foundArticle = true;
-        return this.getLastArticlePublished();
       }
+    } catch (error) {
+      // Error retrieving data
     }
   }
 
@@ -80,6 +84,7 @@ export default class HomeScreen extends React.Component {
       },
     }).then(response => response.json())
     .then(responseJson => {
+      console.log(responseJson);
       // Set offset
       this.setState({offset: this.state.offset++});
       // Check if there is a featured image to display
@@ -95,12 +100,12 @@ export default class HomeScreen extends React.Component {
       }
       return <View key={article.id}
                 style={{flex: 1, flexDirection: 'column', padding: 10}}>
-              <Text style={Styles.sheet.subtitleText}>Content recently Published</Text>
-              <ArticleDisplay
-                title={article.title.rendered}
-                image={pic}
-                onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
-              />
+                <Text style={Styles.sheet.subtitleText}>Content recently Published</Text>
+                <ArticleDisplay
+                  title={article.title.rendered}
+                  image={pic}
+                  onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
+                />
             </View>
     })
     .catch(error => {
@@ -114,7 +119,8 @@ export default class HomeScreen extends React.Component {
     //   this.setState({fcm_token:token});
     //   //update your fcm token on server.
     // });
-    registerForNotifications();
+    this.registerForNotifications();
+    this.getArticles();
   }
 
   // Turn Push notifications on and send post to register device
@@ -142,13 +148,15 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    console.log(this.state.articlesToDisplay);
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
         <View style={{flex: 1, flexDirection: 'row', padding: 10}}>
           <Text style={Styles.sheet.titleText}>Notifications are </Text>
           <Switch onValueChange={(value) => this.setState({pushNotification: value})}/>
         </View>
-        {this.state.articlesToDisplay}
+        <ScrollView>
+        </ScrollView>
       </View>
     );
   }

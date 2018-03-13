@@ -26,7 +26,8 @@ public class MainActivity extends ReactActivity {
             protected Bundle getLaunchOptions() {
                 Bundle initialProperties = new Bundle();
                 ArrayList<String> token = new ArrayList<String>();
-                token.add(FirebaseInstanceId.getInstance().getToken());
+                //token.add(FirebaseInstanceId.getInstance().getToken());
+                token.add("hi");
                 initialProperties.putStringArrayList("token", token);
                 return initialProperties;
             }
