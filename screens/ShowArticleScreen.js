@@ -21,7 +21,7 @@ export default class ShowArticleScreen extends React.Component {
       section: '',
       tagIDs: this.props.navigation.state.params.article.tags,
       tags: [],
-      link: this.props.navigation.state.params.guid.rendered
+      link: this.props.navigation.state.params.article.guid.rendered
     };
   }
 

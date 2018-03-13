@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, Image, Switch, AsyncStorage, ScrollView } from 'react-native';
 import {FCMToken} from '../App.js';
 import Styles from '../Styles';
+import ArticleDisplay from '../components/ArticleDisplay';
+import AuthorDisplay from '../components/AuthorDisplay';
 //import FCM from "react-native-fcm";
 
 export default class HomeScreen extends React.Component {
@@ -11,34 +13,25 @@ export default class HomeScreen extends React.Component {
     this.state = {
       fcm_token: FCMToken,
       pushNotification: false,
-      articlesToDisplay: '',
+      articlesToDisplay: [],
       offset: 0
     };
   }
 
   // Get reccomeneded article for user
   async getRecommendedArticle(){
-    foundArticle = false;
+    numberOfArticelsFound = 0;
     try {
       const tags = await AsyncStorage.getItem("viewedTags");
       const articlesRead = await AsyncStorage.getItem("viewedArticles"); 
-      while(!foundArticle){
+      while(numberOfArticelsFound !== 10){
         // If they have not read any articles i.e. have no tags, suggest last article published      
         if (tags !== null && tags.length !== 0){
           // Go through all articles with first tag in list to find one to recommend
           getTaggedArticles(tags[0]).map((article) => {
             // If they've already read the article, don't recommend it
             if(articlesRead.indexOf(article.id) > -1){
-              foundArticle = true;
-              return <View key={article.id}
-                        style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                        <Text style={Styles.sheet.subtitleText}>Recommended for you</Text>
-                        <ArticleDisplay
-                          title={article.title.rendered}
-                          image={pic}
-                          onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
-                        />
-                    </View> 
+              this.setState({articlesToDisplay: this.state.articlesToDisplay.push(article)});;
             }
           });
           // If article to recommend not found remove tag from list and try next tag in loop again
@@ -48,8 +41,9 @@ export default class HomeScreen extends React.Component {
           }
         } else {
           // Return last article published
-          foundArticle = true;
-          return this.getLastArticlePublished();
+          stillToFind = 10 - numberOfArticelsFound;
+          numberOfArticelsFound = 10;
+          this.getArticlesPublishedRecently(stillToFind);
         }
       }
     } catch (error) {
@@ -75,8 +69,8 @@ export default class HomeScreen extends React.Component {
   }
 
   // Get last article published
-  getLastArticlePublished() {
-    fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?per_page=1?offset=' + this.state.offset + '&_embed', {
+  getArticlesPublishedRecently(stillToFind) {
+    fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?per_page=' + stillToFind + '&offset=' + this.state.offset + '&_embed', {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -84,29 +78,10 @@ export default class HomeScreen extends React.Component {
       },
     }).then(response => response.json())
     .then(responseJson => {
-      console.log(responseJson);
       // Set offset
       this.setState({offset: this.state.offset++});
-      // Check if there is a featured image to display
-      article = responseJson[0];
-      let pic = '';
-      // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
-      if(article && article._embedded && article._embedded['wp:featuredmedia'] !== undefined){
-        pic = article._embedded['wp:featuredmedia'];
-        if (pic[0].media_details && pic[0].media_details.sizes && pic[0].media_details.sizes.medium
-          && pic[0].media_details.sizes.medium.source_url !== undefined){
-          pic = pic[0].media_details.sizes.medium.source_url;
-        }
-      }
-      return <View key={article.id}
-                style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                <Text style={Styles.sheet.subtitleText}>Content recently Published</Text>
-                <ArticleDisplay
-                  title={article.title.rendered}
-                  image={pic}
-                  onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
-                />
-            </View>
+      this.setState({articlesToDisplay: this.state.articlesToDisplay.concat(responseJson)});
+
     })
     .catch(error => {
       console.error(error);
@@ -120,7 +95,7 @@ export default class HomeScreen extends React.Component {
     //   //update your fcm token on server.
     // });
     this.registerForNotifications();
-    this.getArticles();
+    this.getRecommendedArticle();
   }
 
   // Turn Push notifications on and send post to register device
@@ -138,24 +113,34 @@ export default class HomeScreen extends React.Component {
     });
   }
 
-  // Get articles to recommend
-  getArticles(){
-    newArticles = '';
-    for(i=0; i<10; i++){
-      newArticles = newArticles + this.getRecommendedArticle();
-    }
-    this.setState({articlesToDisplay: this.state.articlesToDisplay + newArticles});
-  }
-
   render() {
+    const {navigate} = this.props.navigation;
     console.log(this.state.articlesToDisplay);
+    // Display the articles
+    let articles = this.state.articlesToDisplay.map((article) => {
+      // Check if there is a featured image to display
+      let pic = '';
+      // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
+      if(article && article._embedded && article._embedded['wp:featuredmedia'] !== undefined){
+        pic = article._embedded['wp:featuredmedia'];
+        if (pic[0].media_details && pic[0].media_details.sizes && pic[0].media_details.sizes.medium
+          && pic[0].media_details.sizes.medium.source_url !== undefined){
+          pic = pic[0].media_details.sizes.medium.source_url;
+        }
+      }
+      return <View key={article.id}
+                style={{flex: 1, flexDirection: 'column', padding: 10}}>
+              <ArticleDisplay
+                title={article.title.rendered}
+                image={pic}
+                onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
+              />
+            </View>
+    })
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-        <View style={{flex: 1, flexDirection: 'row', padding: 10}}>
-          <Text style={Styles.sheet.titleText}>Notifications are </Text>
-          <Switch onValueChange={(value) => this.setState({pushNotification: value})}/>
-        </View>
         <ScrollView>
+          {articles}
         </ScrollView>
       </View>
     );

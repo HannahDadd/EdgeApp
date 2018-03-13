@@ -56,7 +56,7 @@ const App = StackNavigator({
   },
   ShowArticle: {screen: ShowArticleScreen,
     navigationOptions: ({ navigation }) => ({
-      title: `${navigation.state.params.articleTitle}`,
+      title: `${navigation.state.params.article.title.rendered}`,
     }),
   },
   BrowseArticles: {screen: BrowseArticlesScreen, 
