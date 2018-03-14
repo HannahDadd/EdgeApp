@@ -1,32 +1,21 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
+import Styles from '../Styles';
 
 export default class SectionListItem extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.state = {text: this.props.name};
-      }
-    
-    _onPress = () => {
-        this.props.onPressItem(this.props.id);
-        this.props.navigate(this.state.text);
-    };
+        this.state = { 
+            onPress: this.props.onPress,
+            title: this.props.title
+        };
+    }
 
     render() {
         return (
-            <Text style={styles.item}
-                {...this.props}
-                onPress={this._onPress}>
-                {this.state.text}
-            </Text>
+            <View style={Styles.sheet.boarderedView}>
+                <Text style={Styles.sheet.titleText} onPress={this.state.onPress}></Text>
+            </View>
         )
     }
 }
-
-const styles = StyleSheet.create({
-    item: {
-      padding: 10,
-      fontSize: 18,
-      height: 44,
-    },
-  })

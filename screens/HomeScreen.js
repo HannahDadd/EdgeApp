@@ -23,6 +23,7 @@ export default class HomeScreen extends React.Component {
     numberOfArticelsFound = 0;
     try {
       const tags = await AsyncStorage.getItem("viewedTags");
+      //console.log(tags.length);
       const articlesRead = await AsyncStorage.getItem("viewedArticles"); 
       while(numberOfArticelsFound !== 10){
         // If they have not read any articles i.e. have no tags, suggest last article published      
@@ -115,7 +116,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    console.log(this.state.articlesToDisplay);
+    
     // Display the articles
     let articles = this.state.articlesToDisplay.map((article) => {
       // Check if there is a featured image to display

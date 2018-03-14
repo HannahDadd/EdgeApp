@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, View } from 'react-native';
 import Styles from '../../Styles';
+import SectionListItem from '../../components/SectionListItem'
 
 export default class CultureScreen extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class CultureScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-        <Button style={Styles.sheet.stackNavButton} title="All Culture Articles" 
+        <SectionListItem title="All Culture Articles" 
           onPress={() => this.state.navigate('BrowseArticles', 
             {name: "All Culture Articles", postsURL: "culture", isSection: true})}/>
         <Button style={Styles.sheet.stackNavButton} title="Theatre"

@@ -23,14 +23,33 @@ export {FCMToken};
 
 const TabNav = TabNavigator({
   Home: { screen: HomeScreen },
+  Notifications: { screen: NotificationsScreen },
   Search: {screen: SearchScreen},
   User: {screen: UserScreen}
 }, {
-  tabBarOptions : {
-    style: {
-      backgroundColor: 'grey',
-    }
-}});
+  navigationOptions: ({ navigation }) => ({
+    tabBarIcon: ({ focused, tintColor }) => {
+      const { routeName } = navigation.state;
+      let icon;
+      if (routeName === 'Home') {
+        icon = require('../pictures/edge.png');
+      } else if (routeName === 'Notifications') {
+        icon = require('../pictures/notification.png');
+      } else if (routeName === 'Search') {
+        icon = require('../pictures/search.png');
+      } else {
+        icon = require('../pictures/userprofile.png');
+      }
+
+      // return icon for nav
+      return <Image source={icon} style={{width: 50, height: 50}}/>;
+    },
+  }),
+  tabBarOptions: {
+    showIcon: true,
+    showLabel: false,
+  }
+});
 
 // Drawer that pops out with menu button
 const DrawerNav = DrawerNavigator({
