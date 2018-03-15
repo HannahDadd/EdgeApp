@@ -4,6 +4,7 @@ import {FCMToken} from '../App.js';
 import Styles from '../Styles';
 import ArticleDisplay from '../components/ArticleDisplay';
 import AuthorDisplay from '../components/AuthorDisplay';
+import EdgeSocialLinks from '../components/EdgeSocialLinks';
 //import FCM from "react-native-fcm";
 
 export default class HomeScreen extends React.Component {
@@ -146,6 +147,7 @@ export default class HomeScreen extends React.Component {
     }
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+        <EdgeSocialLinks/>
         <ScrollView>
           {articles}
         </ScrollView>

@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View, Picker, Image, Button, ScrollView, AsyncStorage, Switch, WebView } from 'react-native';
 import AuthorDisplay from '../components/AuthorDisplay';
 import ArticleText from '../components/ArticleText';
-import EdgeSocialLinks from '../components/EdgeSocialLinks';
 import Styles from '../Styles';
 
 export default class ShowArticleScreen extends React.Component {

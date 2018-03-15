@@ -14,11 +14,10 @@ export default Styles =
       borderColor: '#d6d7da'
     },
     boarderedColouredRowView: {
-      flex: 1, 
       flexDirection: 'row',
       justifyContent:'space-between',
       padding: 10, 
-      backgroundColor: 'white', 
+      backgroundColor: 'white',
       borderRadius: 4,
       borderWidth: 1.5,
       borderColor: '#d6d7da'

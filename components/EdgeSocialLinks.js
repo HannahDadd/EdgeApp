@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Linking, Image, TouchableHighlight } from 'react-native';
+import { View, Linking, Image, TouchableHighlight, Text } from 'react-native';
 import Styles from '../Styles';
 
 export default class EdgeSocialLinks extends React.PureComponent {
@@ -16,24 +16,25 @@ export default class EdgeSocialLinks extends React.PureComponent {
     render() {
         return (
             <View style={Styles.sheet.boarderedColouredRowView}>
-                <View>
+                <Text style={Styles.sheet.subtitleText}>Find us on:</Text>
+                <View style={{flex:1, alignItems: 'flex-end'}}>
                     <TouchableHighlight onPress={() => this._openEdgeLink("https://www.facebook.com/theedgesusu/")}>
-                        <Image source={require('../pictures/fb.jpg')} style={{width: 50, height: 50}}/>
+                        <Image source={require('../pictures/fb.jpg')} style={{width: 25, height: 25}}/>
                     </TouchableHighlight>
                 </View>
-                <View>
+                <View style={{flex:1, alignItems: 'flex-end'}}>
                     <TouchableHighlight onPress={() => this._openEdgeLink("https://twitter.com/theedgesusu/")}>
-                        <Image source={require('../pictures/twitter.jpg')} style={{width: 50, height: 50}}/>
+                        <Image source={require('../pictures/twitter.jpg')} style={{width: 25, height: 25}}/>
                     </TouchableHighlight>
                 </View>
-                <View>
+                <View style={{flex:1, alignItems: 'flex-end'}}>
                     <TouchableHighlight onPress={() => this._openEdgeLink("https://www.instagram.com/theedgesusu/")}>
-                        <Image source={require('../pictures/instagram.png')} style={{width: 50, height: 50}}/>
+                        <Image source={require('../pictures/instagram.png')} style={{width: 25, height: 25}}/>
                     </TouchableHighlight>
                 </View>
-                <View>
+                <View style={{flex:1, alignItems: 'flex-end'}}>
                     <TouchableHighlight onPress={() => this._openEdgeLink("https://www.theedgesusu.co.uk/")}>
-                        <Image source={require('../pictures/edge.jpg')} style={{width: 50, height: 50}}/>
+                        <Image source={require('../pictures/edge.jpg')} style={{width: 25, height: 25}}/>
                     </TouchableHighlight>
                 </View>
             </View>
