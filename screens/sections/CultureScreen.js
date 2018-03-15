@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, View, FlatList } from 'react-native';
-import Styles from '../../Styles';
-import SectionListItem from '../../components/SectionListItem'
+import SectionListItem from '../../components/SectionListItem';
 
 export default class CultureScreen extends React.Component {
   constructor(props) {

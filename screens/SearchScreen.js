@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TextInput, View, StyleSheet, Button, Picker, ScrollView } from 'react-native';
+import { Text, TextInput, View, StyleSheet, Button, Picker, ScrollView, TouchableHighlight, Image } from 'react-native';
 import ArticleDisplay from '../components/ArticleDisplay';
 import AuthorDisplay from '../components/AuthorDisplay';
 import Styles from '../Styles';
@@ -119,23 +119,32 @@ export default class SearchScreen extends React.Component {
         })
       }
       return (
-        <View style={Styles.sheet.viewStyle}>
+        <View style={{flex:1, flexDirection: 'column'}}>
+        <View style={Styles.sheet.searchBoxArea}>
             <TextInput
-                style={{height: 40}}
-                placeholder="Type here to search!"
-                onChangeText={(text) => this.setState({searchFor:text})}
+              style={Styles.sheet.searchText}
+              placeholder="Type here to search!"
+              onChangeText={(text) => this.setState({searchFor:text})}
             />
-            <Picker
-              selectedValue={this.state.searchIn}
-              onValueChange={(itemValue) => this.setState({searchIn: itemValue})}>
-              <Picker.Item label="Post" value="posts" />
-              <Picker.Item label="Author" value="users" />
-              <Picker.Item label="Tag" value="tags" />
-            </Picker>
-            <Button style={Styles.sheet.buttonStyle}
+            <View style={{flexDirection: 'row'}}>
+              <View style={{flex:1, flexDirection: 'column'}}>
+              <Picker
+                selectedValue={this.state.searchIn}
+                onValueChange={(itemValue) => this.setState({searchIn: itemValue, results: []})}>
+                <Picker.Item label="Post" value="posts" />
+                <Picker.Item label="Author" value="users" />
+                <Picker.Item label="Tag" value="tags" />
+              </Picker>
+              </View>
+              <View>
+              <Button style={Styles.sheet.buttonStyle}
+                color={Styles.buttonColour}
                 onPress={this.searchButtonPressed.bind(this)}
                 title="Search"/>
-            <ScrollView>
+                </View>
+            </View>
+            </View>
+            <ScrollView style={{padding:10}}>
               {results}
               {loadMore}
             </ScrollView>

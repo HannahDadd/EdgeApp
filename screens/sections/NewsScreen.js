@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, View } from 'react-native';
-import Styles from '../../Styles';
+import { Button, View, FlatList } from 'react-native';
+import SectionListItem from '../../components/SectionListItem';
 
 export default class NewsScreen extends React.Component {
   constructor(props) {
@@ -13,12 +13,14 @@ export default class NewsScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-        <Button style={Styles.sheet.stackNavButton} title="All News Articles" 
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {sectionTitle: "All Live Articles", postsURL: "live", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Notes on News"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {sectionTitle: "Notes On News Articles", postsURL: "notes-on-news", isSection: true})}/>
+        <FlatList
+          data={[{key: 'a', title: "All News Articles", postsURL: "news"},
+                {key: 'b', title: "Notes on News", postsURL: "notes-on-news"},
+              ]}
+          renderItem={({item}) => <SectionListItem title={item.title}
+            onPress={() => this.state.navigate('BrowseArticles', 
+            {name: item.title, postsURL:item.postsURL, isSection: true})}/>}
+        />
       </View>
     );
   }

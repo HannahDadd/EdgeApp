@@ -117,27 +117,33 @@ export default class HomeScreen extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     
-    // Display the articles
-    let articles = this.state.articlesToDisplay.map((article) => {
-      // Check if there is a featured image to display
-      let pic = '';
-      // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
-      if(article && article._embedded && article._embedded['wp:featuredmedia'] !== undefined){
-        pic = article._embedded['wp:featuredmedia'];
-        if (pic[0].media_details && pic[0].media_details.sizes && pic[0].media_details.sizes.medium
-          && pic[0].media_details.sizes.medium.source_url !== undefined){
-          pic = pic[0].media_details.sizes.medium.source_url;
+    // Display the articles// If no search results are returned
+    let articles;
+    if(this.state.articlesToDisplay.length < 1){
+      articles = <Text style={Styles.sheet.subtitleText}>Loading...</Text>
+    }
+    else {
+        articles = this.state.articlesToDisplay.map((article) => {
+        // Check if there is a featured image to display
+        let pic = '';
+        // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
+        if(article && article._embedded && article._embedded['wp:featuredmedia'] !== undefined){
+          pic = article._embedded['wp:featuredmedia'];
+          if (pic[0].media_details && pic[0].media_details.sizes && pic[0].media_details.sizes.medium
+            && pic[0].media_details.sizes.medium.source_url !== undefined){
+            pic = pic[0].media_details.sizes.medium.source_url;
+          }
         }
-      }
-      return <View key={article.id}
-                style={{flex: 1, flexDirection: 'column', padding: 10}}>
-              <ArticleDisplay
-                title={article.title.rendered}
-                image={pic}
-                onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
-              />
-            </View>
-    })
+        return <View key={article.id}
+                  style={{flex: 1, flexDirection: 'column', padding: 10}}>
+                <ArticleDisplay
+                  title={article.title.rendered}
+                  image={pic}
+                  onPressItem={() => navigate('ShowArticle', {article: article, image: pic})}
+                />
+              </View>
+      })
+    }
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
         <ScrollView>

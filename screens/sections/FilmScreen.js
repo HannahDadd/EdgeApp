@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, View } from 'react-native';
-import Styles from '../../Styles';
+import { Button, View, FlatList } from 'react-native';
+import SectionListItem from '../../components/SectionListItem';
 
 export default class FilmScreen extends React.Component {
   constructor(props) {
@@ -13,19 +13,18 @@ export default class FilmScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-        <Button title="All Film Articles" 
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "All Film Articles", postsURL: "film", isSection: true})}/>
-        <Button title="Cinema"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Cinema Articles", postsURL: "cinema", isSection: true})}/>
-        <Button title="Advice & Comment"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Advice & Comment Articles", postsURL: "advice-comment", isSection: true})}/>
-        <Button title="Blu-Ray & DVD"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Blu-Ray & DVD Articles", postsURL: "dvd-bluray", isSection: true})}/>
-     </View>
+        <FlatList
+          data={[{key: 'a', title: "All Film Articles", postsURL: "film"},
+                {key: 'b', title: "Cinema", postsURL: "cinema"},
+                {key: 'c', title: "Film", postsURL: "film"},
+                {key: 'd', title: "Advice & Comment", postsURL: "advice-comment"},
+                {key: 'e', title: "Blu-Ray & DVD", postsURL: "dvd-bluray"},
+              ]}
+          renderItem={({item}) => <SectionListItem title={item.title}
+            onPress={() => this.state.navigate('BrowseArticles', 
+            {name: item.title, postsURL:item.postsURL, isSection: true})}/>}
+        />
+      </View>
     );
   }
 }

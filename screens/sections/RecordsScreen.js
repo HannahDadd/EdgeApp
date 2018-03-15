@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, View } from 'react-native';
-import Styles from '../../Styles';
+import { Button, View, FlatList } from 'react-native';
+import SectionListItem from '../../components/SectionListItem';
 
 export default class RecordsScreen extends React.Component {
   constructor(props) {
@@ -13,18 +13,16 @@ export default class RecordsScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-        <Button style={Styles.sheet.stackNavButton} title="All Records Articles" 
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "All Records Articles", postsURL: "records", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Singles"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Singles Articles", postsURL: "singles", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Albums"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Albums Articles", postsURL: "albums", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Rewind"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Rewind Articles", postsURL: "rewind", isSection: true})}/>
+        <FlatList
+          data={[{key: 'a', title: "All Records Articles", postsURL: "records"},
+                {key: 'b', title: "Singles", postsURL: "singles"},
+                {key: 'c', title: "Albums", postsURL: "albums"},
+                {key: 'd', title: "Rewind", postsURL: "rewind"},
+              ]}
+          renderItem={({item}) => <SectionListItem title={item.title}
+            onPress={() => this.state.navigate('BrowseArticles', 
+            {name: item.title, postsURL:item.postsURL, isSection: true})}/>}
+        />
       </View>
     );
   }

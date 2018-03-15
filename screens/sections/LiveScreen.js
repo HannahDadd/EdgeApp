@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, View } from 'react-native';
-import Styles from '../../Styles';
+import { Button, View, FlatList } from 'react-native';
+import SectionListItem from '../../components/SectionListItem';
 
 export default class LiveScreen extends React.Component {
   constructor(props) {
@@ -13,24 +13,18 @@ export default class LiveScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-        <Button style={Styles.sheet.stackNavButton} title="All Live Articles" 
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Live", postsURL: "live", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Festivals"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Festival", postsURL: "festival", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Comedy"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Comedy", section: "comedy", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Local Music"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Local-Music", postsURL: "local-music", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Reviews"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Reviews", postsURL: "reviews", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Previews"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Previews", postsURL: "previews", isSection: true})}/>
+        <FlatList
+          data={[{key: 'a', title: "All Live Articles", postsURL: "live"},
+                {key: 'b', title: "Festivals", postsURL: "festival"},
+                {key: 'c', title: "Comedy", postsURL: "comedy"},
+                {key: 'd', title: "Local Music", postsURL: "local-music"},
+                {key: 'e', title: "Reviews", postsURL: "reviews"},
+                {key: 'f', title: "Previews", postsURL: "previews"},
+              ]}
+          renderItem={({item}) => <SectionListItem title={item.title}
+            onPress={() => this.state.navigate('BrowseArticles', 
+            {name: item.title, postsURL:item.postsURL, isSection: true})}/>}
+        />
       </View>
     );
   }
