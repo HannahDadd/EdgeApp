@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Picker, Image, Button, ScrollView, AsyncStorage } from 'react-native';
+import { Text, View, Picker, Image, Button, ScrollView, AsyncStorage, Switch } from 'react-native';
 import AuthorDisplay from '../components/AuthorDisplay';
 import ArticleText from '../components/ArticleText';
 import EdgeSocialLinks from '../components/EdgeSocialLinks';
@@ -21,7 +21,8 @@ export default class ShowArticleScreen extends React.Component {
       section: '',
       tagIDs: this.props.navigation.state.params.article.tags,
       tags: [],
-      link: this.props.navigation.state.params.article.guid.rendered
+      link: this.props.navigation.state.params.article.guid.rendered,
+      nightmode: false
     };
   }
 
@@ -59,7 +60,6 @@ export default class ShowArticleScreen extends React.Component {
       },
     }).then(response => response.json())
     .then(responseJson => {
-      console.log(responseJson);
       callBack(responseJson);
     })
     .catch(error => {
@@ -166,8 +166,18 @@ export default class ShowArticleScreen extends React.Component {
               </Text>
             </View>
     })
+    let viewStyle = {flex: 1, backgroundColor: 'white'};
+    if(this.state.nightmode){
+      viewStyle = {flex: 1, backgroundColor: '#FFE299'};
+    }
     return (
-      <View style={{flex: 1}}>
+      <View style={viewStyle}>
+        <View style={{flexDirection: 'row', padding: 10}}>
+          <Text style={Styles.sheet.subtitleText}>Night Mode:</Text>
+          <View>
+          <Switch value={this.state.nightmode} onValueChange={(value) => this.setState({nightmode: value})}/>
+          </View>
+        </View>
         <ScrollView style={{flexDirection: 'column', padding: 10}}>
             <Image source={icon} style={{width: 350, height: 200}}/>
             <Text style={Styles.sheet.titleText}>{this.state.title}</Text>

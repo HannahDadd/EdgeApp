@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Linking, Image, TouchableHighlight } from 'react-native';
+import Styles from '../Styles';
 
 export default class EdgeSocialLinks extends React.PureComponent {
     constructor(props) {
@@ -14,7 +15,7 @@ export default class EdgeSocialLinks extends React.PureComponent {
     // Article box is the articles title and featured image
     render() {
         return (
-            <View style={{flex: 1, justifyContent:'space-between', flexDirection: 'row', padding: 10}}>
+            <View style={Styles.sheet.boarderedColouredRowView}>
                 <View>
                     <TouchableHighlight onPress={() => this._openEdgeLink("https://www.facebook.com/theedgesusu/")}>
                         <Image source={require('../pictures/fb.jpg')} style={{width: 50, height: 50}}/>
@@ -32,7 +33,7 @@ export default class EdgeSocialLinks extends React.PureComponent {
                 </View>
                 <View>
                     <TouchableHighlight onPress={() => this._openEdgeLink("https://www.theedgesusu.co.uk/")}>
-                        <Image source={require('../pictures/edge.png')} style={{width: 50, height: 50}}/>
+                        <Image source={require('../pictures/edge.jpg')} style={{width: 50, height: 50}}/>
                     </TouchableHighlight>
                 </View>
             </View>

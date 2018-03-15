@@ -4,16 +4,19 @@ import { StyleSheet } from 'react-native';
 // The style sheet of how every component in the app will look
 export default Styles = 
 {sheet: StyleSheet.create({
-    boarderedView: {
-     flex: 1,
-     paddingTop: 22,
-     borderRadius: 4,
-     borderWidth: 0.5,
-     borderColor: '#d6d7da',
-    },
     boarderedColouredColView: {
       flex: 1, 
       flexDirection: 'column', 
+      padding: 10, 
+      backgroundColor: 'white', 
+      borderRadius: 4,
+      borderWidth: 1.5,
+      borderColor: '#d6d7da'
+    },
+    boarderedColouredRowView: {
+      flex: 1, 
+      flexDirection: 'row',
+      justifyContent:'space-between',
       padding: 10, 
       backgroundColor: 'white', 
       borderRadius: 4,

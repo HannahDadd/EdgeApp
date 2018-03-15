@@ -31,15 +31,15 @@ export default class AuthorDisplay extends React.PureComponent {
             icon = {uri: this.state.image};
         }
         return (
-            <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+            <View style={Styles.sheet.boarderedColouredColView}>
                 <View style={{flex: 1, flexDirection: 'row', padding: 10, justifyContent: 'center'}}>
                     <TouchableHighlight onPress={this.props.onPressItem}>
                         <Image source={icon} style={{width: 100, height: 150}}/>
                     </TouchableHighlight>
-                <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                    <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{this.state.name}</Text>
-                    <Text style={Styles.sheet.paragraphText} onPress={this.props.onPressItem}>{this.state.bio}</Text>
-                </View>
+                    <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+                        <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{this.state.name}</Text>
+                        <Text style={Styles.sheet.paragraphText} onPress={this.props.onPressItem}>{this.state.bio}</Text>
+                    </View>
                 </View>
                 <FollowButton
                     itemToFollow={this.state.id}
