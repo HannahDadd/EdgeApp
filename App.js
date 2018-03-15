@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Image } from 'react-native';
+import { Text, Image, View, TouchableHighlight } from 'react-native';
 import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
@@ -32,22 +32,25 @@ const TabNav = TabNavigator({
       const { routeName } = navigation.state;
       let icon;
       if (routeName === 'Home') {
-        icon = require('../pictures/edge.png');
+        icon = require('./pictures/home.png');
       } else if (routeName === 'Notifications') {
-        icon = require('../pictures/notification.png');
+        icon = require('./pictures/notification.png');
       } else if (routeName === 'Search') {
-        icon = require('../pictures/search.png');
+        icon = require('./pictures/search.png');
       } else {
-        icon = require('../pictures/userprofile.png');
+        icon = require('./pictures/userprofile.png');
       }
 
       // return icon for nav
-      return <Image source={icon} style={{width: 50, height: 50}}/>;
+      return <Image source={icon} style={{width: 20, height: 20}}/>;
     },
   }),
   tabBarOptions: {
     showIcon: true,
     showLabel: false,
+    style: {
+      backgroundColor: 'white'
+		},
   }
 });
 
@@ -66,11 +69,16 @@ const App = StackNavigator({
   Home: {
     screen: DrawerNav,
     navigationOptions: ({navigation}) => ({
-      title: 'The Edge App',
-      headerLeft: <Text onPress={() => 
-        navigation.navigate('DrawerOpen')}>Menu</Text>,
-      headerStyle: {backgroundColor: '#4C3E54'},
-      headerTintColor: 'white'
+      title: 'The Edge',
+      headerLeft: 
+        <View>
+          <TouchableHighlight onPress={() => navigation.navigate('DrawerOpen')}>
+              <Image source={require('./pictures/edge.png')} style={{width: 50, height: 25}}/>
+          </TouchableHighlight>
+      </View>,
+      headerStyle: {backgroundColor: 'white'},
+      headerTintColor: 'black',
+      padding: 22
     })
   },
   ShowArticle: {screen: ShowArticleScreen,

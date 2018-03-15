@@ -21,7 +21,7 @@ export default class ArticleDisplay extends React.PureComponent {
             icon = require('../pictures/noimage.jpg');
         }
         return (
-            <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+            <View style={Styles.sheet.boarderedColouredColView}>
                 <TouchableHighlight onPress={this.props.onPressItem}>
                     <Image onPress={this.props.onPressItem} source={icon} style={{width: 300, height: 200}}/>
                 </TouchableHighlight>

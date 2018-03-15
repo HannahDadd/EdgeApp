@@ -13,8 +13,10 @@ export default class SectionListItem extends React.PureComponent {
 
     render() {
         return (
-            <View style={Styles.sheet.boarderedView}>
-                <Text style={Styles.sheet.titleText} onPress={this.state.onPress}></Text>
+            <View style={{padding:2}}>
+                <View style={Styles.sheet.boarderedColouredColView}>
+                    <Text style={Styles.sheet.sectionTitleText} onPress={this.state.onPress}>{this.state.title}</Text>
+                </View>
             </View>
         )
     }

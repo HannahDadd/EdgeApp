@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, View } from 'react-native';
+import { Button, View, FlatList } from 'react-native';
 import Styles from '../../Styles';
 import SectionListItem from '../../components/SectionListItem'
 
@@ -14,21 +14,17 @@ export default class CultureScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-        <SectionListItem title="All Culture Articles" 
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "All Culture Articles", postsURL: "culture", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Theatre"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Theatre Articles", postsURL: "theatre", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Television"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Television Articles", postsURL: "television", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Video Games"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Video Games Articles", postsURL: "video-games", isSection: true})}/>
-        <Button style={Styles.sheet.stackNavButton} title="Literature"
-          onPress={() => this.state.navigate('BrowseArticles', 
-            {name: "Literature Articles", postsURL: "literature", isSection: true})}/>
+        <FlatList
+          data={[{key: 'a', title: "All Culture Articles", postsURL: "culture"},
+                {key: 'b', title: "Theatre", postsURL: "theatre"},
+                {key: 'c', title: "Television", postsURL: "television"},
+                {key: 'd', title: "Video Games", postsURL: "video-games"},
+                {key: 'e', title: "Literature", postsURL: "literature"},
+              ]}
+          renderItem={({item}) => <SectionListItem title={item.title}
+            onPress={() => this.state.navigate('BrowseArticles', 
+            {name: item.title, postsURL:item.postsURL, isSection: true})}/>}
+        />
       </View>
     );
   }

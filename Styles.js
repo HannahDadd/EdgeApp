@@ -11,6 +11,15 @@ export default Styles =
      borderWidth: 0.5,
      borderColor: '#d6d7da',
     },
+    boarderedColouredColView: {
+      flex: 1, 
+      flexDirection: 'column', 
+      padding: 10, 
+      backgroundColor: 'white', 
+      borderRadius: 4,
+      borderWidth: 1.5,
+      borderColor: '#d6d7da'
+    },
     item: {
       padding: 10,
       height: 44,
@@ -19,6 +28,11 @@ export default Styles =
       fontSize: 20,
       fontWeight: 'bold',
       textAlign: 'center',
+    },
+    sectionTitleText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'left',
     },
     buttonStyle: {},
     paragraphText: {
