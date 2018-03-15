@@ -156,7 +156,7 @@ export default class ShowArticleScreen extends React.Component {
       icon = require('../pictures/noimage.jpg');
     }
     // Remove html tags from content .replace(/<(?:.|\n)*?>/gm, '')
-    var content = this.state.content + "<Image source={" + icon + "} style={{width: 350, height: 200}}/>";
+    var content = this.state.content;
     // Add tags to the picker
     let tags = this.state.tags.map((tag) => {
       return <View key={tag.key} style={{flex: 1, flexDirection: 'column', padding: 10}}>
@@ -166,26 +166,27 @@ export default class ShowArticleScreen extends React.Component {
               </Text>
             </View>
     })
-    let viewStyle = {flex: 1, backgroundColor: 'white'};
+    let backgroundColor = 'white';
     if(this.state.nightmode){
-      viewStyle = {flex: 1, backgroundColor: '#FFE299'};
+      backgroundColor = '#FFE299';
     }
-    let height = content.split(" ").length/8;
-    console.log({html: content});
     return (
-      <View style={viewStyle}>
+      <View style={{flex: 1, backgroundColor: backgroundColor}}>
         <View style={{flexDirection: 'row', padding: 10}}>
           <Text style={Styles.sheet.subtitleText}>Night Mode:</Text>
           <View>
             <Switch value={this.state.nightmode} onValueChange={(value) => this.setState({nightmode: value})}/>
           </View>
+          <View style={{padding: 5}}>
           <Button color={Styles.buttonColour} title="See Author" 
             onPress={() => navigate('BrowseArticles', {name: this.state.authorName, id: this.state.author,
                         postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + this.state.author + '&_embed'})}/>
-          <Button color={Styles.buttonColour} title="See Tags" 
-            onPress={() => navigate('Tags')}/>              
+          </View>
+          <View style={{padding: 5}}>
+          <Button color={Styles.buttonColour} title="See Tags" onPress={() => navigate('Tags')}/>
+          </View>          
         </View>
-        <WebView id={"webview"} source={{html: content}} style = {{height:height, marginTop : 20}}/>
+        <WebView id={"webview"} source={{html: content}} style={{backgroundColor: backgroundColor, marginTop : 20}}/>
         </View>
     );
   }
