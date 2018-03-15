@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Picker, Image, Button, ScrollView, AsyncStorage, Switch } from 'react-native';
+import { Text, View, Picker, Image, Button, ScrollView, AsyncStorage, Switch, WebView } from 'react-native';
 import AuthorDisplay from '../components/AuthorDisplay';
 import ArticleText from '../components/ArticleText';
 import EdgeSocialLinks from '../components/EdgeSocialLinks';
@@ -155,8 +155,8 @@ export default class ShowArticleScreen extends React.Component {
     } else {
       icon = require('../pictures/noimage.jpg');
     }
-    // Remove html tags from content
-    var content = this.state.content.replace(/<(?:.|\n)*?>/gm, '');
+    // Remove html tags from content .replace(/<(?:.|\n)*?>/gm, '')
+    var content = this.state.content + "<Image source={" + icon + "} style={{width: 350, height: 200}}/>";
     // Add tags to the picker
     let tags = this.state.tags.map((tag) => {
       return <View key={tag.key} style={{flex: 1, flexDirection: 'column', padding: 10}}>
@@ -170,30 +170,22 @@ export default class ShowArticleScreen extends React.Component {
     if(this.state.nightmode){
       viewStyle = {flex: 1, backgroundColor: '#FFE299'};
     }
+    let height = content.split(" ").length/8;
+    console.log({html: content});
     return (
       <View style={viewStyle}>
         <View style={{flexDirection: 'row', padding: 10}}>
           <Text style={Styles.sheet.subtitleText}>Night Mode:</Text>
           <View>
-          <Switch value={this.state.nightmode} onValueChange={(value) => this.setState({nightmode: value})}/>
+            <Switch value={this.state.nightmode} onValueChange={(value) => this.setState({nightmode: value})}/>
           </View>
+          <Button color={Styles.buttonColour} title="See Author" 
+            onPress={() => navigate('BrowseArticles', {name: this.state.authorName, id: this.state.author,
+                        postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + this.state.author + '&_embed'})}/>
+          <Button color={Styles.buttonColour} title="See Tags" 
+            onPress={() => navigate('Tags')}/>              
         </View>
-        <ScrollView style={{flexDirection: 'column', padding: 10}}>
-            <Image source={icon} style={{width: 350, height: 200}}/>
-            <Text style={Styles.sheet.titleText}>{this.state.title}</Text>
-            <ArticleText/>
-            <Text style={Styles.sheet.paragraphText}>{content}</Text>
-            <Text style={Styles.sheet.subtitleText}>{this.state.section}</Text>
-            <AuthorDisplay
-              name={this.state.authorName}
-              id={this.state.author}
-              bio={this.state.authorBio}
-              profilePic={this.state.authorPic}
-            />
-            <Text style={Styles.sheet.subtitleText}>Article Tags:</Text>
-            {tags}
-            <EdgeSocialLinks/>
-        </ScrollView>
+        <WebView id={"webview"} source={{html: content}} style = {{height:height, marginTop : 20}}/>
         </View>
     );
   }

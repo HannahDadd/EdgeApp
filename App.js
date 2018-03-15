@@ -7,6 +7,7 @@ import ShowArticleScreen from './screens/ShowArticleScreen';
 import BrowseArticlesScreen from './screens/BrowseArticlesScreen';
 import UserScreen from './screens/UserScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
+import TagsScreen from './screens/TagsScreen';
 
 // Section Screens
 import FeaturesScreen from './screens/sections/FeaturesScreen';
@@ -89,6 +90,11 @@ const App = StackNavigator({
   BrowseArticles: {screen: BrowseArticlesScreen, 
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.name}`,
+    }),
+  },
+  Tags: {screen: TagsScreen, 
+    navigationOptions: ({ navigation }) => ({
+      title: `Tags for Article`,
     }),
   }
 });
