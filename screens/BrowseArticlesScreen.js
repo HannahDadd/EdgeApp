@@ -82,8 +82,11 @@ export default class BrowseArticlesScreen extends React.Component {
       const {navigate} = this.props.navigation;
 
       // If there are more articles to load display the load more button
-      let loadMore = <Text>Loading</Text>;
-      if(!this.state.currentlySearching){
+      let loadMore = <Text style={Styles.sheet.subtitleText}>Loading...</Text>;
+      if(this.state.articles.length < 1){
+        loadMore = <Text></Text>
+      }
+      else if(!this.state.currentlySearching){
         if(this.state.moreArticlesToLoad){
           loadMore = <Button style={Styles.sheet.buttonStyle}
                         onPress={this.getArticlesFromURL.bind(this)}
@@ -97,8 +100,7 @@ export default class BrowseArticlesScreen extends React.Component {
       // If no search results are returned
       let results;
       if(this.state.articles.length < 1){
-        results = 
-          <Text style={Styles.sheet.subtitleText}>Loading Articles</Text>
+        results = <Text style={Styles.sheet.subtitleText}>Loading Articles</Text>
       } else {
         // Loop through posts with that tag
         results = this.state.articles.map((article) => {

@@ -10,9 +10,11 @@ export default class NotificationsScreen extends React.Component {
       //const { navigate } = this.props.navigation;
       return (
         <View style={{flex: 1, flexDirection: 'column'}}>
-          <View style={{flex: 1, flexDirection: 'row', padding: 10}}>
-            <Text style={Styles.sheet.titleText}>Notifications are </Text>
-            <Switch onValueChange={(value) => this.setState({pushNotification: value})}/>
+          <View style={{flexDirection: 'row', padding: 10}}>
+            <Text style={Styles.sheet.subtitleText}>Notifications:</Text>
+            <View>
+              <Switch onValueChange={(value) => this.setState({pushNotification: value})}/>
+            </View>
           </View>
         </View>
       );

@@ -19,7 +19,6 @@ export default class ShowArticleScreen extends React.Component {
       authorPic: '',
       section: '',
       tagIDs: this.props.navigation.state.params.article.tags,
-      tags: [],
       link: this.props.navigation.state.params.article.guid.rendered,
       nightmode: false
     };
@@ -83,20 +82,9 @@ export default class ShowArticleScreen extends React.Component {
       }.bind(this)
     );
     // Get tags from id
-    let tags = []
     for (var i = 0; i <  this.state.tagIDs.length; i++) {
-      let key = this.state.tagIDs[i];
-      this.getJSONData('tags', this.state.tagIDs[i], 
-        function(responseJson) {
-          if(responseJson && responseJson[0] !== undefined){
-            tags.push({key: key, name: responseJson[0].name});
-            // Store tags of articles user is interested in for reccomendations
-            this.addTagIdToRecommender(key);
-          }
-        }.bind(this)
-      );
+       this.addTagIdToRecommender(tagIDs[i]);
     }
-    this.setState({tags: tags})
   }
 
   // Add read articles to datastore so they are not recommended articles they have already read
@@ -182,7 +170,7 @@ export default class ShowArticleScreen extends React.Component {
                         postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + this.state.author + '&_embed'})}/>
           </View>
           <View style={{padding: 5}}>
-          <Button color={Styles.buttonColour} title="See Tags" onPress={() => navigate('Tags')}/>
+          <Button color={Styles.buttonColour} title="See Tags" onPress={() => navigate('Tags', {tagIDs: this.state.tagIDs})}/>
           </View>          
         </View>
         <WebView id={"webview"} source={{html: content}} style={{backgroundColor: backgroundColor, marginTop : 20}}/>

@@ -13,7 +13,7 @@ export default class SearchScreen extends React.Component {
         searchIn: 'posts',
         offset: 0,
         moreArticlesToLoad: true,
-        currentlySearching: true
+        currentlySearching: false
       };
     }
 
@@ -51,10 +51,13 @@ export default class SearchScreen extends React.Component {
       const {navigate} = this.props.navigation;
 
       // If there are more articles to load display the load more button
-      let loadMore = <Text style={Styles.sheet.subtitleText}>Searching</Text>;
-      if(!this.state.currentlySearching){
+      let loadMore = <Text style={Styles.sheet.subtitleText}>Loading...</Text>;
+      if(this.state.results.length < 1){
+        loadMore = <Text></Text>
+      }
+      else if(!this.state.currentlySearching){
         if(this.state.moreArticlesToLoad){
-          loadMore = <Button style={Styles.sheet.buttonStyle}
+          loadMore = <Button color={Styles.buttonColour}
                         onPress={this.getJSONData.bind(this)}
                         title="Load More"/>
         } else {
@@ -63,11 +66,13 @@ export default class SearchScreen extends React.Component {
       }
 
       // If no search results are returned
-      let results;
+      let results = <Text></Text>; 
       if(this.state.results.length < 1){
         // If it is currently searching API say "searching"
-        if(this.state.searchFor !== ''){
-         results = <Text style={Styles.sheet.subtitleText}>Searching...</Text> 
+        if(this.state.searchIn !== ''){
+          if(this.state.currentlySearching){
+            results = <Text style={Styles.sheet.subtitleText}>Searching...</Text> 
+          }
         } else {
           results = <Text style={Styles.sheet.subtitleText}>No Results for your search</Text>
         }
@@ -120,7 +125,7 @@ export default class SearchScreen extends React.Component {
       }
       return (
         <View style={{flex:1, flexDirection: 'column'}}>
-        <View style={Styles.sheet.searchBoxArea}>
+          <View style={Styles.sheet.searchBoxArea}>
             <TextInput
               style={Styles.sheet.searchText}
               placeholder="Type here to search!"
@@ -128,26 +133,26 @@ export default class SearchScreen extends React.Component {
             />
             <View style={{flexDirection: 'row'}}>
               <View style={{flex:1, flexDirection: 'column'}}>
-              <Picker
-                selectedValue={this.state.searchIn}
-                onValueChange={(itemValue) => this.setState({searchIn: itemValue, results: []})}>
-                <Picker.Item label="Post" value="posts" />
-                <Picker.Item label="Author" value="users" />
-                <Picker.Item label="Tag" value="tags" />
-              </Picker>
+                <Picker
+                  selectedValue={this.state.searchIn}
+                  onValueChange={(itemValue) => this.setState({searchIn: itemValue, results: []})}>
+                  <Picker.Item label="Post" value="posts" />
+                  <Picker.Item label="Author" value="users" />
+                  <Picker.Item label="Tag" value="tags" />
+                </Picker>
               </View>
               <View>
-              <Button style={Styles.sheet.buttonStyle}
-                color={Styles.buttonColour}
-                onPress={this.searchButtonPressed.bind(this)}
-                title="Search"/>
-                </View>
+                <Button style={Styles.sheet.buttonStyle}
+                  color={Styles.buttonColour}
+                  onPress={this.searchButtonPressed.bind(this)}
+                  title="Search"/>
+              </View>
             </View>
-            </View>
-            <ScrollView style={{padding:10}}>
-              {results}
-              {loadMore}
-            </ScrollView>
+          </View>
+          <ScrollView style={StyleSheet.absoluteFill}>
+            {results}
+            {loadMore}
+          </ScrollView>
         </View>
       );
     }

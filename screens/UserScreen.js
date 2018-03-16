@@ -17,7 +17,8 @@ export default class UserScreen extends React.Component {
         username: '',
         password: '',
         name: '',
-        profilePic: ''
+        profilePic: '',
+        sections: []
       };
     }
 
@@ -91,23 +92,13 @@ export default class UserScreen extends React.Component {
                     </View>
           })
         } else {
-          tags = <Text style={Styles.sheet.subtitleText}>You're not following any tags :(</Text>
+          tags = <Text style={Styles.sheet.subtitleText}>You're not following any tags</Text>
         }
       });
       // Get sections from the database and load them for display
-      let sections;
-      AsyncStorage.getItem('section', (err, result) => {
-        if(result !== null){
-          sections = result.map((section) => {
-            return <Text style={Styles.sheet.subtitleText}>{section}</Text>
-          })
-        } else {
-          sections = <Text style={Styles.sheet.subtitleText}>You're not following any sections :(</Text>
-        }
-      });
+      let sections = <Text style={Styles.sheet.subtitleText}>You're not following any sections</Text>
       return (
         <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-          <FacebookLogin/>
           <Text style={Styles.sheet.titleText}>Sections you're following:</Text>
           {sections}
           <Text style={Styles.sheet.titleText}>Tags you're following:</Text>
