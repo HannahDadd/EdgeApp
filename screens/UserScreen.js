@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, AsyncStorage } from 'react-n
 import FacebookLogin from '../components/FacebookLogin';
 import ArticleDisplay from '../components/ArticleDisplay';
 import AuthorDisplay from '../components/AuthorDisplay';
+import AuthorSignIn from '../components/AuthorSignIn';
 import Styles from '../Styles';
 
 export default class UserScreen extends React.Component {
@@ -99,6 +100,7 @@ export default class UserScreen extends React.Component {
       let sections = <Text style={Styles.sheet.subtitleText}>You're not following any sections</Text>
       return (
         <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+          <AuthorSignIn/>
           <Text style={Styles.sheet.titleText}>Sections you're following:</Text>
           {sections}
           <Text style={Styles.sheet.titleText}>Tags you're following:</Text>

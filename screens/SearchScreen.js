@@ -149,7 +149,7 @@ export default class SearchScreen extends React.Component {
               </View>
             </View>
           </View>
-          <ScrollView style={StyleSheet.absoluteFill}>
+          <ScrollView style={{padding:10}}                                    >
             {results}
             {loadMore}
           </ScrollView>
