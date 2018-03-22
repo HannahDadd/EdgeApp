@@ -14,7 +14,7 @@ export default class AuthorSignIn extends React.PureComponent {
             image: '',
             searchFor: '',
             foundUser: false,
-            finishedSearching: true,
+            finishedSearching: false,
             navigate: ''
         };
     }
@@ -53,7 +53,7 @@ export default class AuthorSignIn extends React.PureComponent {
           }).then(response => response.json())
           .then(responseJson => {
             var obj = responseJson[0];
-            this.setState({name: obj.name, id: obj.id, bio: obj.bio, image: obj.image, finishedSearching: true});
+            this.setState({name: obj.name, id: obj.id, bio: obj.description, image: obj['avatar_urls'][96], finishedSearching: true});
           })
           .catch(error => {
             console.error(error);
@@ -67,20 +67,27 @@ export default class AuthorSignIn extends React.PureComponent {
         console.log(this.state.foundUser);
         if(!this.state.foundUser){
             if(this.state.finishedSearching && this.state.searchFor !== ''){
+                var icon;
+                if(this.state.image === ''){
+                    icon = require('../pictures/noimage.jpg');
+                } else {
+                    icon = {uri: this.state.image};
+                }
                 result = 
                     <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
                         <View style={{flex: 1, flexDirection: 'row', padding: 10, justifyContent: 'center'}}>
-                            <TouchableHighlight onPress={this.props.onPressItem}>
-                                <Image source={icon} style={{width: 100, height: 150}}/>
-                            </TouchableHighlight>
+                            <Image source={icon} style={{width: 100, height: 150}}/>
                             <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                                <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{this.state.name}</Text>
-                                <Text style={Styles.sheet.paragraphText} onPress={this.props.onPressItem}>{this.state.bio}</Text>
+                                <Text style={Styles.sheet.titleText}>{this.state.name}</Text>
+                                <Text style={Styles.sheet.paragraphText}>{this.state.bio}</Text>
                             </View>
                         </View>
                         <FollowButton
                             itemToFollow={this.state.id}
-                            buttonTitle={"Follow " + this.state.name}
+                            buttonTitle={"This is me!"}
+                            isUser={true}
+                            userData={{name: this.state.name, id:this.state.id, bio: this.state.bio,
+                                image: this.state.image}}
                         />
                     </View>
             }

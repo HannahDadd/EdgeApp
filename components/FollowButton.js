@@ -9,32 +9,74 @@ export default class FollowButton extends React.PureComponent {
         this.state = {
             id: this.props.id,
             buttonTitle: this.props.buttonTitle,
+            isUser: this.props.isUser,
+            userData: this.props.userData,
+            category: "following",
             followingItem: false
         };
+    }
+
+    // When the component mounts check if they are following this item
+    componentDidMount(){
+        if(this.props.isAuthor){
+            this.setState({category: "author"});
+        }
+        this.areFollowing();
+    }
+
+    // Check if user following item already
+    async areFollowing(){
+        try{
+            const value = await AsyncStorage.getItem(this.state.category);
+            const following = JSON.parse(value);
+            if(following.indexOf(this.state.id) > -1){
+                this.setState({followingItem: true});
+            }
+        } catch (error) {
+            // Error retrieving data
+            console.log(error)
+        }
     }
 
     // Add the item to the database
     async follow(){
         // Check if they are already following anything
         try {
-           const value = await AsyncStorage.getItem("following");
-           if (value !== null){ 
-              // Add new tag author or section to db
-              AsyncStorage.mergeItem("following", JSON.stringify(this.state.id), () => {
-                  // The item should now be added to the db, register it with push notifications
-                  this.setState({followingItem: true});
-                  this.registerForNotifications();
-
-            });
+            // If they are the user set this as them
+            if(this.state.isUser){
+                AsyncStorage.setItem("user", JSON.stringify(this.state.userData), () => {
+                    // User set in db
+                });
+            }
+           const value = await AsyncStorage.getItem(this.state.category);
+           const following = JSON.parse(value);
+           if (following !== null){
+            following.push(this.state.id);
+           } else {
+               following = [this.state.id];
            }
-           else {
-              // Update what they are following
-              AsyncStorage.setItem("following", this.state.id, () => {
-                  // The item should now be added to the db
-                  this.setState({followingItem: true});
-                  this.registerForNotifications();
-              });
-          }
+           // Update what they are following
+           AsyncStorage.setItem(this.state.category, JSON.stringify(following), () => {
+                // The item should now be added to the db
+                this.setState({followingItem: true});
+                this.registerForNotifications(); 
+            });
+
+            // If its not an author, store the title as well
+            if(this.state.category !== "author"){
+                const value = await AsyncStorage.getItem("titles");
+                const following = JSON.parse(value);
+                if (following[0] !== null){
+                 following.push(this.state.buttonTitle.replace('Follow ',''));
+                } else {
+                    following = [this.state.buttonTitle.replace('Follow ','')];
+                }
+                
+                // Update what they are following
+                AsyncStorage.setItem("titles", JSON.stringify(following), () => {
+                     // Updated the names of what they're following too
+                 });
+            }
         } catch (error) {
           // Error retrieving data
           console.log(error)

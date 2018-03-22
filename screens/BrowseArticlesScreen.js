@@ -129,7 +129,7 @@ export default class BrowseArticlesScreen extends React.Component {
       return (
         <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
           <FollowButton
-            itemToFollow={this.state.id}
+            id={this.state.id}
             buttonTitle={"Follow " + this.state.name}/>
           <ScrollView>
             {results}

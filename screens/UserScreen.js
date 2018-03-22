@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet, AsyncStorage } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, AsyncStorage, ScrollView } from 'react-native';
 import FacebookLogin from '../components/FacebookLogin';
 import ArticleDisplay from '../components/ArticleDisplay';
 import AuthorDisplay from '../components/AuthorDisplay';
@@ -15,12 +15,49 @@ export default class UserScreen extends React.Component {
       super(props);
       this.state = {
         userLoggedIn: false,
-        username: '',
-        password: '',
-        name: '',
-        profilePic: '',
+        authors: [],
         sections: []
       };
+    }
+
+    // When the component mounts find all authors and populate the list of authors they're following
+    componentDidMount(){
+      this.getAuthors();
+      this.getTagsSectionName();
+    }
+
+    // Get the tags and sections names they are following
+    async getTagsSectionName(){
+      try {
+        AsyncStorage.getItem('titles', (err, dbResult) => {
+          result = JSON.parse(dbResult);
+          if(result !== null){
+            this.setState({sections: result});
+          }
+        });
+      } catch (error) {
+        // Error retrieving data
+        console.log(error)
+      }
+    }
+
+    // Get authors from db and put in array
+    async getAuthors(){
+      try {
+        AsyncStorage.getItem('author', (err, authorResult) => {
+          authors = [];
+          result = JSON.parse(authorResult);
+          if(result !== null){
+            result.map((authorID) => {
+              authors.push(this.getAuthorFromID(authorID));
+            })
+          }
+          this.setState({authors: authors});
+        });
+      } catch (error) {
+        // Error retrieving data
+        console.log(error)
+      }
     }
 
     // Method to get author from author id
@@ -58,55 +95,48 @@ export default class UserScreen extends React.Component {
     }
 
     render() {
+      this.getAuthors();
+      this.getTagsSectionName();
       // Get Authors from the database and load them for display
       let authors;
-      AsyncStorage.getItem('author', (err, result) => {
-        if(result !== null){
-          authors = JSON.parse(result).map((authorID) => {
-            author = this.getAuthorFromID(authorID);
-            return <View key={author.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                      <AuthorDisplay
-                        name={author.name}
-                        id={author.id}
-                        bio={author.description}
-                        pic={author['avatar_urls'][96]}
-                        onPressItem={() => navigate('BrowseArticles', {name: author.name, 
-                          postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed'})}
-                      />
-                    </View>
-          })
-        } else {
-          authors = <Text style={Styles.sheet.subtitleText}>You're not following any authors :(</Text>
-        }
-      });
-      // Get tags from the database and load them for display
+      if(this.state.authors.length === 0){
+        authors = <Text style={Styles.sheet.subtitleText}>You're not following any authors</Text>
+      } else {
+        authors = this.state.authors.map((author) => {
+          return <View key={author.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
+                    <AuthorDisplay
+                      name={author.name}
+                      id={author.id}
+                      bio={author.description}
+                      pic={author['avatar_urls'][96]}
+                      onPressItem={() => navigate('BrowseArticles', {name: author.name, id: author.id,
+                        postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed'})}
+                    />
+                  </View>
+        });
+      }
+      // Get tags and sections they're following
       let tags;
-      AsyncStorage.getItem('tag', (err, result) => {
-        if(result !== null){
-          tag = result.map((tagID) => {
-            tag = this.getTagFromID(tagID);
-            return <View key={tag.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                      <Text onPress={() => navigate('BrowseArticles', 
-                        {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
-                        style={Styles.sheet.tagNavText}>{tag.name}
-                      </Text>
-                    </View>
-          })
-        } else {
-          tags = <Text style={Styles.sheet.subtitleText}>You're not following any tags</Text>
-        }
-      });
-      // Get sections from the database and load them for display
-      let sections = <Text style={Styles.sheet.subtitleText}>You're not following any sections</Text>
+      if(this.state.sections.length === 0){
+        tags = <Text style={Styles.sheet.subtitleText}>You're not following any tags or sections</Text>
+      } else {
+        tags = this.state.sections.map((tag) => {
+          return <Text style={Styles.sheet.subtitleText}>tag</Text>
+        });
+      }
       return (
         <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-          <AuthorSignIn/>
-          <Text style={Styles.sheet.titleText}>Sections you're following:</Text>
-          {sections}
-          <Text style={Styles.sheet.titleText}>Tags you're following:</Text>
-          {tags}
-          <Text style={Styles.sheet.titleText}>Authors you're following:</Text>
-          {authors}
+          <ScrollView>
+            <View style={Styles.sheet.boarderedColouredColView}>
+              <Text style={Styles.sheet.titleText}>Sections and Tags you're following:</Text>
+              {tags}
+            </View>
+            <View style={Styles.sheet.boarderedColouredColView}>
+              <Text style={Styles.sheet.titleText}>Authors you're following:</Text>
+              {authors}
+            </View>
+            <AuthorSignIn/>
+          </ScrollView>
         </View>
       );
     }

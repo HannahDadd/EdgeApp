@@ -42,8 +42,9 @@ export default class AuthorDisplay extends React.PureComponent {
                     </View>
                 </View>
                 <FollowButton
-                    itemToFollow={this.state.id}
+                    id={this.state.id}
                     buttonTitle={"Follow " + this.state.name}
+                    isAuthor={true}
                 />
             </View>
         )
