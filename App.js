@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Image, View, TouchableHighlight } from 'react-native';
+import { Text, Image, View, TouchableHighlight, NativeModules } from 'react-native';
 import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
@@ -18,6 +18,7 @@ import FilmScreen from './screens/sections/FilmScreen';
 import LiveScreen from './screens/sections/LiveScreen';
 
 // Export cloud messaging token received when loaded
+module.exports = NativeModules.Follow;
 //const FCMToken = this.props.token;
 const FCMToken = "hi";
 export {FCMToken};

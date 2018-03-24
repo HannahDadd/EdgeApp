@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Button, Text, AsyncStorage } from 'react-native';
 import Styles from '../Styles';
-import {FCMToken} from '../App.js';
+import Follow from './Follow';
 
 export default class FollowButton extends React.PureComponent {
     constructor(props) {
@@ -79,12 +79,13 @@ export default class FollowButton extends React.PureComponent {
             }
         } catch (error) {
           // Error retrieving data
-          console.log(error)
+          console.log(error);
         }
     }
 
     // Follow on API
     registerForNotifications(){
+        Follow.show(this.state.id);
         fetch('http://theedgesusu.co.uk/pnfw/categories/', {
         method: 'POST',
         headers: {
