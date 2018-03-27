@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Button, Text, AsyncStorage } from 'react-native';
 import Styles from '../Styles';
-import Follow from './Follow';
+import Follow from '../Follow';
 
 export default class FollowButton extends React.PureComponent {
     constructor(props) {

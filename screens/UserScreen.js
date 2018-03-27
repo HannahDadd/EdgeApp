@@ -102,18 +102,19 @@ export default class UserScreen extends React.Component {
       if(this.state.authors.length === 0){
         authors = <Text style={Styles.sheet.subtitleText}>You're not following any authors</Text>
       } else {
-        authors = this.state.authors.map((author) => {
-          return <View key={author.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
-                    <AuthorDisplay
-                      name={author.name}
-                      id={author.id}
-                      bio={author.description}
-                      pic={author['avatar_urls'][96]}
-                      onPressItem={() => navigate('BrowseArticles', {name: author.name, id: author.id,
-                        postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed'})}
-                    />
-                  </View>
-        });
+        authors = <Text style={Styles.sheet.subtitleText}>You're not following any authors</Text>
+        // authors = this.state.authors.map((author) => {
+        //   return <View key={author.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
+        //             <AuthorDisplay
+        //               name={author.name}
+        //               id={author.id}
+        //               bio={author.description}
+        //               pic={author['avatar_urls'][96]}
+        //               onPressItem={() => navigate('BrowseArticles', {name: author.name, id: author.id,
+        //                 postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed'})}
+        //             />
+        //           </View>
+        // });
       }
       // Get tags and sections they're following
       let tags;

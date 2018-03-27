@@ -17,8 +17,6 @@ import RecordsScreen from './screens/sections/RecordsScreen';
 import FilmScreen from './screens/sections/FilmScreen';
 import LiveScreen from './screens/sections/LiveScreen';
 
-// Export cloud messaging token received when loaded
-module.exports = NativeModules.Follow;
 //const FCMToken = this.props.token;
 const FCMToken = "hi";
 export {FCMToken};
