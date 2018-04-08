@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, Image, Switch, AsyncStorage, ScrollView } from 'react-native';
-import {FCMToken} from '../App.js';
 import Styles from '../Styles';
 import ArticleDisplay from '../components/ArticleDisplay';
 import AuthorDisplay from '../components/AuthorDisplay';
@@ -12,7 +11,6 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fcm_token: FCMToken,
       pushNotification: false,
       articlesToDisplay: [],
       offset: 0
@@ -91,28 +89,7 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount () {
-    // FCM.requestPermissions();
-    // FCM.getFCMToken().then(token => {
-    //   this.setState({fcm_token:token});
-    //   //update your fcm token on server.
-    // });
-    this.registerForNotifications();
     this.getRecommendedArticle();
-  }
-
-  // Turn Push notifications on and send post to register device
-  registerForNotifications(){
-    fetch('http://theedgesusu.co.uk/pnfw/register/', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token: this.state.fcm_token,
-        os: 'Android',
-      }),
-    });
   }
 
   render() {

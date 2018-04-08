@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 

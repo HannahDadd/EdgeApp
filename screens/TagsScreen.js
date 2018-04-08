@@ -9,16 +9,22 @@ export default class TagsScreen extends React.Component {
       super(props);
       this.state = {
         tagIDs: this.props.navigation.state.params.tagIDs,
+        tagNames: []
       };
     }
 
     // Get tags from IDs on load
     componentDidMount(){
+      console.log(this.state.tagIDs);
+      for (var i = 0; i < this.state.tagIDs.length; i++) {
+        this.getTagsFromURL(this.state.tagIDs[i] + "");
+      }
     }
 
     // Set the articles based on the postURL
     getTagsFromURL(tagID){
-      fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags/' + this.state.tagID, {
+      console.log('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags/' + tagID);
+      fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags/' + tagID, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -26,7 +32,7 @@ export default class TagsScreen extends React.Component {
         },
       }).then(response => response.json())
       .then(responseJson => {
-        
+        console.log(responseJson);
       })
       .catch(error => {
           console.error(error);

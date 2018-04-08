@@ -68,11 +68,12 @@ export default class ShowArticleScreen extends React.Component {
   // Query rest api for data- use fetch api
   componentDidMount() {
     // Set article as read
-    this.addArticleIDtoReadArticles(this.state.id);
+    //this.addArticleIDtoReadArticles(this.state.id);
     // Get author
     this.getJSONData('users', this.state.author, 
       function(responseJson) {
         if(responseJson && responseJson[0] !== undefined){
+          console.log(responseJson);
           this.setState(
             {authorName: responseJson[0].name,
             authorBio: responseJson[0].description,
@@ -82,9 +83,9 @@ export default class ShowArticleScreen extends React.Component {
       }.bind(this)
     );
     // Get tags from id
-    for (var i = 0; i <  this.state.tagIDs.length; i++) {
-       this.addTagIdToRecommender(tagIDs[i]);
-    }
+    // for (var i = 0; i <  this.state.tagIDs.length; i++) {
+    //    this.addTagIdToRecommender(this.state.tagIDs[i]);
+    // }
   }
 
   // Add read articles to datastore so they are not recommended articles they have already read
@@ -92,17 +93,16 @@ export default class ShowArticleScreen extends React.Component {
     // Check if they are already following this tag, author or section
     try {
       const value = await AsyncStorage.getItem("viewedArticles");
-      if (value !== null){ 
-        // Add new tag author or section to db
-        AsyncStorage.mergeItem("viewedArticles", JSON.stringify(articleID), () => {
-        // Item is added to datastore
-        });
+      const readArticles = JSON.parse(value);
+      if (readArticles !== null){ 
+        readArticles.push(articleID);
       } else {
-        // Update what they are following
-        AsyncStorage.setItem("viewedArticles", articleID, () => {
+        readArticles = [articleID];
+      }
+      // Update what they are following
+      AsyncStorage.setItem("viewedArticles", JSON.stringify(readArticles), () => {
         // The item should now be added to the db
         });
-      }
     } catch (error) {
       // Error retrieving data
       console.log(error);
@@ -115,17 +115,12 @@ export default class ShowArticleScreen extends React.Component {
       const tagsFollowing = await AsyncStorage.getItem("tags");
       if (tagsFollowing === null || tagsFollowing.indexOf(tagID) < 0){
         const value = await AsyncStorage.getItem("viewedTags");
-        if (value !== null){ 
-            // Add new tag author or section to db
-          AsyncStorage.mergeItem("viewedTags", JSON.stringify(tagID), () => {
-              // Item is added to datastore
-          });
-        } else {
-            // Update what they are following
-          AsyncStorage.setItem("viewedTags", tagID, () => {
-                // The item should now be added to the db
-          });
-        }
+        const viewedTags = JSON.parse(value);
+        viewedTags.push(tagID);
+        // Update what they are following
+        AsyncStorage.setItem("viewedTags", JSON.stringify(viewedTags), () => {
+              // The item should now be added to the db
+        });
       }
     } catch (error) {
       // Error retrieving data
@@ -144,19 +139,12 @@ export default class ShowArticleScreen extends React.Component {
     }
     // Remove html tags from content .replace(/<(?:.|\n)*?>/gm, '')
     var content = this.state.content;
-    // Add tags to the picker
-    let tags = this.state.tags.map((tag) => {
-      return <View key={tag.key} style={{flex: 1, flexDirection: 'column', padding: 10}}>
-              <Text onPress={() => navigate('BrowseArticles', 
-                {name: tag.name, postsURL: tag["_links"]["wp:post_type"][0].href})}
-                style={Styles.sheet.tagNavText}>{tag.name}
-              </Text>
-            </View>
-    })
     let backgroundColor = 'white';
     if(this.state.nightmode){
       backgroundColor = '#FFE299';
     }
+    console.log(this.state.authorName);
+    console.log(this.state.author);
     return (
       <View style={{flex: 1, backgroundColor: backgroundColor}}>
         <View style={{flexDirection: 'row', padding: 10}}>

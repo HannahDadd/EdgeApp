@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, Image, View, TouchableHighlight, NativeModules } from 'react-native';
 import {TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation';
+
+// Screens
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import ShowArticleScreen from './screens/ShowArticleScreen';

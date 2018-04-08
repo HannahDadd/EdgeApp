@@ -30,7 +30,6 @@ public class Follow extends ReactContextBaseJavaModule {
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestProperty( "Content-type", "application/x-www-form-urlencoded");
-
             String data = "token=" + FirebaseInstanceId.getInstance().getToken() +
                     "&os=android&id=" + id + "&exclude=false";
 

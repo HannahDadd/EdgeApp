@@ -85,20 +85,8 @@ export default class FollowButton extends React.PureComponent {
 
     // Follow on API
     registerForNotifications(){
-        Follow.show(this.state.id);
-        fetch('http://theedgesusu.co.uk/pnfw/categories/', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            token: FCMToken,
-            os: 'Android',
-            id: this.state.id,
-            exclude: false,
-        }),
-        });
+        const param = this.state.id + ""
+        Follow.follow(param);
     }
 
     // Button to follow an item

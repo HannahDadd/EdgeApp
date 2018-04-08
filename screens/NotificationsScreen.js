@@ -6,6 +6,14 @@ export default class NotificationsScreen extends React.Component {
       tabBarLabel: 'Notifications',
       pushNotification: true
     };
+
+    constructor(props) {
+      super(props);
+  
+      this.state = {
+      }
+    }
+
     render() {
       //const { navigate } = this.props.navigation;
       return (
