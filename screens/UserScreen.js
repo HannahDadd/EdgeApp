@@ -20,7 +20,8 @@ export default class UserScreen extends React.Component {
       return (
         <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
           <ScrollView>
-            <AuthorSignIn/>
+                  <AuthorSignIn />
+                  <FacebookLogin/>
           </ScrollView>
         </View>
       );
