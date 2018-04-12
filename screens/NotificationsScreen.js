@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Switch, AsyncStorage, FlatList } from 'react-native';
+import { View, Text, Switch, AsyncStorage, FlatList, Button } from 'react-native';
 import ArticleDisplay from '../components/ArticleDisplay';
 import AuthorDisplay from '../components/AuthorDisplay';
 import FacebookLogin from '../components/FacebookLogin';
@@ -17,15 +17,23 @@ export default class NotificationsScreen extends React.Component {
             authors: [],
             sections: [],
             tags: [],
-            navigate: this.props.navigation.navigate
+            navigate: this.props.navigation.navigate,
+            currentlyLoading: false
         }
     }
 
     componentDidMount() {
+        this.loadContent();
+    }
+
+    // See if new items added to db
+    loadContent() {
+        this.setState({ currentlyLoading: true });
         // Reset the ids in case they have changed
         this.getIDsFromDB("author", 'https://www.theedgesusu.co.uk/wp-json/wp/v2/users/');
         this.getIDsFromDB("tag", 'https://www.theedgesusu.co.uk/wp-json/wp/v2/tags/');
         this.getIDsFromDB("section", 'https://www.theedgesusu.co.uk/wp-json/wp/v2/categories/');
+        this.setState({ currentlyLoading: false });
     }
 
     // Get ids from db and put in array
@@ -85,12 +93,15 @@ export default class NotificationsScreen extends React.Component {
     }
 
     render() {
-        console.log(this.state.authors, this.state.sections, this.state.tags);
+        let loadMore = <Text>Loading Content</Text>
+        if (!this.state.currentlyLoading) {
+            loadMore = <Button color={Styles.buttonColour}
+                onPress={this.loadContent.bind(this)}
+                title="Refresh" />
+        }
         // Get the authors and display them
         let authors = [];
-        console.log(this.state.authors)
         authors = this.state.authors.map((author) => {
-            console.log(author);
             return { key: author.id, title: author.name, postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed' }
         });
         // Get the tags and display them
@@ -110,6 +121,7 @@ export default class NotificationsScreen extends React.Component {
                     <View>
                         <Switch onValueChange={(value) => this.setState({ pushNotification: value })} />
                     </View>
+                    {loadMore}
                 </View>
                 <FlatList
                     data={authors}
