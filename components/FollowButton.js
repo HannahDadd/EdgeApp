@@ -11,26 +11,28 @@ export default class FollowButton extends React.PureComponent {
             buttonTitle: this.props.buttonTitle,
             isUser: this.props.isUser,
             userData: this.props.userData,
-            category: "following",
+            category: this.props.category,
             followingItem: false
         };
     }
 
     // When the component mounts check if they are following this item
-    componentDidMount(){
-        if(this.props.isAuthor){
-            this.setState({category: "author"});
-        }
+    componentDidMount() {
         this.areFollowing();
     }
 
     // Check if user following item already
-    async areFollowing(){
-        try{
+    async areFollowing() {
+        try {
+            // Search all ids being followed in category
             const value = await AsyncStorage.getItem(this.state.category);
             const following = JSON.parse(value);
-            if(following.indexOf(this.state.id) > -1){
-                this.setState({followingItem: true});
+            // If they already have this category, see if they are following this id
+            if (following !== null) {
+                // If the id trying to follow is there, set following to true
+                if (following.indexOf(this.state.id) > -1) {
+                    this.setState({ followingItem: true });
+                }
             }
         } catch (error) {
             // Error retrieving data
@@ -39,52 +41,38 @@ export default class FollowButton extends React.PureComponent {
     }
 
     // Add the item to the database
-    async follow(){
-        // Check if they are already following anything
+    async follow() {
+        // Check if they are already following something in that category   
         try {
             // If they are the user set this as them
-            if(this.state.isUser){
+            if (this.state.isUser) {
                 AsyncStorage.setItem("user", JSON.stringify(this.state.userData), () => {
                     // User set in db
                 });
             }
-           const value = await AsyncStorage.getItem(this.state.category);
-           const following = JSON.parse(value);
-           if (following !== null){
-            following.push(this.state.id);
-           } else {
-               following = [this.state.id];
-           }
-           // Update what they are following
-           AsyncStorage.setItem(this.state.category, JSON.stringify(following), () => {
-                // The item should now be added to the db
-                this.setState({followingItem: true});
-                this.registerForNotifications(); 
-            });
-
-            // If its not an author, store the title as well
-            if(this.state.category !== "author"){
-                const value = await AsyncStorage.getItem("titles");
-                const following = JSON.parse(value);
-                if (following[0] !== null){
-                 following.push(this.state.buttonTitle.replace('Follow ',''));
-                } else {
-                    following = [this.state.buttonTitle.replace('Follow ','')];
-                }
-                
-                // Update what they are following
-                AsyncStorage.setItem("titles", JSON.stringify(following), () => {
-                     // Updated the names of what they're following too
-                 });
+            // Get all items they are following in the DB
+            const value = await AsyncStorage.getItem(this.state.category);
+            const following = JSON.parse(value);
+            // If they are not following items from that category in the DB create it in the DB
+            if (following !== null) {
+                following.push(this.state.id);
+            } else {
+                following = [this.state.id];
             }
+            // Update what they are following
+            AsyncStorage.setItem(this.state.category, JSON.stringify(following), () => {
+                // The item should now be added to the db, register on server for Notifications
+                this.setState({ followingItem: true });
+                this.registerForNotifications();
+            });
         } catch (error) {
-          // Error retrieving data
-          console.log(error);
+            // Error retrieving data
+            console.log(error);
         }
     }
 
     // Follow on API
-    registerForNotifications(){
+    registerForNotifications() {
         const param = this.state.id + ""
         Follow.follow(param);
     }
@@ -92,11 +80,12 @@ export default class FollowButton extends React.PureComponent {
     // Button to follow an item
     render() {
         let followInfo;
-        if(this.state.followingItem){
+        // Show following if already following item, follow button otherwise
+        if (this.state.followingItem) {
             followInfo = <Text style={Styles.sheet.titleText}>Following!</Text>
         } else {
-            followInfo = <Button color={Styles.buttonColour} title={this.state.buttonTitle} 
-            onPress={this.follow.bind(this)}/>
+            followInfo = <Button color={Styles.buttonColour} title={this.state.buttonTitle}
+                onPress={this.follow.bind(this)} />
         }
         return (
             <View>

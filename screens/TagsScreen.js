@@ -17,7 +17,6 @@ export default class TagsScreen extends React.Component {
 
     // Get tags from IDs on load
     componentDidMount() {
-        console.log(this.state.tagIDs);
         for (var i = 0; i < this.state.tagIDs.length; i++) {
             this.getTagsFromURL(this.state.tagIDs[i] + "");
         }
@@ -25,7 +24,6 @@ export default class TagsScreen extends React.Component {
 
     // Set the articles based on the postURL
     getTagsFromURL(tagID) {
-        console.log('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags/' + tagID);
         fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags/' + tagID, {
             method: 'GET',
             headers: {
@@ -42,7 +40,6 @@ export default class TagsScreen extends React.Component {
     }
 
     render() {
-        console.log(this.state.tags);
         // Display the tags on the page wiht URL to show articles
         let data = []
         data = this.state.tags.map((tag) => {
@@ -54,7 +51,7 @@ export default class TagsScreen extends React.Component {
                     data={data}
                     renderItem={({ item }) => <SectionListItem title={item.title}
                         onPress={() => this.state.navigate('BrowseArticles',
-                            { name: item.title, postsURL: item.postsURL, isSection: false })} />}
+                            { name: item.title, postsURL: item.postsURL, isSection: false, category: "tag" })} />}
                 />
             </View>
         );

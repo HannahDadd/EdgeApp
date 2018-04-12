@@ -1,143 +1,135 @@
 import React from 'react';
-import { View, Text, Switch, AsyncStorage } from 'react-native';
+import { View, Text, Switch, AsyncStorage, FlatList } from 'react-native';
 import ArticleDisplay from '../components/ArticleDisplay';
 import AuthorDisplay from '../components/AuthorDisplay';
 import FacebookLogin from '../components/FacebookLogin';
+import SectionListItem from '../components/SectionListItem';
 
 export default class NotificationsScreen extends React.Component {
     static navigationOptions = {
-      tabBarLabel: 'Notifications',
-      pushNotification: true
+        tabBarLabel: 'Notifications',
+        pushNotification: true
     };
 
     constructor(props) {
-      super(props);
-  
-      this.state = {
-        authors: [],
-        sections: []
-      }
-    }
-    // When the component mounts find all authors and populate the list of authors they're following
-    componentDidMount(){
-      this.getAuthors();
-      this.getTagsSectionName();
+        super(props);
+        this.state = {
+            authors: [],
+            sections: [],
+            tags: [],
+            navigate: this.props.navigation.navigate
+        }
     }
 
-    // Get the tags and sections names they are following
-    async getTagsSectionName(){
-      try {
-        AsyncStorage.getItem('titles', (err, dbResult) => {
-          result = JSON.parse(dbResult);
-          console.log(result);
-          if(result !== null){
-            this.setState({sections: result});
-          }
-        });
-      } catch (error) {
-        // Error retrieving data
-        console.log(error)
-      }
+    componentDidMount() {
+        // Reset the ids in case they have changed
+        this.getIDsFromDB("author", 'https://www.theedgesusu.co.uk/wp-json/wp/v2/users/');
+        this.getIDsFromDB("tag", 'https://www.theedgesusu.co.uk/wp-json/wp/v2/tags/');
+        this.getIDsFromDB("section", 'https://www.theedgesusu.co.uk/wp-json/wp/v2/categories/');
     }
 
-    // Get authors from db and put in array
-    async getAuthors(){
-      try {
-        AsyncStorage.getItem('author', (err, authorResult) => {
-          authors = [];
-          result = JSON.parse(authorResult);
-          console.log(result);
-          if(result !== null){
-            result.map((authorID) => {
-              authors.push(this.getAuthorFromID(authorID));
+    // Get ids from db and put in array
+    async getIDsFromDB(category, url) {
+        try {
+            // Remove any pre-stored data
+            if (category === "author") {
+                this.setState({ authors: [] });
+            } else if (category === "tag") {
+                this.setState({ tags: [] });
+            } else if (category === "section") {
+                this.setState({ sections: [] });
+            }
+            AsyncStorage.getItem(category, (err, idList) => {
+                var result = JSON.parse(idList);
+                // If item in db return list of ids otherwise return 
+                if (result !== null) {
+                    result.map((id) => {
+                        this.getItemFromID(url + id, category);
+                    })
+                }
+            });
+        } catch (error) {
+            // Error retrieving data
+            console.log(error)
+        }
+    }
+
+    // Method to get item from author its id
+    getItemFromID(url, category) {
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }).then(response => response.json())
+            .then(responseJson => {
+                // Add object to array
+                if (category === "author") {
+                    var newArray = this.state.authors;
+                    newArray.push(responseJson);
+                    this.setState({ authors: newArray });
+                } else if (category === "tag") {
+                    var newArray = this.state.tags;
+                    newArray.push(responseJson);
+                    this.setState({ tags: newArray });
+                } else if (category === "section") {
+                    var newArray = this.state.sections;
+                    newArray.push(responseJson);
+                    this.setState({ sections: newArray });
+                }
             })
-          }
-          this.setState({authors: authors});
-        });
-      } catch (error) {
-        // Error retrieving data
-        console.log(error)
-      }
-    }
-
-    // Method to get author from author id
-    getAuthorFromID(authorID){
-      console.log(authorID);
-      fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/users?search=' + authorID + '&_embed', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }).then(response => response.json())
-      .then(responseJson => {
-        return responseJson[0];
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    }
-
-    // Method to get tag from tag id
-    getTagFromID(tagID){
-      fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags?search=' + tagID + '&_embed', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }).then(response => response.json())
-      .then(responseJson => {
-        return responseJson[0];
-      })
-      .catch(error => {
-        console.error(error);
-      });
+            .catch(error => {
+                console.error(error);
+            });
     }
 
     render() {
-      console.log(this.state.authors, this.state.sections);
-      // Get Authors from the database and load them for display
-      let authors;
-      if(this.state.authors.length === 0){
-        authors = <Text></Text>
-      } else {
-        console.log(this.state.authors);
-        authors = <Text style={Styles.sheet.subtitleText}>You're not following any authors</Text>
-        // authors = this.state.authors.map((author) => {
-        //   return <View key={author.id} style={{flex: 1, flexDirection: 'column', padding: 10}}>
-        //             <AuthorDisplay
-        //               name={author.name}
-        //               id={author.id}
-        //               bio={author.description}
-        //               pic={author['avatar_urls'][96]}
-        //               onPressItem={() => navigate('BrowseArticles', {name: author.name, id: author.id,
-        //                 postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed'})}
-        //             />
-        //           </View>
-        // });
-      }
-      // Get tags and sections they're following
-      let tags;
-      if(this.state.sections.length === 0){
-        tags = <Text style={Styles.sheet.subtitleText}>You're not following any tags or sections</Text>
-      } else {
-        tags = this.state.sections.map((tag) => {
-          return <Text></Text>
+        console.log(this.state.authors, this.state.sections, this.state.tags);
+        // Get the authors and display them
+        let authors = [];
+        console.log(this.state.authors)
+        authors = this.state.authors.map((author) => {
+            console.log(author);
+            return { key: author.id, title: author.name, postsURL: 'https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?author=' + author.id + '&_embed' }
         });
-      }
-      //const { navigate } = this.props.navigation;
-      return (
-        <View style={{flex: 1, flexDirection: 'column'}}>
-          <View style={{flexDirection: 'row', padding: 10}}>
-            <Text style={Styles.sheet.subtitleText}>Notifications:</Text>
-            <View>
-              <Switch onValueChange={(value) => this.setState({pushNotification: value})}/>
+        // Get the tags and display them
+        let tags = [];
+        tags = this.state.tags.map((tag) => {
+            return { key: tag.id, title: tag.name, postsURL: "https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?tags=" + tag.id }
+        });
+        // Get the authors and display them
+        let sections = [];
+        sections = this.state.sections.map((section) => {
+            return { key: section.id, title: section.name, postsURL: "https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?categories=" + section.id }
+        });
+        return (
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+                <View style={{ flexDirection: 'row', padding: 10 }}>
+                    <Text style={Styles.sheet.subtitleText}>Notifications:</Text>
+                    <View>
+                        <Switch onValueChange={(value) => this.setState({ pushNotification: value })} />
+                    </View>
+                </View>
+                <FlatList
+                    data={authors}
+                    renderItem={({ item }) => <SectionListItem title={item.title}
+                        onPress={() => this.state.navigate('BrowseArticles',
+                            { name: item.title, postsURL: item.postsURL, category: "author" })} />}
+                />
+                <FlatList
+                    data={tags}
+                    renderItem={({ item }) => <SectionListItem title={item.title}
+                        onPress={() => this.state.navigate('BrowseArticles',
+                            { name: item.title, postsURL: item.postsURL, category: "tag" })} />}
+                />
+                <FlatList
+                    data={sections}
+                    renderItem={({ item }) => <SectionListItem title={item.title}
+                        onPress={() => this.state.navigate('BrowseArticles',
+                            { name: item.title, postsURL: item.postsURL, category: "section" })} />}
+                />
             </View>
-          </View>
-          {tags}
-          {authors}
-        </View>
-      );
+        );
     }
-  }
+}

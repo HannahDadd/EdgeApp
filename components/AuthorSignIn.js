@@ -29,7 +29,6 @@ export default class AuthorSignIn extends React.PureComponent {
         // Check if they already logged in
         try {
            const value = await AsyncStorage.getItem("user");
-           console.log(value);
            if (value !== null){ 
               // Set the values for the author sign in
               var obj = JSON.parse(value);
