@@ -6,24 +6,24 @@ import Styles from '../Styles';
 
 export default class UserScreen extends React.Component {
     static navigationOptions = {
-      tabBarLabel: 'User',
+        tabBarLabel: 'User',
     };
 
     constructor(props) {
-      super(props);
-      this.state = {
-        userLoggedIn: false
-      };
+        super(props);
+        this.state = {
+            userLoggedIn: false
+        };
     }
 
     render() {
-      return (
-        <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-          <ScrollView>
-                  <AuthorSignIn />
-                  <FacebookLogin/>
-          </ScrollView>
-        </View>
-      );
+        return (
+            <View style={{ flex: 1, flexDirection: 'column', padding: 10 }}>
+                <ScrollView>
+                    <FacebookLogin />
+                    <AuthorSignIn />
+                </ScrollView>
+            </View>
+        );
     }
-  }
+}

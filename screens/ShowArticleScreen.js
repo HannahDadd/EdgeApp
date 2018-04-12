@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, Picker, Image, Button, ScrollView, AsyncStorage, Switch, WebView } from 'react-native';
 import AuthorDisplay from '../components/AuthorDisplay';
+import { LoginButton, ShareDialog } from 'react-native-fbsdk';
 import ArticleText from '../components/ArticleText';
 import Styles from '../Styles';
 
@@ -19,34 +20,40 @@ export default class ShowArticleScreen extends React.Component {
             authorPic: '',
             section: '',
             tagIDs: this.props.navigation.state.params.article.tags,
-            link: this.props.navigation.state.params.article.guid.rendered,
+            link: this.props.navigation.state.params.article.link,
             nightmode: false
         };
     }
 
     // Share this article to FB
-    // shareToFacebook(){
-    //   const shareLinkContent = {
-    //     contentType: 'link',
-    //     contentUrl: this.state.link,
-    //     contentDescription: '',
-    //   };
-    //   ShareApi.canShare(this.state.shareLinkContent).then(
-    //     tmp = this;
-    //     function(canShare) {
-    //       if (canShare) {
-    //         return ShareApi.share(tmp.state.shareLinkContent, '/me', 'Some message.');
-    //       }
-    //     }
-    //   ).then(
-    //     function(result) {
-    //       alert('Share operation with ShareApi was successful');
-    //     },
-    //     function(error) {
-    //       alert('Share with ShareApi failed with error: ' + error);
-    //     }
-    //   );
-    // }
+    shareLinkWithShareDialog() {
+        const shareLinkContent = {
+            contentType: 'link',
+            contentUrl: this.state.link,
+            contentDescription: 'Check out this article!'
+        };
+
+        var tmp = this;
+        ShareDialog.canShow(shareLinkContent).then(
+            function (canShow) {
+                if (canShow) {
+                    return ShareDialog.show(shareLinkContent);
+                }
+            }
+        ).then(
+            function (result) {
+                console.log(result);
+                if (result.isCancelled) {
+                    alert('Share operation was cancelled');
+                } else {
+                    // Share operations was a sucess
+                }
+            },
+            function (error) {
+                alert('Share failed with error: ' + error.message);
+            }
+            );
+    }
 
     // Fetch data from the api
     getJSONData(searchIn, searchFor, callBack) {
@@ -159,6 +166,12 @@ export default class ShowArticleScreen extends React.Component {
                     </View>
                     <View style={{ padding: 5 }}>
                         <Button color={Styles.buttonColour} title="See Tags" onPress={() => navigate('Tags', { tagIDs: this.state.tagIDs })} />
+                    </View>
+                </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                    <View>
+                        <Button color={Styles.buttonColour} title="Share to Facebook"
+                            onPress={this.shareLinkWithShareDialog.bind(this)} />
                     </View>
                 </View>
                 <WebView id={"webview"} source={{ html: content }} style={{ backgroundColor: backgroundColor, marginTop: 20 }} />
