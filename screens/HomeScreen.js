@@ -19,30 +19,28 @@ export default class HomeScreen extends React.Component {
 
     // Get reccomeneded article for user
     async getRecommendedArticle() {
-        numberOfArticelsFound = 0;
+        var numberOfArticelsFound = 0;
         try {
-            const tags = await AsyncStorage.getItem("viewedTags");
-            //console.log(tags.length);
+            var tags = await AsyncStorage.getItem("viewedTags");
+            let viewedTags = JSON.parse(tags);
             const articlesRead = await AsyncStorage.getItem("viewedArticles");
-            while (numberOfArticelsFound !== 10) {
+            let readArticles = JSON.parse(articlesRead);
+            console.log(viewedTags);
+            // Display tn articles on the home screen, recommended ones and latest content
+            while (i = 0; i <= 10; i++) {
                 // If they have not read any articles i.e. have no tags, suggest last article published      
-                if (tags !== null && tags.length !== 0) {
-                    // Go through all articles with first tag in list to find one to recommend
-                    getTaggedArticles(tags[0]).map((article) => {
-                        // If they've already read the article, don't recommend it
-                        if (articlesRead.indexOf(article.id) > -1) {
-                            this.setState({ articlesToDisplay: this.state.articlesToDisplay.push(article) });;
-                        }
-                    });
-                    // If article to recommend not found remove tag from list and try next tag in loop again
-                    var index = tags.indexOf(tag[0]);
+                if (viewedTags !== null && viewedTags.length !== 0) {
+                    // Go through all tags and recommend if article is returned
+                    this.getTaggedArticles(tag[i], viewedTags);
+                    numberOfArticelsFound++;
+                    // Remove tag from list and try
+                    var index = viewedTags.indexOf(viewedTags[i]);
                     if (index > -1) {
-                        tags.splice(index, 1);
+                        viewedTags.splice(index, 1);
                     }
                 } else {
-                    // Return last article published
-                    stillToFind = 10 - numberOfArticelsFound;
-                    numberOfArticelsFound = 10;
+                    // Return last articles published
+                    var stillToFind = 10 - numberOfArticelsFound;
                     this.getArticlesPublishedRecently(stillToFind);
                 }
             }
@@ -52,8 +50,9 @@ export default class HomeScreen extends React.Component {
     }
 
     // Get the tags JSON values
-    getTaggedArticles(tagID) {
-        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?tags=' + tagID + '&_embed', {
+    getTaggedArticles(tagID, articlesRead) {
+        // Search posts with that content in. Only return a maximum of 3 articles per tag
+        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?search=' + tagID + '&per_page=3&_embed', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -61,7 +60,13 @@ export default class HomeScreen extends React.Component {
             },
         }).then(response => response.json())
             .then(responseJson => {
-                return responseJson;
+                // Loop through returned articles and add them to recommender
+                responseJson.map((article) => {
+                    // If they have not already been read by the user recommend
+                    if (articlesRead.indexOf(article.id) > -1) {
+                        this.setState({ articlesToDisplay: this.state.articlesToDisplay.push(article) });;
+                    }
+                });
             })
             .catch(error => {
                 console.error(error);
