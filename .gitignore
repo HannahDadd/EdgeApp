@@ -23,6 +23,9 @@ android/local.properties
 
 # Xcode
 ios/.DS_Store
+ios/build/
+ios/Frameworks
+ios/pods
 *.pbxuser
 *.mode1v3
 *.mode2v3
