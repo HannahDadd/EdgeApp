@@ -37,12 +37,11 @@ export default class HomeScreen extends React.Component {
                     if (index > -1) {
                         viewedTags.splice(index, 1);
                     }
-                } else {
-                    // Return last articles published
-                    var stillToFind = 10 - numberOfArticelsFound;
-                    this.getArticlesPublishedRecently(stillToFind);
                 }
             }
+            // Return last articles published
+            var stillToFind = 10 - numberOfArticelsFound;
+            this.getArticlesPublishedRecently();
         } catch (error) {
             // Error retrieving data
         }
@@ -63,7 +62,8 @@ export default class HomeScreen extends React.Component {
                 responseJson.map((article) => {
                     // If they have not already been read by the user recommend
                     if (articlesRead.indexOf(article.id) > -1) {
-                        this.setState({ articlesToDisplay: this.state.articlesToDisplay.push(article) });;
+                        this.setState({
+                            articlesToDisplay: this.state.articlesToDisplay.push(article)});
                     }
                 });
             })
@@ -73,8 +73,8 @@ export default class HomeScreen extends React.Component {
     }
 
     // Get last article published
-    getArticlesPublishedRecently(stillToFind) {
-        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?per_page=' + stillToFind + '&offset=' + this.state.offset + '&_embed', {
+    getArticlesPublishedRecently() {
+        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?offset=' + this.state.offset + '&_embed', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -84,8 +84,9 @@ export default class HomeScreen extends React.Component {
             .then(responseJson => {
                 // Set offset
                 this.setState({ offset: this.state.offset++ });
-                this.setState({ articlesToDisplay: this.state.articlesToDisplay.concat(responseJson) });
-
+                this.setState({
+                    articlesToDisplay: this.state.articlesToDisplay.concat(responseJson)
+                });
             })
             .catch(error => {
                 console.error(error);
