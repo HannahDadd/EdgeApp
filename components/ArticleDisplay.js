@@ -20,12 +20,15 @@ export default class ArticleDisplay extends React.PureComponent {
         } else {
             icon = require('../pictures/noimage.jpg');
         }
+
+        // Replace HTML code &#xxxx; in titles
+        var title = this.state.title.replace(/&#.*;/, '');
         return (
             <View style={Styles.sheet.boarderedColouredColView}>
                 <TouchableHighlight onPress={this.props.onPressItem}>
                     <Image onPress={this.props.onPressItem} source={icon} style={{width: 300, height: 200}}/>
                 </TouchableHighlight>
-                <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{this.state.title}</Text>
+                <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{title}</Text>
             </View>
         )
     }
