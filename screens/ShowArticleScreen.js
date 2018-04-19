@@ -85,9 +85,8 @@ export default class ShowArticleScreen extends React.Component {
             }.bind(this)
         );
         // Get tags from id
-        // for (var i = 0; i <  this.state.tagIDs.length; i++) {
-        //    this.addTagIdToRecommender(this.state.tagIDs[i]);
-        // }
+        console.log(this.state.tagIDs);
+        this.addTagIdToRecommender(this.state.tagIDs);
     }
 
     // Add read articles to datastore so they are not recommended articles they have already read
@@ -113,17 +112,11 @@ export default class ShowArticleScreen extends React.Component {
 
     async addTagIdToRecommender(tagID) {
         try {
-            // If they are following the tag, don't recommend it
-            const tagsFollowing = await AsyncStorage.getItem("tags");
-            if (tagsFollowing === null || tagsFollowing.indexOf(tagID) < 0) {
-                const value = await AsyncStorage.getItem("viewedTags");
-                const viewedTags = JSON.parse(value);
-                viewedTags.push(tagID);
-                // Update what they are following
-                AsyncStorage.setItem("viewedTags", JSON.stringify(viewedTags), () => {
-                    // The item should now be added to the db
-                });
-            }
+            
+            // Update what they are following, remove what previously interested in
+            AsyncStorage.setItem("viewedTags", JSON.stringify(tagID), () => {
+                // The item should now be added to the db
+            });
         } catch (error) {
             // Error retrieving data
             console.log(error);

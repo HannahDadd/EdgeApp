@@ -12,13 +12,13 @@ export default class HomeScreen extends React.Component {
         this.state = {
             pushNotification: false,
             articlesToDisplay: [],
+            recommendedArticles: [],
             offset: 0
         };
     }
 
     // Get reccomeneded article for user
     async getRecommendedArticle() {
-        var numberOfArticelsFound = 0;
         try {
             var tags = await AsyncStorage.getItem("viewedTags");
             let viewedTags = JSON.parse(tags);
@@ -26,21 +26,14 @@ export default class HomeScreen extends React.Component {
             let readArticles = JSON.parse(articlesRead);
             console.log(viewedTags);
             // Display tn articles on the home screen, recommended ones and latest content
-            for (i = 0; i <= 10; i++) {
+            for (i = 0; i <= viewedTags.length; i++) {
                 // If they have not read any articles i.e. have no tags, suggest last article published      
-                if (viewedTags !== null && viewedTags.length !== 0) {
+                if (viewedTags !== null) {
                     // Go through all tags and recommend if article is returned
-                    this.getTaggedArticles(tag[i], viewedTags);
-                    numberOfArticelsFound++;
-                    // Remove tag from list and try
-                    var index = viewedTags.indexOf(viewedTags[i]);
-                    if (index > -1) {
-                        viewedTags.splice(index, 1);
-                    }
+                    this.getTaggedArticles(viewedTags[i], articlesRead);
                 }
             }
             // Return last articles published
-            var stillToFind = 10 - numberOfArticelsFound;
             this.getArticlesPublishedRecently();
         } catch (error) {
             // Error retrieving data
@@ -59,12 +52,8 @@ export default class HomeScreen extends React.Component {
         }).then(response => response.json())
             .then(responseJson => {
                 // Loop through returned articles and add them to recommender
-                responseJson.map((article) => {
-                    // If they have not already been read by the user recommend
-                    if (articlesRead.indexOf(article.id) > -1) {
-                        this.setState({
-                            articlesToDisplay: this.state.articlesToDisplay.push(article)});
-                    }
+                this.setState({
+                    recommendedArticles: this.state.recommendedArticles.concat(responseJson)
                 });
             })
             .catch(error => {
@@ -143,7 +132,7 @@ export default class HomeScreen extends React.Component {
     render() {
         const { navigate } = this.props.navigation;
 
-        // Display the articles// If no search results are returned
+        // Display the articles
         let articles;
         if (this.state.articlesToDisplay.length < 1) {
             articles = <Text style={Styles.sheet.subtitleText}>Loading...</Text>
@@ -169,11 +158,40 @@ export default class HomeScreen extends React.Component {
                     />
                 </View>
             })
+        } 
+        // Display recommended articles
+        let articleRecs;
+        if (this.state.recommendedArticles.length < 1) {
+            articleRecs = <Text style={Styles.sheet.subtitleText}></Text>
+        }
+        else {
+            articleRecs = this.state.recommendedArticles.map((article) => {
+                // Check if there is a featured image to display
+                let pic = '';
+                // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
+                if (article && article._embedded && article._embedded['wp:featuredmedia'] !== undefined) {
+                    pic = article._embedded['wp:featuredmedia'];
+                    if (pic[0].media_details && pic[0].media_details.sizes && pic[0].media_details.sizes.medium
+                        && pic[0].media_details.sizes.medium.source_url !== undefined) {
+                        pic = pic[0].media_details.sizes.medium.source_url;
+                    }
+                }
+                return <View key={article.id}
+                    style={{ flex: 1, flexDirection: 'column', padding: 10 }}>
+                    <Text style={Styles.sheet.subtitleText}>Recommended for you</Text>
+                    <ArticleDisplay
+                        title={article.title.rendered}
+                        image={pic}
+                        onPressItem={() => navigate('ShowArticle', { article: article, image: pic })}
+                    />
+                </View>
+            })
         }
         return (
             <View style={{ flex: 1, flexDirection: 'column', padding: 10 }}>
                 <EdgeSocialLinks />
                 <ScrollView>
+                    {articleRecs}
                     {articles}
                 </ScrollView>
             </View>
