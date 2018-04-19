@@ -1,8 +1,5 @@
 import React from 'react';
 import { View, Text, Switch, AsyncStorage, FlatList, Button } from 'react-native';
-import ArticleDisplay from '../components/ArticleDisplay';
-import AuthorDisplay from '../components/AuthorDisplay';
-import FacebookLogin from '../components/FacebookLogin';
 import SectionListItem from '../components/SectionListItem';
 
 export default class NotificationsScreen extends React.Component {
@@ -52,7 +49,9 @@ export default class NotificationsScreen extends React.Component {
                 // If item in db return list of ids otherwise return 
                 if (result !== null) {
                     result.map((id) => {
-                        this.getItemFromID(url + id, category);
+                        if (id !== null) {
+                            this.getItemFromID(url + id, category);
+                        }
                     })
                 }
             });

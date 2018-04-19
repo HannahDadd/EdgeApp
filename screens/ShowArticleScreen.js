@@ -1,8 +1,6 @@
 import React from 'react';
 import { Text, View, Picker, Image, Button, ScrollView, AsyncStorage, Switch, WebView } from 'react-native';
-import AuthorDisplay from '../components/AuthorDisplay';
 import { LoginButton, ShareDialog } from 'react-native-fbsdk';
-import ArticleText from '../components/ArticleText';
 import Styles from '../Styles';
 
 export default class ShowArticleScreen extends React.Component {
@@ -11,14 +9,11 @@ export default class ShowArticleScreen extends React.Component {
         super(props);
         this.state = {
             id: this.props.navigation.state.params.id,
-            title: this.props.navigation.state.params.article.title.rendered,
-            image: this.props.navigation.state.params.image,
             content: this.props.navigation.state.params.article.content.rendered,
             author: this.props.navigation.state.params.article.author,
             authorName: '',
             authorBio: '',
             authorPic: '',
-            section: '',
             tagIDs: this.props.navigation.state.params.article.tags,
             link: this.props.navigation.state.params.article.link,
             nightmode: false
@@ -137,13 +132,6 @@ export default class ShowArticleScreen extends React.Component {
 
     render() {
         const { navigate } = this.props.navigation;
-        // Check if there is a featured image to display
-        var icon;
-        if (String(this.state.image) && this.state.image.includes('http')) {
-            icon = { uri: this.state.image };
-        } else {
-            icon = require('../pictures/noimage.jpg');
-        }
         // Remove html tags from content .replace(/<(?:.|\n)*?>/gm, '')
         var content = this.state.content;
         let backgroundColor = 'white';

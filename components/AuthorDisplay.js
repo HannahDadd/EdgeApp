@@ -14,6 +14,7 @@ export default class AuthorDisplay extends React.PureComponent {
         };
     }
 
+    // Set inital props
     componentWillReceiveProps(nextProps) {
         this.setState(
             {name: nextProps.name,
@@ -24,6 +25,7 @@ export default class AuthorDisplay extends React.PureComponent {
 
     // Article box is the articles title and featured image
     render() {
+        // If they have profile show it otherwise show text and name
         var icon;
         if(this.state.image === ''){
             icon = require('../pictures/noimage.jpg');

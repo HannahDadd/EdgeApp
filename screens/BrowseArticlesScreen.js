@@ -69,6 +69,7 @@ export default class BrowseArticlesScreen extends React.Component {
         }).then(response => response.json())
             .then(responseJson => {
                 if (responseJson[0] !== undefined) {
+                    // set id in postURL
                     this.setState({
                         postsURL:
                             "https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?categories=" + responseJson[0].id,

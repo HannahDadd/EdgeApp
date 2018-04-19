@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, Image, Switch, AsyncStorage, ScrollView } from 'react-native';
 import Styles from '../Styles';
 import ArticleDisplay from '../components/ArticleDisplay';
-import AuthorDisplay from '../components/AuthorDisplay';
 import Follow from '../Follow';
 import EdgeSocialLinks from '../components/EdgeSocialLinks';
 
@@ -27,7 +26,7 @@ export default class HomeScreen extends React.Component {
             let readArticles = JSON.parse(articlesRead);
             console.log(viewedTags);
             // Display tn articles on the home screen, recommended ones and latest content
-            while (i = 0; i <= 10; i++) {
+            for (i = 0; i <= 10; i++) {
                 // If they have not read any articles i.e. have no tags, suggest last article published      
                 if (viewedTags !== null && viewedTags.length !== 0) {
                     // Go through all tags and recommend if article is returned

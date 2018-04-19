@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, ScrollView, View, Button, FlatList } from 'react-native';
 import FollowButton from '../components/FollowButton';
-import ArticleDisplay from '../components/ArticleDisplay';
 import Styles from '../Styles';
 import SectionListItem from '../components/SectionListItem';
 

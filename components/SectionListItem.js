@@ -11,6 +11,7 @@ export default class SectionListItem extends React.PureComponent {
         };
     }
 
+    // Display clickable list item
     render() {
         return (
             <View style={{padding:2}}>
