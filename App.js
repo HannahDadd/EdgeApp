@@ -85,12 +85,12 @@ const App = StackNavigator({
   },
   ShowArticle: {screen: ShowArticleScreen,
     navigationOptions: ({ navigation }) => ({
-      title: `${navigation.state.params.article.title.rendered}`,
+        title: `${navigation.state.params.article.title.rendered.replace(/&#.*;/, '')}`,
     }),
   },
   BrowseArticles: {screen: BrowseArticlesScreen, 
       navigationOptions: ({ navigation }) => ({
-          title: `${navigation.state.params.name.replace(/&#.*;/, '')}`,
+          title: `${navigation.state.params.name}`,
     }),
   },
   Tags: {screen: TagsScreen, 
