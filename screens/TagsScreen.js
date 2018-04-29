@@ -50,7 +50,7 @@ export default class TagsScreen extends React.Component {
                     data={data}
                     renderItem={({ item }) => <SectionListItem title={item.title}
                         onPress={() => this.state.navigate('BrowseArticles',
-                            { name: item.title, postsURL: item.postsURL, isSection: false, category: "tag" })} />}
+                            { name: item.title, id: item.key, postsURL: item.postsURL, isSection: false, category: "tag" })} />}
                 />
             </View>
         );

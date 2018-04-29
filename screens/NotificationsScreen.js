@@ -46,6 +46,7 @@ export default class NotificationsScreen extends React.Component {
             }
             AsyncStorage.getItem(category, (err, idList) => {
                 var result = JSON.parse(idList);
+                console.log(result);
                 // If item in db return list of ids otherwise return 
                 if (result !== null) {
                     result.map((id) => {
@@ -122,18 +123,21 @@ export default class NotificationsScreen extends React.Component {
                     </View>
                     {loadMore}
                 </View>
+                <Text style={Styles.sheet.subtitleText}>Authors you Follow</Text>
                 <FlatList
                     data={authors}
                     renderItem={({ item }) => <SectionListItem title={item.title}
                         onPress={() => this.state.navigate('BrowseArticles',
                             { name: item.title, postsURL: item.postsURL, category: "author" })} />}
                 />
+                <Text style={Styles.sheet.subtitleText}>Tags You Follow</Text>
                 <FlatList
                     data={tags}
                     renderItem={({ item }) => <SectionListItem title={item.title}
                         onPress={() => this.state.navigate('BrowseArticles',
                             { name: item.title, postsURL: item.postsURL, category: "tag" })} />}
                 />
+                <Text style={Styles.sheet.subtitleText}>Sections You Follow</Text>
                 <FlatList
                     data={sections}
                     renderItem={({ item }) => <SectionListItem title={item.title}

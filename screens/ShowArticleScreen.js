@@ -85,7 +85,6 @@ export default class ShowArticleScreen extends React.Component {
             }.bind(this)
         );
         // Get tags from id
-        console.log(this.state.tagIDs);
         this.addTagIdToRecommender(this.state.tagIDs);
     }
 

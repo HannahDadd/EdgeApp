@@ -24,7 +24,6 @@ export default class HomeScreen extends React.Component {
             let viewedTags = JSON.parse(tags);
             const articlesRead = await AsyncStorage.getItem("viewedArticles");
             let readArticles = JSON.parse(articlesRead);
-            console.log(viewedTags);
             // Display tn articles on the home screen, recommended ones and latest content
             for (i = 0; i <= viewedTags.length; i++) {
                 // If they have not read any articles i.e. have no tags, suggest last article published      
@@ -151,6 +150,7 @@ export default class HomeScreen extends React.Component {
                 }
                 return <View key={article.id}
                     style={{ flex: 1, flexDirection: 'column', padding: 10 }}>
+                    <Text style={Styles.sheet.subtitleText}>Latest Content</Text>
                     <ArticleDisplay
                         title={article.title.rendered}
                         image={pic}
