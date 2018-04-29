@@ -52,19 +52,23 @@ export default class ShowArticleScreen extends React.Component {
 
     // Fetch data from the api
     getJSONData(searchIn, searchFor, callBack) {
-        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/' + searchIn + '?search=' + searchFor + '&_embed', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }).then(response => response.json())
-            .then(responseJson => {
-                callBack(responseJson);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        try {
+            fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/' + searchIn + '?search=' + searchFor + '&_embed', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json())
+                .then(responseJson => {
+                    callBack(responseJson);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } catch (error) {
+            // Error retrieving data
+        }
     }
 
     // Query rest api for data- use fetch api
@@ -111,7 +115,6 @@ export default class ShowArticleScreen extends React.Component {
 
     async addTagIdToRecommender(tagID) {
         try {
-            
             // Update what they are following, remove what previously interested in
             AsyncStorage.setItem("viewedTags", JSON.stringify(tagID), () => {
                 // The item should now be added to the db

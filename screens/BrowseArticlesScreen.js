@@ -36,53 +36,61 @@ export default class BrowseArticlesScreen extends React.Component {
 
     // Set the articles based on the postURL
     getArticlesFromURL() {
-        // Don't allow users to load more while loading content to avoid errors
-        this.setState({ currentlySearching: true });
-        fetch(this.state.postsURL + '&offset=' + this.state.offset + '&_embed', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }).then(response => response.json())
-            .then(responseJson => {
-                this.setState({ articles: this.state.articles.concat(responseJson) });
-                this.setState({ offset: this.state.offset + responseJson.length });
-                this.setState({ currentlySearching: false });
-                if (responseJson.length === 0) {
-                    this.setState({ moreArticlesToLoad: false });
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        try {
+            // Don't allow users to load more while loading content to avoid errors
+            this.setState({ currentlySearching: true });
+            fetch(this.state.postsURL + '&offset=' + this.state.offset + '&_embed', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json())
+                .then(responseJson => {
+                    this.setState({ articles: this.state.articles.concat(responseJson) });
+                    this.setState({ offset: this.state.offset + responseJson.length });
+                    this.setState({ currentlySearching: false });
+                    if (responseJson.length === 0) {
+                        this.setState({ moreArticlesToLoad: false });
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } catch (error) {
+            // Error retrieving data
+        }
     }
 
     // Get the cateogory id from the name for sections
     getIDForSection() {
-        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/categories?slug=' + this.state.postsURL, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }).then(response => response.json())
-            .then(responseJson => {
-                if (responseJson !== undefined) {
-                    if (responseJson[0] !== undefined) {
-                        // set id in postURL
-                        this.setState({
-                            postsURL:
-                                "https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?categories=" + responseJson[0].id,
-                            id: responseJson[0].id
-                        });
-                        this.getArticlesFromURL();
+        try {
+            fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/categories?slug=' + this.state.postsURL, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json())
+                .then(responseJson => {
+                    if (responseJson !== undefined) {
+                        if (responseJson[0] !== undefined) {
+                            // set id in postURL
+                            this.setState({
+                                postsURL:
+                                    "https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?categories=" + responseJson[0].id,
+                                id: responseJson[0].id
+                            });
+                            this.getArticlesFromURL();
+                        }
                     }
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } catch (error) {
+            // Error retrieving data
+        }
     }
 
     render() {

@@ -19,26 +19,30 @@ export default class SearchScreen extends React.Component {
 
     // Query rest api for data- use fetch api
     getJSONData() {
-        // Don't allow users to load more while loading content to avoid errors
-        this.setState({ currentlySearching: true });
-        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/' + this.state.searchIn + '?offset=' + this.state.offset + '&search=' + this.state.searchFor + '&_embed', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }).then(response => response.json())
-            .then(responseJson => {
-                this.setState({ results: this.state.results.concat(responseJson) });
-                this.setState({ offset: this.state.offset + responseJson.length });
-                this.setState({ currentlySearching: false });
-                if (responseJson.length === 0) {
-                    this.setState({ moreArticlesToLoad: false });
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        try {
+            // Don't allow users to load more while loading content to avoid errors
+            this.setState({ currentlySearching: true });
+            fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/' + this.state.searchIn + '?offset=' + this.state.offset + '&search=' + this.state.searchFor + '&_embed', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json())
+                .then(responseJson => {
+                    this.setState({ results: this.state.results.concat(responseJson) });
+                    this.setState({ offset: this.state.offset + responseJson.length });
+                    this.setState({ currentlySearching: false });
+                    if (responseJson.length === 0) {
+                        this.setState({ moreArticlesToLoad: false });
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } catch (error) {
+            // Error retrieving data
+        }
     }
 
     // When search button is pressed, remove offset and set the boolean for more articles to load
@@ -151,7 +155,7 @@ export default class SearchScreen extends React.Component {
                         </View>
                     </View>
                 </View>
-                <ScrollView style={{ padding: 10 }}                                    >
+                <ScrollView style={{ padding: 10 }}>
                     {results}
                     {loadMore}
                 </ScrollView>

@@ -23,19 +23,23 @@ export default class TagsScreen extends React.Component {
 
     // Set the articles based on the postURL
     getTagsFromURL(tagID) {
-        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags/' + tagID, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }).then(response => response.json())
-            .then(responseJson => {
-                this.setState({ tagIDs: this.state.tags.push(responseJson) });
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        try {
+            fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/tags/' + tagID, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json())
+                .then(responseJson => {
+                    this.setState({ tagIDs: this.state.tags.push(responseJson) });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } catch (error) {
+            // Error retrieving data
+        }
     }
 
     render() {

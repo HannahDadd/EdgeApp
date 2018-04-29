@@ -64,32 +64,36 @@ export default class NotificationsScreen extends React.Component {
 
     // Method to get item from author its id
     getItemFromID(url, category) {
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }).then(response => response.json())
-            .then(responseJson => {
-                // Add object to array
-                if (category === "author") {
-                    var newArray = this.state.authors;
-                    newArray.push(responseJson);
-                    this.setState({ authors: newArray });
-                } else if (category === "tag") {
-                    var newArray = this.state.tags;
-                    newArray.push(responseJson);
-                    this.setState({ tags: newArray });
-                } else if (category === "section") {
-                    var newArray = this.state.sections;
-                    newArray.push(responseJson);
-                    this.setState({ sections: newArray });
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        try {
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json())
+                .then(responseJson => {
+                    // Add object to array
+                    if (category === "author") {
+                        var newArray = this.state.authors;
+                        newArray.push(responseJson);
+                        this.setState({ authors: newArray });
+                    } else if (category === "tag") {
+                        var newArray = this.state.tags;
+                        newArray.push(responseJson);
+                        this.setState({ tags: newArray });
+                    } else if (category === "section") {
+                        var newArray = this.state.sections;
+                        newArray.push(responseJson);
+                        this.setState({ sections: newArray });
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } catch (error) {
+            // Error retrieving data
+        }
     }
 
     render() {

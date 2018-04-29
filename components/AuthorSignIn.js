@@ -41,22 +41,26 @@ export default class AuthorSignIn extends React.PureComponent {
     }
 
     // Find one result for author search
-    searchButtonPressed(){
-        this.setState({finishedSearching: false});
-        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/users?search=' + this.state.searchFor + '&per_page=1&_embed', {
-            method: 'GET',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-          }).then(response => response.json())
-          .then(responseJson => {
-            var obj = responseJson[0];
-            this.setState({name: obj.name, id: obj.id, bio: obj.description, image: obj['avatar_urls'][96], finishedSearching: true});
-          })
-          .catch(error => {
-            console.error(error);
-          });
+    searchButtonPressed() {
+        try {
+            this.setState({ finishedSearching: false });
+            fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/users?search=' + this.state.searchFor + '&per_page=1&_embed', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json())
+                .then(responseJson => {
+                    var obj = responseJson[0];
+                    this.setState({ name: obj.name, id: obj.id, bio: obj.description, image: obj['avatar_urls'][96], finishedSearching: true });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } catch (error) {
+            // Error retrieving data
+        }
     }
 
     // Article box is the articles title and featured image

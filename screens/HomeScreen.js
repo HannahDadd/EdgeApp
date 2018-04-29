@@ -41,44 +41,52 @@ export default class HomeScreen extends React.Component {
 
     // Get the tags JSON values
     getTaggedArticles(tagID, articlesRead) {
-        // Search posts with that content in. Only return a maximum of 3 articles per tag
-        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?search=' + tagID + '&per_page=3&_embed', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }).then(response => response.json())
-            .then(responseJson => {
-                // Loop through returned articles and add them to recommender
-                this.setState({
-                    recommendedArticles: this.state.recommendedArticles.concat(responseJson)
+        try {
+            // Search posts with that content in. Only return a maximum of 3 articles per tag
+            fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?search=' + tagID + '&per_page=3&_embed', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json())
+                .then(responseJson => {
+                    // Loop through returned articles and add them to recommender
+                    this.setState({
+                        recommendedArticles: this.state.recommendedArticles.concat(responseJson)
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
                 });
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        } catch (error) {
+            // Network request failed
+        }
     }
 
     // Get last article published
     getArticlesPublishedRecently() {
-        fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?offset=' + this.state.offset + '&_embed', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }).then(response => response.json())
-            .then(responseJson => {
-                // Set offset
-                this.setState({ offset: this.state.offset++ });
-                this.setState({
-                    articlesToDisplay: this.state.articlesToDisplay.concat(responseJson)
+        try {
+            fetch('https://www.theedgesusu.co.uk/wp-json/wp/v2/posts?offset=' + this.state.offset + '&_embed', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json())
+                .then(responseJson => {
+                    // Set offset
+                    this.setState({ offset: this.state.offset++ });
+                    this.setState({
+                        articlesToDisplay: this.state.articlesToDisplay.concat(responseJson)
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
                 });
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        } catch (error) {
+            // Error retrieving data
+        }
     }
 
     componentDidMount() {
