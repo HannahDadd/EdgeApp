@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableHighlight } from 'react-native';
+import { View, Text, Image, TouchableHighlight, Dimensions } from 'react-native';
 import Styles from '../Styles';
 
 export default class ArticleDisplay extends React.PureComponent {
@@ -28,12 +28,15 @@ export default class ArticleDisplay extends React.PureComponent {
             icon = require('../pictures/noimage.jpg');
         }
 
+        // Calc. width with respect to screen size
+        var width = Dimensions.get('window').width - 40;
+
         // Replace HTML code &#xxxx; in titles
         var title = this.state.title.replace(/&#.*;/, '');
         return (
             <View style={Styles.sheet.boarderedColouredColView}>
                 <TouchableHighlight onPress={this.props.onPressItem}>
-                    <Image onPress={this.props.onPressItem} source={icon} style={{width: 300, height: 200}}/>
+                    <Image onPress={this.props.onPressItem} source={icon} style={{width: width, height: width*2/3}}/>
                 </TouchableHighlight>
                 <Text style={Styles.sheet.titleText} onPress={this.props.onPressItem}>{title}</Text>
             </View>
