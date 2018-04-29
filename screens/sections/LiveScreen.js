@@ -15,7 +15,7 @@ export default class LiveScreen extends React.Component {
       <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
         <FlatList
           data={[{key: 'a', title: "All Live Articles", postsURL: "live"},
-                {key: 'b', title: "Festivals", postsURL: "festival"},
+                {key: 'b', title: "Festivals", postsURL: "festivals"},
                 {key: 'c', title: "Comedy", postsURL: "comedy"},
                 {key: 'd', title: "Local Music", postsURL: "local-music"},
                 {key: 'e', title: "Reviews", postsURL: "reviews"},
