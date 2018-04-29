@@ -15,8 +15,15 @@ export default class ArticleDisplay extends React.PureComponent {
     render() {
         // I fhtere is a featured image, display it otherwise show no image
         var icon;
-        if(String(this.state.image) && this.state.image.includes('http')){
-            icon = {uri: this.state.image};
+        if (String(this.state.image)) {
+            try {
+                if (this.state.image.includes('http')) {
+                    icon = { uri: this.state.image };
+                }
+            } catch (error) {
+                // Include won't work on empty string
+                icon = require('../pictures/noimage.jpg');
+            }
         } else {
             icon = require('../pictures/noimage.jpg');
         }

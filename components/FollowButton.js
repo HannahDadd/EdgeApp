@@ -57,7 +57,12 @@ export default class FollowButton extends React.PureComponent {
             if (following !== null) {
                 following.push(this.state.id);
             } else {
-                following = [this.state.id];
+                // If initiating tags, add breaking to the list of followed tags to follow breaking news
+                if (this.state.category === "tag") {
+                    following = [4039, this.state.id];
+                } else {
+                    following = [this.state.id];
+                }
             }
             // Update what they are following
             AsyncStorage.setItem(this.state.category, JSON.stringify(following), () => {

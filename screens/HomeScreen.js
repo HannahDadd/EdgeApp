@@ -32,11 +32,11 @@ export default class HomeScreen extends React.Component {
                     this.getTaggedArticles(viewedTags[i], articlesRead);
                 }
             }
-            // Return last articles published
-            this.getArticlesPublishedRecently();
         } catch (error) {
             // Error retrieving data
         }
+        // Return last articles published
+        this.getArticlesPublishedRecently();
     }
 
     // Get the tags JSON values

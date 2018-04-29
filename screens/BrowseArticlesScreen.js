@@ -124,10 +124,10 @@ export default class BrowseArticlesScreen extends React.Component {
                 // Must use typeof as any part of 'pic[0].media_details.sizes.medium.source_url' can be undefined 
                 if (typeof article._embedded['wp:featuredmedia'] !== undefined) {
                     pic = article._embedded['wp:featuredmedia'];
-                    if (typeof pic[0] !== undefined && typeof pic[0].media_details !== undefined
-                        && typeof pic[0].media_details.sizes !== undefined
-                        && typeof pic[0].media_details.sizes.medium.source_url !== undefined) {
+                    try {
                         pic = pic[0].media_details.sizes.medium.source_url;
+                    } catch (error) {
+                        // No pic to display, somethign was undefined
                     }
                 }
                 // Find what author is on api and use it to be displayed on the bottom of article display
