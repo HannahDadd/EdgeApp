@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Picker, Image, Button, ScrollView, AsyncStorage, Switch, WebView } from 'react-native';
+import { Text, View, Picker, Image, Button, ScrollView, AsyncStorage, Switch, WebView, TouchableHighlight } from 'react-native';
 import { LoginButton, ShareDialog } from 'react-native-fbsdk';
 import Styles from '../Styles';
 
@@ -133,10 +133,11 @@ export default class ShowArticleScreen extends React.Component {
         if (this.state.nightmode) {
             backgroundColor = '#FFE299';
         }
+        var icon = require('../pictures/fbshare.png');
         return (
             <View style={{ flex: 1, backgroundColor: backgroundColor }}>
                 <View style={{ flexDirection: 'row', padding: 10 }}>
-                    <Text style={Styles.sheet.subtitleText}>Night Mode:</Text>
+                    <Text style={Styles.sheet.subtitleText}>Night:</Text>
                     <View>
                         <Switch value={this.state.nightmode} onValueChange={(value) => this.setState({ nightmode: value })} />
                     </View>
@@ -150,11 +151,10 @@ export default class ShowArticleScreen extends React.Component {
                     <View style={{ padding: 5 }}>
                         <Button color={Styles.buttonColour} title="See Tags" onPress={() => navigate('Tags', { tagIDs: this.state.tagIDs })} />
                     </View>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                    <View>
-                        <Button color={Styles.buttonColour} title="Share to Facebook"
-                            onPress={this.shareLinkWithShareDialog.bind(this)} />
+                    <View style={{ padding: 5 }}>
+                        <TouchableHighlight onPress={this.shareLinkWithShareDialog.bind(this)}>
+                            <Image source={icon} style={{ width: 50, height: 20 }} />
+                        </TouchableHighlight>
                     </View>
                 </View>
                 <WebView id={"webview"} source={{ html: content }} style={{ backgroundColor: backgroundColor, marginTop: 20 }} />
