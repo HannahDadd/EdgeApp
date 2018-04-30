@@ -16,7 +16,6 @@ export default class FilmScreen extends React.Component {
         <FlatList
           data={[{key: 'a', title: "All Film Articles", postsURL: "film"},
                 {key: 'b', title: "Cinema", postsURL: "cinema"},
-                {key: 'c', title: "Film", postsURL: "film"},
                 {key: 'd', title: "Archive & Comment", postsURL: "archive-comment"},
                 {key: 'e', title: "Blu-Ray & DVD", postsURL: "dvd-bluray"},
               ]}
